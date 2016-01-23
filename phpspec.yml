@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: portalLogia
+        psr4_prefix: portalLogia
+        src_path: app
