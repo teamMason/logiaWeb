@@ -128,8 +128,26 @@ class adminController extends Controller
 
         $buzon->delete();
         return \Redirect::route('buzon');
+    }
 
+    public function biblioteca()
+    {
+        return view('administrador.libros.biblioteca');
 
+    }
+
+    public  function uploadBook(Request $request)
+    {
+        dd("hola");
+        dd("hola");
+        $dir = public_path().'/uploads/';
+        $files = $request->file('file');
+
+        foreach($files as $file)
+        {
+            $fileName = $file->getClientOriginalName();
+            $file->move($dir,$fileName);
+        }
 
     }
 

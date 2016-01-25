@@ -5,43 +5,57 @@
 	<div class="row-fluid">
 		<div class="panel panel-default">
 		    <div class="panel-heading ">
-		    	<div class="col-md-1"></div>	    	
-		    	<div class="col-md-8"><label >Formulario </label></div>
-		    	<div><a href="{{route('crearArticle')}}" class="btn btn-success " class ="text-right"><i class="fa fa-plus"></i> Nuevo</a>
-		    	</div>
-		    </div>
-		    <div class="panel-body">
-					
-					<div class="container" id="admin">
-						<table class = "table table-striped table-hover " action="javascript:alert('Submitted')" >
-							<thead>
-								<th>Titulo</th>
-								<th>Autor</th>
-								<th>Estatus</th>
-								<th>Fecha</th>
-								<th class  = "foo">Acciones</th>					
-							</thead>
-							<tbody>
-								@foreach($posts as $p)
-								<tr>
-									<td>{{$p -> title}}</td>
-									<td>{{$p -> autor}}</td>
-									<td>{{$p -> estatus}}</td>
-									<td>{{$p -> created_at}}</td>
-									<td>
-										<div class="">
-											<a href="admin/post/{{$p -> id}}/edit" class="btn btn-warning "><i class="fa fa-edit"></i></a>												
-											<a href="#my_modal" data-toggle="modal" data-book-id="{{$p -> id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>										
-										</div>
-									</td>									
-								</tr>
-								@endforeach
-								
-							</tbody>
-						</table>
+				<div class="container-fluid">
+					<strong>Edición de Artículos</strong>
+					<div class="pull-right ">
+						<a href="{{route('crearArticle')}}" class="btn btn-success " class ="text-right"><i class="fa fa-plus"></i> Nuevo</a>
 					</div>
-				
+				</div>
 		    </div>
+			<div class="container">
+				<div class="panel-body">
+					<table class = "table table-striped table-hover "  >
+						<thead>
+						<th>Titulo</th>
+						<th>Autor</th>
+						<th>Estatus</th>
+						<th class="hidden-xs">Fecha</th>
+						<th class  = "">Acciones</th>
+						</thead>
+						<tbody>
+						@foreach($posts as $p)
+							<tr>
+								<td>{{$p -> title}}</td>
+								<td>{{$p -> autor}}</td>
+								<td>{{$p -> estatus}}</td>
+								<td class="hidden-xs">{{$p -> created_at}}</td>
+								<td>
+									<div class="visible-lg visible-md">
+										<a href="admin/post/{{$p -> id}}/edit" class="btn btn-warning "><i class="fa fa-edit"></i></a>
+										<a href="#my_modal" data-toggle="modal" data-book-id="{{$p -> id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+									</div>
+									<div class="visible-xs visible-sm">
+										<div class="btn-group">
+											<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu">
+												<li><a></a></li>
+												<li><a href="admin/post/{{$p -> id}}/edit">Editar</a></li>
+												<li><a href="#my_modal" data-toggle="modal" data-book-id="{{$p -> id}}">Eliminar</a></li>
+											</ul>
+										</div>
+									</div>
+								</td>
+							</tr>
+						@endforeach
+
+						</tbody>
+					</table>
+
+
+				</div>
+			</div>
 		</div>
 	</div>
     <div class="container" align = "center">

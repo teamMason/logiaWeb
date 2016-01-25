@@ -103,6 +103,16 @@ Route::group(['middleware' => ['auth', 'is_Admin']], function(){
 
  	Route::post('/miembros/crear', 'adminMiembros@enviarRegistro' );
 
+    /*ADMINISTRACION DE PDF'S*/
+
+    Route::resource('admin/biblioteca','adminController@biblioteca');
+
+    Route::post('admin/biblioteca',[
+        'as' => 'uploadBook',
+        'uses' => 'adminController@uploadBook'
+
+    ]);
+
  	
 
 

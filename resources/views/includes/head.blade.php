@@ -10,7 +10,7 @@
     <!-- Bootstrap Core CSS -->
     <link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
-   
+    <link href="{{ URL::asset('assets/css/dropzone.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/css/agency.css') }}" rel="stylesheet">
     
 
