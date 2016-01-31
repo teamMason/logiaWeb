@@ -91,7 +91,7 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Biblioteca <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="{{route('adminBlog')}}">Editar Libros</a></li>								
+									<li><a href="{{route('biblioteca')}}">Editar Libros</a></li>
 								</ul>
 							</li>
 							@endif

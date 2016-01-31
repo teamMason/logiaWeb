@@ -20,7 +20,7 @@
                 <div class="col-md-4 ">
                     <span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+                        <i class="fa fa-balance-scale fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="service-heading text-center">Igualdad</h4>
                     <p class="text-muted">La Igualdad podemos relacionarla con el Nivel, con la Fuerza. Saberse iguales a los demás, no en la forma, sino en la esencia, es reconocer un Origen común; Origen que a la vez es nuestro Destino.</p>

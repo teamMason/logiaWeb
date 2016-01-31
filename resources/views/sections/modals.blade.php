@@ -187,7 +187,7 @@
                             Seguiremos construyendo historia dentro del marco de las leyes, en defensa de  un Estado Laico, de la Educación Gratuita y Laica y por cumplimentar las Libertades y Garantías que nuestra Constitución otorga a los mexicanos.
                             <br>
                             Es Cuanto.
-                            <br><br><img class="img-responsive img-centered" src="assets/img/portfolio/granlogia.jpg" alt="">
+                            <br><br><img class="img-responsive img-centered" src="assets/img/portfolio/compas.jpg" alt="">
 
 
 

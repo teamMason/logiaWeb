@@ -105,7 +105,10 @@ Route::group(['middleware' => ['auth', 'is_Admin']], function(){
 
     /*ADMINISTRACION DE PDF'S*/
 
-    Route::resource('admin/biblioteca','adminController@biblioteca');
+    Route::get('admin/biblioteca',[
+        'uses' => 'adminController@biblioteca',
+        'as'   => 'biblioteca'
+    ]);
 
     Route::post('admin/biblioteca',[
         'as' => 'uploadBook',

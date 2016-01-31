@@ -16,7 +16,7 @@
                             {!!Form::model(Request::only(['typeBusqueda']),['method' => 'GET', 'route'=>'consulta', 'method' => 'GET', 'class' => 'navbar-form navbar-left pull-right', 'id' => 'buscador'])!!}
 
                             <div class="form-group">
-                                {!! Form::select('typeBusqueda', config('options.typesVM'), Input::old('typeBusqueda'), array('class' => 'form-control')) !!}
+                                {!! Form::text('typeBusqueda', Input::old('typeBusqueda'), array('class' => 'form-control')) !!}
                             </div>
                             <button type="submit" class="btn btn-info">Buscar</button>
                             {!!Form::close()!!}

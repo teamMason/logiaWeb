@@ -41,43 +41,36 @@
             </div>
                       
             <div class="container" id="show" style="display: none;">
-           
-                    <div class="col-md-8 col-lg-offset-2">
-                                           
-                                <div class="row">
-                                    <div class="col-lg-12 text-center">                                     
-                                        <h3 class="section-subheading text-muted">Grandes Dignatarios de la M.·.R.·.G.·.L.·. de Edo. B.C.</h3>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    
-                                    <div class="col-sm-4">
-                                        <div class="team-member">
-                                            <img src="assets/img/team/2.jpg" class="img-responsive img-circle" alt="">
-                                            <h4>Carlos Manuel Luna Herrera</h4>
-                                            <p class="text-muted">Diputado Gran Maestro</p>                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="team-member">
-                                            <img src="assets/img/team/3.jpg" class="img-responsive img-circle" alt="">
-                                            <h4>Mario Enrique Perez de Alva y Blanco</h4>
-                                            <p class="text-muted">Primer Gran Vigilante</p>                                      
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="team-member">
-                                            <img src="assets/img/team/4.jpg" class="img-responsive img-circle" alt="">
-                                            <h4>Benjamín Woolfolk González</h4>
-                                            <p class="text-muted">Segundo Gran Vigilante</p>                                            
-                                        </div>
-                                    </div>       
-                                    
-                                </div>
-                                                          
-                       
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h3 class="section-subheading text-muted">Grandes Dignatarios de la M.·.R.·.G.·.L.·. de Edo. B.C.</h3>
                     </div>
-         
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <div class="team-member">
+                            <img src="assets/img/team/2.jpg" class="img-responsive img-circle" alt="">
+                            <h4>Carlos Manuel Luna Herrera</h4>
+                            <p class="text-muted">Diputado Gran Maestro</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="team-member">
+                            <img src="assets/img/team/3.jpg" class="img-responsive img-circle" alt="">
+                            <h4>Mario Enrique Perez de Alva y Blanco</h4>
+                            <p class="text-muted">Primer Gran Vigilante</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="team-member">
+                            <img src="assets/img/team/4.jpg" class="img-responsive img-circle" alt="">
+                            <h4>Benjamín Woolfolk González</h4>
+                            <p class="text-muted">Segundo Gran Vigilante</p>
+                        </div>
+                    </div>
+
+                </div>
             </div>
                       
 
