@@ -225,6 +225,8 @@ Route::group(['middleware' => ['auth', 'is_Venerable']], function(){
 		'as'    => 'consultaMTaller'
 	]);
 
+	Route::post('admin/update/{id}', 'venerableController@actualizaMiembros');
+
  
 
 

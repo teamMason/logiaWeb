@@ -1,19 +1,20 @@
 <?php
 
 namespace portalLogia\Http\Controllers;
-
+use portalLogia\Http\Requests;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use User;
 
-use portalLogia\Http\Requests;
+
 use portalLogia\Http\Requests\RegistraMiembrosVenRequest;
 use portalLogia\Http\Controllers\Controller;
 use portalLogia\Taller;  
 use portalLogia\Solicitud;
 use portalLogia\Votacion;
+use portalLogia\Miembros;
 use Illuminate\Contracts\Auth\Guard;
-
+use Input;
 use Mail;
 
 class venerableController extends Controller
@@ -176,16 +177,18 @@ class venerableController extends Controller
     }
 
 
-    public function consultaMiembrosTaller(Request $request)
+    public function consultaMiembrosTaller()
     {
 
 
-        $typeBusqueda = $request->get('typeBusqueda');
+        $typeBusqueda = Input::get('typeBusqueda');
+
         $miembros = '';
         $taller = \Auth::user()->id_taller;
 
         if(! is_null($typeBusqueda))
         {
+
 
             $miembros = \DB::table('miembros')
                 ->select('miembros.*',
@@ -193,18 +196,15 @@ class venerableController extends Controller
                 )
                 ->join('taller', 'taller.id','=','miembros.id_taller' )
                 ->where(function ($query) use ($typeBusqueda, $taller) {
-                    $query->where('taller.id',$taller);
-
+                    $query->where('taller.id', $taller);
                 })->
                 where(function ($query) use ($typeBusqueda, $taller) {
-                    $query->orWhere('cargo', 'LIKE', "%$typeBusqueda%")
-                        ->orWhere('grado', 'LIKE', "%$typeBusqueda%")
-                        ->orWhere('mlibre', 'LIKE', "%$typeBusqueda%")
-                        ->orWhere('voto', 'LIKE', "%$typeBusqueda%")
-                        ->orWhere('estado', 'LIKE', "%$typeBusqueda%");
+                    $query->orWhere('nombre', 'LIKE', "%$typeBusqueda%")
+                        ->orWhere('apellido', 'LIKE', "%$typeBusqueda%");
                 })
                 ->orderBy('taller.id')
                 ->paginate(25);
+
         }
         else
         {
@@ -217,12 +217,35 @@ class venerableController extends Controller
             ->where('id_taller',$taller)
             ->orderBy('taller.id')
             ->paginate(25);
+
         }
         return view('venerable.consultaMiembrosTaller')
-            ->with('miembros',$miembros );
+            ->with('miembros',$miembros);
+
 
 
     }
+
+    public function actualizaMiembros(Request $request, $id)
+    {
+       $this->validate($request, [
+            'email' => 'email',
+            'estado' => 'required'
+        ]);
+
+        $miembro = Miembros::find($id);
+        $miembro->email = Input::get('emal');
+        $miembro->telefono = Input::get('telefono');
+        $miembro->telefonoCel = Input::get('telefonoCel');
+        $miembro->estado = Input::get('estado');
+        $miembro->save();
+
+        return \Redirect::route('consultaMTaller')
+        ->with('alert', 'Actualización correcta!');
+
+    }
+
+
 
     
 
