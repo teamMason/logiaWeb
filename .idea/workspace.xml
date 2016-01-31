@@ -2,57 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b08fcc3f-0b8c-4473-9d97-942d91b74b30" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/assets/img.zip" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/assets/img/lol.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/assets/img/portfolio/granlogia.jpg" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/fonts/FontAwesome.otf" afterPath="$PROJECT_DIR$/public/assets/font-awesome/fonts/FontAwesome.otf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/fonts/fontawesome-webfont.eot" afterPath="$PROJECT_DIR$/public/assets/font-awesome/fonts/fontawesome-webfont.eot" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/fonts/fontawesome-webfont.ttf" afterPath="$PROJECT_DIR$/public/assets/font-awesome/fonts/fontawesome-webfont.ttf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/fonts/fontawesome-webfont.woff" afterPath="$PROJECT_DIR$/public/assets/font-awesome/fonts/fontawesome-webfont.woff" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/img/header-bg.jpg" afterPath="$PROJECT_DIR$/public/assets/img/header-bg.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/img/header-news.jpg" afterPath="$PROJECT_DIR$/public/assets/img/header-news.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/img/portfolio/golden.png" afterPath="$PROJECT_DIR$/public/assets/img/portfolio/golden.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/img/team/2.jpg" afterPath="$PROJECT_DIR$/public/assets/img/team/2.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/webServers.xml" afterPath="$PROJECT_DIR$/.idea/webServers.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/agency.css" afterPath="$PROJECT_DIR$/public/assets/css/agency.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/css/font-awesome.css" afterPath="$PROJECT_DIR$/public/assets/font-awesome/css/font-awesome.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/css/font-awesome.min.css" afterPath="$PROJECT_DIR$/public/assets/font-awesome/css/font-awesome.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/public/assets/font-awesome/fonts/fontawesome-webfont.svg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/bordered-pulled.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/bordered-pulled.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/core.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/core.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/fixed-width.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/fixed-width.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/font-awesome.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/font-awesome.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/icons.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/icons.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/larger.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/larger.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/list.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/list.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/mixins.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/mixins.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/path.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/path.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/rotated-flipped.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/rotated-flipped.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/stacked.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/stacked.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/less/variables.less" afterPath="$PROJECT_DIR$/public/assets/font-awesome/less/variables.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_bordered-pulled.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_bordered-pulled.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_core.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_core.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_fixed-width.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_fixed-width.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_icons.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_icons.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_larger.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_larger.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_list.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_list.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_mixins.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_mixins.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_path.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_path.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_rotated-flipped.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_rotated-flipped.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_stacked.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_stacked.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/_variables.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/_variables.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/font-awesome/scss/font-awesome.scss" afterPath="$PROJECT_DIR$/public/assets/font-awesome/scss/font-awesome.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/administrador/app.blade.php" afterPath="$PROJECT_DIR$/resources/views/administrador/app.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/includes/nav.blade.php" afterPath="$PROJECT_DIR$/resources/views/includes/nav.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/sections/estandarte.blade.php" afterPath="$PROJECT_DIR$/resources/views/sections/estandarte.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/sections/modals.blade.php" afterPath="$PROJECT_DIR$/resources/views/sections/modals.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/sections/news.blade.php" afterPath="$PROJECT_DIR$/resources/views/sections/news.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/sections/quienesSomos.blade.php" afterPath="$PROJECT_DIR$/resources/views/sections/quienesSomos.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/sections/team.blade.php" afterPath="$PROJECT_DIR$/resources/views/sections/team.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/venerable/consultaMiembrosTaller.blade.php" afterPath="$PROJECT_DIR$/resources/views/venerable/consultaMiembrosTaller.blade.php" />
     </list>
     <ignored path="logiaWeb.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -101,7 +51,7 @@
         <entry file="file://$PROJECT_DIR$/resources/views/sections/quienesSomos.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.8147059">
-              <caret line="54" column="16" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
+              <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -393,7 +343,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="0" width="1604" height="867" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1865285" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -839,7 +789,7 @@
     <entry file="file://$PROJECT_DIR$/resources/views/sections/quienesSomos.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8147059">
-          <caret line="54" column="16" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
+          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
           <folding />
         </state>
       </provider>

@@ -52,7 +52,7 @@
                         <p class="text-muted">Ubicación de nuestros talleres.</p>
                     </div>
                 </div>
-                
+
                 <div class="col-md-4 col-sm-6 portfolio-item">
                     <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
