@@ -194,6 +194,8 @@
 		<script type="text/javascript" src="{!! asset('assets/js/jquery.js') !!}"></script>
 		<script src="{{ URL::to('assets/js/bootstrap.min.js') }}"></script>
 
+
+
 	    @yield('scripts')		
 
 	    

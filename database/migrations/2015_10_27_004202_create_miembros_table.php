@@ -37,7 +37,9 @@ class CreateMiembrosTable extends Migration
                 $table->string('telefonoCel');
                 $table->string('email')->nullable();
                 $table->integer('id_taller')->index();
-                $table->enum('estado', ['ACTIVO', 'BAJA', 'RADIADO'])->nullable();;
+                $table->enum('estado', ['ACTIVO', 'BAJA', 'RADIADO'])->nullable();
+                $table->date('fecha');
+                $table->string('tipo_miembro');
 
 
                 

@@ -98,11 +98,7 @@
               },3000);
           });
 
-        $("#team").on( "click", function() {
-                $('#show').slideDown(); //oculto mediante id
-                $('#teamDiv').slideUp();
-                
-        });
+
        
     </script>
    

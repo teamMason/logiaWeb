@@ -136,18 +136,19 @@ class adminController extends Controller
 
     }
 
-    public  function uploadBook(Request $request)
+    public  function uploadb(Request $request)
     {
-        dd("hola");
-        dd("hola");
-        $dir = public_path().'/uploads/';
+
+        $dir = public_path().'/libros';
         $files = $request->file('file');
 
-        foreach($files as $file)
+        foreach ($files as $file)
         {
             $fileName = $file->getClientOriginalName();
-            $file->move($dir,$fileName);
+            $file->move($dir, $fileName);
         }
+
+
 
     }
 

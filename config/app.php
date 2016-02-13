@@ -112,7 +112,9 @@ return [
 
         /*
          * Laravel Framework Service Providers...
-         */
+          */
+        Barryvdh\DomPDF\ServiceProvider::class,
+
 
         Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
@@ -169,7 +171,7 @@ return [
 
     'aliases' => [
 
- 
+        'PDF'       => Barryvdh\DomPDF\Facade::class,
 
         'App'       => Illuminate\Support\Facades\App::class,
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,

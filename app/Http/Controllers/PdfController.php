@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace portalLogia\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use portalLogia\Http\Requests;
+use portalLogia\Http\Controllers\Controller;
+use portalLogia\Miembros;
 
 class PdfController extends Controller
 {
@@ -15,7 +16,7 @@ class PdfController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -39,18 +40,31 @@ class PdfController extends Controller
         $view =  \View::make('pdf.invoice', compact('data', 'date', 'invoice'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        return $pdf->stream('invoice');
+        return $pdf->stream('invoice'); //Mostrar en pantalla
+        //return $pdf->download('invoice'); //Descargar el archivo
     }
 
     public function getData() 
     {
+        $cantidades=[];
+        $idTalleres = Miembros::select('id_taller')->distinct()->get();
+       
+        foreach ($idTalleres as $idTaller){ 
+            $id = $idTaller->id_taller;
+            $cantidad = Miembros::where('id_taller','=', $id)->count();
+            //Log::info($cantidad);
+            $cantidades[]=$cantidad;
+
+        }
+        
         $data =  [
-            'quantity'      => '1' ,
+            'quantity'      => $idTalleres[0]->id_taller ,
             'description'   => 'some ramdom text',
             'price'   => '500',
             'total'     => '500'
         ];
         return $data;
+        
     }
     /**
      * Store a newly created resource in storage.

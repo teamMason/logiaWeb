@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace portalLogia\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Miembro;
+use portalLogia\Http\Controllers\Controller;
+use portalLogia\Miembro;
 
 
 class ReportesController extends Controller
 {
 	public function getIndex(){
-		$reportes = Miembro::all();
+		$reportes = Miembros::all();
 	 	return view('Reportes.index', ['reportes' => $reportes]);
 	}
 }

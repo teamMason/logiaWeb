@@ -110,11 +110,7 @@ Route::group(['middleware' => ['auth', 'is_Admin']], function(){
         'as'   => 'biblioteca'
     ]);
 
-    Route::post('admin/biblioteca',[
-        'as' => 'uploadBook',
-        'uses' => 'adminController@uploadBook'
-
-    ]);
+    Route::post('admin/biblioteca/upload', 'adminController@uploadBook');
 
  	
 
@@ -175,6 +171,39 @@ Route::group(['middleware' => ['auth', 'is_Secretario']], function(){
  	]);
 
 	Route::post('admin/miembros/consulta/{id}', 'adminMiembros@actualizaMiembros');
+
+	/* ROUTES ADD CESAR */
+
+	Route::get('/reportes/index', 'ReportesController@getIndex');
+
+	Route::get('/administrador/mostrarpdf', 'pdfControllerTodos@mostrarFacturas');
+	//gnerar una factura individual por taller
+	Route::post('/PDF/create', 'pdfListaController@invoiceIndividual');
+	//gnerar una factura individual por taller
+	Route::get('/PDF/create', 'pdfListaController@create');
+
+	//generar las facturas del mes de todos los talleres
+	Route::get('/PDF/downloadAll', 'pdfControllerTodos@invoiceAll');
+
+	Route::post('/PDF/mostrarRecibos', 'pdfListaPagosAdeudosController@mostrarRecibos');
+
+//mostrar lista para seleccionar un taller que realizara un pago y te envia a administrador/mostrarRecibo
+	Route::get('/PDF/enviaTalleres', 'pdfListaPagosAdeudosController@enviaTalleres');
+
+//enviar el monto del taller que desea introducir y te envia a administrador/recibePago/{id}
+	Route::post('/administrador/mostrarRecibo', 'listaIntroducePagoController@mostrarRecibo');//muestra el monto a pagar y el input para el valor
+
+
+
+	Route::get('/administrador/enviaTaller', 'listaIntroducePagoController@enviaListaTalleres');
+
+	Route::post('/administrador/recibePago/{id}', 'listaIntroducePagoController@recibePago');
+
+
+
+	Route::get('/PDF/invoice', 'PdfController@invoice');
+
+	Route::resource('/index','ExcelController@index');
 
 
 
@@ -273,35 +302,3 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 
 
- /* ROUTES ADD CESAR */
-
-Route::get('/reportes/index', 'ReportesController@getIndex');
-
-Route::get('/PDF/invoice', 'PdfController@invoice');
-
-Route::resource('/index','ExcelController@index');
-
-Route::get('generarPDF', function()
-{
-    $html = '<html><body>';
-    $html.= '<p style="color:red">Generando un sencillo pdf ';
-    $html.= 'de forma realmente sencilla.</p>';
-    $html.= '</body></html>';
-    return PDF::load($html, 'A4', 'portrait')->show();
-});
-
-Route::get('descargar', function()
-{
-    $html = '<html><body>';
-    $html.= '<p style="color:red">Generando un sencillo pdf ';
-    $html.= 'de forma realmente sencilla.</p>';
-    $html.= '</body></html>';
-    return PDF::load($html, 'A4', 'portrait')->download('nombreArchivoPdf');
-});
-
-Route::get('vista', function()
-{
-    $html = View::make("hello");
-    return PDF::load($html, 'A4', 'portrait')->show();
-});
-/* ------------------------fIN ROUTES CESAR----------------------------------------------------------*/

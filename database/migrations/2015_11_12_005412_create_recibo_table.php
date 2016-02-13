@@ -12,7 +12,7 @@ class CreateReciboTable extends Migration
      */
     public function up()
     {
-        Schema::create('recibo', function($table)
+        Schema::create('recibos', function($table)
             {
                 $table->engine = "InnoDB";
                 $table->increments('id');
@@ -55,12 +55,13 @@ class CreateReciboTable extends Migration
                 $table->integer('otros_conceptos');
                 $table->integer('cuota_extra');
                 $table->integer('pago'); //pago realizado
-                $table->integer('gran_total');// Suma de todos los montos
-                $table->integer('adeudo');// = gran_total - pago 
-                $table->date('fecha');  
-                $table->timestamps();             
-            });
+                $table->integer('total');// Suma de todos los montos
+                $table->integer('adeudo');// = total - pago 
+                $table->date('fecha');
+                $table->integer('pagado');// 1 pagado - 0 no pagado
 
+            });
+        
 /*
             Schema::table('recibo', function($table) {
                 $table->integer('id_taller')->unsigned();
