@@ -1123,3 +1123,9 @@ vertical-align: middle;
 {
     padding: 18px 10px;
 }
+
+#personalDates > ul > li{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

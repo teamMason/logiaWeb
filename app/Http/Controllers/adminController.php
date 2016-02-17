@@ -1,12 +1,18 @@
 <?php
 
 namespace portalLogia\Http\Controllers;
-
 use Illuminate\Http\Request;
+
 use portalLogia\Http\Requests;
-use portalLogia\Http\Controllers\Controller;
+
+
+
+
+
 use portalLogia\Posts;
 use portalLogia\Contacto;
+use portalLogia\Libro;
+use Input;
 
 
 class adminController extends Controller
@@ -132,21 +138,41 @@ class adminController extends Controller
 
     public function biblioteca()
     {
-        return view('administrador.libros.biblioteca');
+        $libros = Libro::all();
+        return view('administrador.libros.biblioteca')
+            ->with('libros', $libros);
 
     }
 
-    public  function uploadb(Request $request)
+
+    public  function uploadBook(Request $request)
     {
+        $file = $request->file('file');
+        $dir = public_path().'/uploads';
 
-        $dir = public_path().'/libros';
-        $files = $request->file('file');
 
-        foreach ($files as $file)
+        foreach ( $file as $files)
         {
-            $fileName = $file->getClientOriginalName();
-            $file->move($dir, $fileName);
+            $v = \Validator::make(['file' => $files], ['file' => 'mimes:pdf']);
+            if ($v->fails()) {
+
+                return \Redirect::route('biblioteca')
+                    ->with('alert-danger', 'Algunos de los Archivs que desea subir no tienen un formato correcto.');
+            }
+            else
+            {
+
+                $libro = new Libro();
+                $fileName = $files->getClientOriginalName();
+                $libro->titulo = $fileName;
+                $libro->grado = 3;
+                $files->move($dir, $fileName);
+                $libro->save();
+
+            }
         }
+        return \Redirect::route('biblioteca')
+            ->with('alert', 'Archivos Subidos exitosamente.');
 
 
 

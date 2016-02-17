@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace portalLogia\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use portalLogia\Http\Requests;
+use portalLogia\Http\Controllers\Controller;
 
 class ExcelController extends Controller
 {

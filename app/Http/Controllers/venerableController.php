@@ -45,15 +45,19 @@ class venerableController extends Controller
 
       $date = Carbon::now();
       $date = $date->addDay(15);
-      $date = $date->format('d-m-Y');    
+      $date = $date->format('d-m-Y');
+      $file = $request->file('file');
+      $dir = public_path().'/fotos_solicitud';
+      $fileName = $file->getClientOriginalName();
+      $file->move($dir, $fileName);
 
-
-      $t = Solicitud::Create($request->all());
+      $t = new Solicitud;
         $t->nombre = \Input::get('nombre');
         $t->apellido = \Input::get('apellido');       
         $t->id_taller = \Input::get('id_taller');
         $t->ciudad = \Input::get('ciudad');
         $t->profesion = \Input::get('profesion');
+        $t->path = $fileName;
         $t->edoCivil = \Input::get('edoCivil');
         $t->ingresoMen = \Input::get('ingresoMen');
         $t->telefono = \Input::get('telefono');  

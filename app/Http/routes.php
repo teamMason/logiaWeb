@@ -110,9 +110,12 @@ Route::group(['middleware' => ['auth', 'is_Admin']], function(){
         'as'   => 'biblioteca'
     ]);
 
-    Route::post('admin/biblioteca/upload', 'adminController@uploadBook');
+    Route::post('admin/biblioteca/upload', [
+		'uses' => 'adminController@uploadBook',
+		'as'   => 'uploadBook'
+	]);
 
- 	
+
 
 
 });

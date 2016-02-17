@@ -13,7 +13,7 @@ use portalLogia\Http\Requests\RegistraMiembrosAdmRequest;
 use portalLogia\Http\Requests\ActualizaMiembrosAdmRequest;
 use portalLogia\Http\Controllers\Controller;
 use portalLogia\Miembros;
-use portalLogia\Solicitudes;
+use portalLogia\Solicitud;
 use portalLogia\Taller;
 use portalLogia\Recibo;
 use portalLogia\User;
@@ -72,7 +72,7 @@ class adminMiembros extends Controller
       }
       $check = serialize($check);
 
-      $solicitud = Solicitudes::find($id);      
+      $solicitud = Solicitud::find($id);
       $solicitud->check = $check;
       $solicitud->estadoSolicitud = 'true'; #hace visible la votación para venerables    
       $solicitud->save();
@@ -89,9 +89,9 @@ class adminMiembros extends Controller
 
    public function borrarSolicitud()
    {
-          $p = new Solicitudes;
+          $p = new Solicitud;
           $p->id = \Input::get('borrarId');
-          $solicitud = Solicitudes::find( $p->id);
+          $solicitud = Solicitud::find( $p->id);
           $solicitud ->delete();           
           return \Redirect::route('aprobaciones')
           ->with('alert', 'La solicitud ha sido borrada!');   
@@ -102,9 +102,9 @@ class adminMiembros extends Controller
 
    public function borrarVotacion()
    {
-      $p = new Solicitudes;
+      $p = new Solicitud;
           $p->id = \Input::get('borrarId');
-          $solicitud = Solicitudes::find( $p->id);
+          $solicitud = Solicitud::find( $p->id);
           $solicitud ->delete();   
       $voto = votacion::where('id_solicitud', $p->id );
           $voto ->delete();        
@@ -144,7 +144,7 @@ class adminMiembros extends Controller
    public function aprobarIniciacion($id){
    
 
-      $s = Solicitudes::find($id);
+      $s = Solicitud::find($id);
       $s->estadoVotacion = 'true';
       $id_taller = $s->id_taller;
       $s->save();
@@ -163,7 +163,7 @@ class adminMiembros extends Controller
             ->select('email')       
             ->where('id_taller', $id_taller)->first(); 
        $venEmail= array($ven->email);
-       $solicitante = Solicitudes::find($id_solicitud);
+       $solicitante = Solicitud::find($id_solicitud);
        $nombre = $solicitante->nombre;
 
      
@@ -179,7 +179,7 @@ class adminMiembros extends Controller
    public function miembroAceptado($id_sol, $id_taller)
    {
        
-        $s = Solicitudes::find($id_sol);       
+        $s = Solicitud::find($id_sol);
         $m =  new Miembros;
        
        
@@ -216,6 +216,7 @@ class adminMiembros extends Controller
         
 
    }
+
 
 public function sendEmailVenAlta($id_taller, $nombreCompleto)
    {

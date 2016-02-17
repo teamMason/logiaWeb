@@ -1,9 +1,11 @@
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="Este Portal contiene información más importante de la Muy Respetable Gran Logia" content="">
-    <meta name="Muy Respetable Gran Logia de Estado Baja California" content="">
-    <title>Muy Respetable Gran Logia de Estado. B.C</title>
+    <meta name="description" content="Como utopía personal, cada Masón propone elevar su condición de ser social,
+    en la medida de sus propias energías, guiado por una escuela iniciática que lo va formando en torno a principios morales." />
+    <meta name="author" content="De la Rocha Ruiz Alberto, Cesar Gonzalez Rocha" />
+    <meta name="owner" content="Muy Respetable Gran Logia De Estado Baja California" />
+    <title>Muy Respetable Gran Logia de Estado Baja California</title>
 
    
 

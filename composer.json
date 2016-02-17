@@ -8,7 +8,6 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "barryvdh/laravel-dompdf": "0.6.*",
-        "barryvdh/laravel-dompdf":"0.6.*",
         "maatwebsite/excel": "~2.0.0",
 
         "cviebrock/eloquent-sluggable": "dev-master",

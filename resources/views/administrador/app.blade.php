@@ -103,7 +103,7 @@
 								</ul>
 							</li>
 							@endif
-							@if (Auth::user()->isAprendiz())
+							@if (Auth::user()->isAprendiz() )
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Libros <span class="caret"></span></a>
 									<ul class="dropdown-menu" role="menu">
@@ -120,7 +120,7 @@
 									</ul>
 								</li>
 							@endif	
-							@if (Auth::user()->isMaestro())
+							@if (Auth::user()->isMaestro() or Auth::user()->isAdmin())
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Libros <span class="caret"></span></a>
 									<ul class="dropdown-menu" role="menu">
@@ -193,6 +193,7 @@
 
 		<script type="text/javascript" src="{!! asset('assets/js/jquery.js') !!}"></script>
 		<script src="{{ URL::to('assets/js/bootstrap.min.js') }}"></script>
+
 
 
 
