@@ -170,6 +170,7 @@ class venerableController extends Controller
       $nombre = $sol->nombre.' '.$sol->apellido;
       $email = \Auth::user()->getEmailAdmin();
       $admEmail = array($email->email);
+        dd($admEmail);
 
      
 

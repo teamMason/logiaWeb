@@ -20,8 +20,8 @@
                         <div class="container">
                             @foreach($libros as $l)
                             <div class="col-xs-12 col-sm-4 ">
-                                <div class="thumbnail text-center">
-                                    <i class="fa fa-book fa-5x"></i>
+                                <div class="thumbnail text-center libros" >
+                                    <a href="../../../uploads/{{$l->titulo}}" target="_blank"><i class="fa fa-book fa-5x"></i></a>
                                     <div class="caption">
                                         <h3>{{ str_limit($l->titulo,10,' ') }}</h3>
                                         <p>Grado 3</p>
