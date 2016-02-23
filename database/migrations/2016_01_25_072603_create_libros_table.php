@@ -17,7 +17,10 @@ class CreateLibrosTable extends Migration
             $table->increments('id');
             $table->string('titulo',255);
             $table->string('grado',255);
+            $table->string('slug',255);
+            $table->enum('editado', ['true','false']);
             $table->string('descripcion',150);
+            $table->string('autor',150);
 
             $table->timestamps();
 

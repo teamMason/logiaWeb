@@ -65,6 +65,15 @@ Route::post('admin/buzon/', 'adminController@borrarMensaje');
 
 
 
+/*SECCION CON LOGUIN PARA BIBLIOTECA*/
+Route::get('admin/bibliotecaMiembros', [
+    'middleware' => 'auth',
+    'uses' => 'navegacion@bibliotecaMiembros',
+    'as'   => 'bibliotecaMiembros'
+]);
+
+
+
 
 
 //Sección de ADMINISTRADOR
@@ -109,6 +118,9 @@ Route::group(['middleware' => ['auth', 'is_Admin']], function(){
         'uses' => 'adminController@biblioteca',
         'as'   => 'biblioteca'
     ]);
+
+    Route::post('admin/biblioteca/', 'adminController@deleteBook');
+    Route::post('admin/biblioteca/editar/{id}', 'adminController@editBook');
 
     Route::post('admin/biblioteca/upload', [
 		'uses' => 'adminController@uploadBook',

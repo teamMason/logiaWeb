@@ -100,8 +100,5 @@ class User extends Model implements AuthenticatableContract,
 
         return User::where('id_type', 1)->first();  
     }
-    public function  scopeBusqueda($query, $name)
-    {
-        $query->where('nombre', $name);
-    }
+
 }

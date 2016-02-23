@@ -8,29 +8,42 @@
             <div class="panel panel-default">
                 <div class="panel-heading ">
                     <div class="container-fluid">
-                        <strong>Editor de Libros</strong>
+                        <strong>Libros Sin publicar</strong>
                         <button class="btn btn-success pull-right" data-toggle="modal" title="Ver información" data-target="#uploadArchivos"> Subir Libros</button>
-                        <div class="pull-right ">
 
-                        </div>
                     </div>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="container">
                             @foreach($libros as $l)
-                            <div class="col-xs-12 col-sm-4 ">
-                                <div class="thumbnail text-center libros" >
-                                    <a href="../../../uploads/{{$l->titulo}}" target="_blank"><i class="fa fa-book fa-5x"></i></a>
-                                    <div class="caption">
-                                        <h3>{{ str_limit($l->titulo,10,' ') }}</h3>
-                                        <p>Grado 3</p>
-                                        <a href="#" class="btn btn-warning" role="button"><i class="fa fa-pencil-square-o"></i></a>
-                                        <a href="#" class="btn btn-danger" role="button"><i class="fa fa-trash"></i></a>
-                                    </div>
+                                <div class="col-xs-12 col-sm-4 ">
+                                        <div class="panel panel-info libros">
+                                            <div class="panel-heading">
+                                                <strong>{{ str_limit($l->titulo,20,' ') }}</strong>
+                                                <span class="pull-right">
+                                                    <a href="" data-toggle="modal"  title="Editar información" data-target="#infoEdit-{{$l->id}}"><i class="fa fa-edit"></i></a>
+                                                    <a  href="#my_modal"  data-toggle="modal" data-book-id="{{$l -> id}}"><i class="fa fa-trash"></i></a>
+                                                </span>
+                                            </div>
+
+                                            <div class="panel-body">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">
+                                                        <strong>Título: </strong><em>{{$l->titulo}}</em>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <strong>Grado: </strong><em>{{$l->grado}}</em>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <strong>Descripción: </strong> <em>{{$l->descripcion}}</em>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                 </div>
-                            </div>
                             @endforeach
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -74,9 +87,74 @@
      </div>
 </div>
 
+<!--Modal Borrar -->
+<div class="modal fade" id="my_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Estas seguro de Borrar</h4>
+            </div>
+            {!! Form::open(array('url' => '/admin/biblioteca/')) !!}
+                <div class="modal-body">
+                    <p>Una vez borrado perderás toda la información! </p>
+                    <div>
+                        <i class="fa fa-frown-o fa-5x"></i>
+                    </div>
+                    <input type="hidden" name="borrarId" value=""/>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Borrar" class="btn btn-danger">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            {!!Form::close()!!}
+        </div>
+    </div>
+</div>
+<!--Modal paea editar-->
+@foreach($libros as $l)
+    <div id="infoEdit-{{$l->id}}" class="modal fade " role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Información de: </h4>
+                </div>
+
+                <div class="modal-body" >
+                    {!! Form::model(Request::all(),array('action' => array('adminController@editBook',$l->id)),['method' => 'post'])!!}
+                    <fielset>
+                        <strong><span>Título:</span></strong>
+
+                        <input type="text" name = 'titulo'  value="{{$l->titulo}}"  class = "form-control "  required><br>
+                       <strong><span>Grado:</span></strong>
+
+                        <input type="number" min="1" max="3" name = 'grado' value="{{$l->grado}}" class = "form-control"  required><br>
+                    </fielset>
+                </div>
+                <div class="modal-footer ">
+                    <button type="submit" class="btn btn-success "  > Guardar</button>
+                    <button type="button" class="btn btn-default "  data-dismiss="modal" > Cerrar</button>
+
+                </div>
+                {!!Form::close()!!}
+
+
+            </div>
+        </div>
+    </div>
+@endforeach
+
+
 @section('scripts')
-
-
+    <script>
+        $('#my_modal').on('show.bs.modal', function(e) {
+            var borrarId = $(e.relatedTarget).data('book-id');
+            $(e.currentTarget).find('input[name="borrarId"]').val(borrarId);
+        });
+    </script>
 @endsection
 
 

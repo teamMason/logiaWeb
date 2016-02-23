@@ -7,6 +7,7 @@ use portalLogia\Http\Controllers\Controller;
 use portalLogia\Http\Requests\contactoRequest;
 use portalLogia\Posts;
 use portalLogia\Contacto;
+use portalLogia\Libro;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 
@@ -76,6 +77,42 @@ class navegacion extends Controller
     {
 
         return view('sections.gracias');
+    }
+
+    public function bibliotecaMiembros()
+    {
+        $grado = \Auth::user()->id_type;
+        $libros [] = '';
+
+
+
+        if ($grado >= 1 and $grado <= 5)
+        {
+            $libros = \DB::table('libros')
+                ->orderBy('grado','desc')
+                ->paginate(50);
+
+
+        }
+        elseif($grado == 6 ) {
+
+            $libros = \DB::table('libros')
+                ->where('grado', '!=', 3)
+                ->orderBy('titulo', 'desc')
+                ->paginate(50);
+        }
+        else
+        {
+            $libros = \DB::table('libros')
+                ->where('grado',1)
+                ->orderBy('grado','desc')
+                ->paginate(50);
+
+
+
+        }
+        return view('biblioteca.bibliotecaMiembros')
+            ->with('libros',$libros);
     }
 
 

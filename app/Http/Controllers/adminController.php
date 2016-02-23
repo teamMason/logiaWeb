@@ -4,6 +4,7 @@ namespace portalLogia\Http\Controllers;
 use Illuminate\Http\Request;
 
 use portalLogia\Http\Requests;
+use Storage;
 
 
 
@@ -26,13 +27,13 @@ class adminController extends Controller
     public function __construct()
     {
 
-          
+
     }
     public function admin()
     {
-        
+
         return view('administrador.blogAdmin.admin');
-        
+
     }
 
 /*ADMINISTRACIÓN DEL BLOG*/
@@ -46,7 +47,7 @@ class adminController extends Controller
     {
        $posts = Posts::find($id);
        return view('administrador.blogAdmin.editArticle')
-       ->with('posts', $posts); 
+       ->with('posts', $posts);
 
     }
 
@@ -59,12 +60,12 @@ class adminController extends Controller
         $p->photo = \Input::get('photo');
         $p->autor = \Input::get('autor');
         $p->estatus = \Input::get('estatus');
-              
- 
+
+
         $p->resluggify();
         $p->save();
         return \Redirect::route('adminBlog');
-        
+
 
     }
     public function nuevoArticulo()
@@ -74,7 +75,7 @@ class adminController extends Controller
 
     public function crearArticulo()
     {
-        
+
 
         $p =  new Posts;
         $p->title = \Input::get('title');
@@ -84,13 +85,13 @@ class adminController extends Controller
         $p->autor = \Input::get('autor');
         $p->estatus = \Input::get('estatus');
         $p->save();
-              
- 
-        
-      
+
+
+
+
         return \Redirect::route('adminBlog')
         ->with('alert', 'Tu publicación ha sido creada con éxito!');
-      
+
     }
 
     public function borrarArticulo()
@@ -98,7 +99,7 @@ class adminController extends Controller
           $p = new Posts;
           $p->id = \Input::get('borrarId');
           $post = Posts::find( $p->id);
-          $post ->delete();  
+          $post ->delete();
           return \Redirect::route('adminBlog');
     }
 
@@ -109,7 +110,7 @@ class adminController extends Controller
     public function verBuzon()
     {
 
-      
+
       $buzon = \DB::table('contacto')->orderBy('id','desc')->paginate(15);
       return view('administrador.contacto.contacto')
       ->with('buzon',$buzon);
@@ -144,28 +145,39 @@ class adminController extends Controller
 
     }
 
-
+    public function getExtension($fileName)
+    {
+        return substr($fileName,-4);
+    }
     public  function uploadBook(Request $request)
     {
         $file = $request->file('file');
         $dir = public_path().'/uploads';
 
-
         foreach ( $file as $files)
         {
-            $v = \Validator::make(['file' => $files], ['file' => 'mimes:pdf']);
+            $v = \Validator::make(['file' => $files], ['file' => 'mimes:pdf|max:5000']);
             if ($v->fails()) {
 
                 return \Redirect::route('biblioteca')
-                    ->with('alert-danger', 'Algunos de los Archivs que desea subir no tienen un formato correcto.');
+                    ->with('alert-danger', 'Algunos de los Archivos que desea subir son demasiado pesados o no tienen un formato correcto.');
             }
             else
             {
 
+
                 $libro = new Libro();
                 $fileName = $files->getClientOriginalName();
+
+                $ext = $this->getExtension($fileName);
+
+                $slug = str_slug($fileName, "-");
+
+
+                $libro->slug = substr($slug,0,-3).$ext;
                 $libro->titulo = $fileName;
-                $libro->grado = 3;
+                $libro->grado = 0;
+                $libro->editado = 'false';
                 $files->move($dir, $fileName);
                 $libro->save();
 
@@ -177,5 +189,88 @@ class adminController extends Controller
 
 
     }
+
+
+
+    public function deleteBook(){
+        $id = \Input::get('borrarId');
+
+        $librito = Libro::find($id);
+
+
+        if('uploads/'.$librito->slug)
+        {
+            Storage::delete('uploads/'.$librito->slug);
+            $librito->delete();
+            return \Redirect::route('biblioteca')
+                ->with('alert','El libro se ha Borrado Correctamente');
+        }
+        return \Redirect::route('biblioteca')
+            ->with('alert','Ha ocurrido un error el libro no se encuentra');
+
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function editBook(Request $request, $id)
+    {
+        $this->validate($request, [
+            'titulo' => 'required',
+            'grado' => 'required|numeric|between:1,3'
+        ]);
+
+        $librito = Libro::find($id);
+
+        if ($librito->editado == 'false')
+        {
+            $oldName = $librito->titulo;
+        }
+        else
+        {
+            $oldName = $librito->slug;
+        }
+
+
+        $ext = $this->getExtension($librito->slug);
+
+        //dd($ext);
+
+        $librito->titulo = \Input::get('titulo');
+        $librito->grado = \Input::get('grado');
+        $librito->editado = 'true';
+
+        //$slug Cambia el formato del nombre con "-"
+        $slug = str_slug( $librito->titulo, "-");
+        $newName = $librito->slug = $slug.$ext;
+        $librito->save();
+
+        /*Change de the name file*/
+
+
+        $this->changeNameFile($oldName,$newName);
+
+
+        //$librito->descripcion = \Input::get('dscripcion');
+
+        return \Redirect::route('biblioteca')
+            ->with('alert','El libro se ha Modificado Correctamente');
+
+
+    }
+    public function changeNameFile($oldName,$newName)
+    {
+        $dir = public_path().'/uploads';
+        $old = $dir.'/'.$oldName;
+        $new = $dir.'/'.$newName;
+
+
+        rename($old, $new);
+
+    }
+
+
 
 }

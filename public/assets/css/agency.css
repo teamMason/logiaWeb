@@ -36,7 +36,7 @@ a.active {
 
 
 a {
-    color: #fed136;
+    color: black;
 }
 
 a:hover,
@@ -1133,4 +1133,9 @@ vertical-align: middle;
 .libros > a {
     color: black;
 
+}
+
+.libros .panel-heading > a
+{
+    color: black;
 }

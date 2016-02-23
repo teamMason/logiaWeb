@@ -57,7 +57,7 @@
                                       </button>
 
                                       <ul class="dropdown-menu" role="menu">
-                                          <li><a data-toggle="modal" title="Ver información" data-target="#infoEdit-{{$s->id}}">Editar</a></li>
+                                          <li><a data-toggle="modal" title="Editar información" data-target="#infoEdit-{{$s->id}}">Editar</a></li>
                                           <li><a data-toggle="modal" title="Ver información" data-target="#info-{{$s->id}}">Ver</a></li>
                                       </ul>
                                   </div>
@@ -221,7 +221,7 @@
             </div>
         </div>
     </div>
-    @endforeach
+@endforeach
 
 @endsection
 
