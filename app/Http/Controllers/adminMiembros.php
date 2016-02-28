@@ -167,7 +167,7 @@ class adminMiembros extends Controller
        $nombre = $solicitante->nombre;
 
      
-        Mail::send('emails.sendiniciacion',['nombre' => $nombre] , function($msj) use ($venEmail){
+        Mail::send('emails.sendIniciacion',['nombre' => $nombre] , function($msj) use ($venEmail){
           $msj->subject('Aprobación de Iniciación');
           $msj->to($venEmail, 'para');
         });        

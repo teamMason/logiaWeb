@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="baaef411-d8f0-43ff-b932-0487801c48b6" name="logiaPublic" url="http://granlogiadeedobc.com">
+        <fileTransfer host="granlogiadeedobc.com" port="22" rootFolder="/home/logiaweb/public_html" accessType="SFTP" password="dfeddfc6dfc5dfcddfc3dfcbdfc7df99df9fdf9d" username="logiaweb">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

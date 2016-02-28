@@ -2,6 +2,14 @@
 <project version="4">
   <component name="PublishConfigData" serverName="logiaWeb">
     <serverData>
+      <paths name="logiaPublic">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$/public" web="/" />
+            <mapping local="" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="logiaWeb">
         <serverdata>
           <mappings>

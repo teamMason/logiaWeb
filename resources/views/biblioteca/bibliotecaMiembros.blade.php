@@ -11,18 +11,18 @@
 
                     </div>
                 </div>
-                <div class="panel-body">
-                    <div class="row">
+                <div class="panel-body ">
+                    <div class="row" >
                         <div class="container">
                             @foreach($libros as $l)
                                 @if($l->editado == 'true' )
-                                    <div class="col-xs-12 col-sm-4 ">
+                                    <div class="col-xs-12 col-sm-3 ">
                                         <div class="thumbnail text-center libros" >
 
                                             <a href="../../../uploads/{{$l->slug}}" target="_blank" title="{{$l->titulo}}"><i class="fa fa-book fa-5x"></i></a>
                                             <div class="caption">
-                                                <h5 style="text-transform: uppercase"><strong>{{ str_limit($l->titulo,15,' ') }}</strong></h5>
-                                                <p><h4>Autor: {{$l->editado}}</h4></p>
+                                                <p></p><strong>{{ str_limit($l->autor,15,' ') }}</strong></p>
+                                                <p><em>{{ str_limit($l->titulo,25,' ') }}</em></p>
                                                 <p>Grado {{$l->grado}}</p>
 
                                             </div>

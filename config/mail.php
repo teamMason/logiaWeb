@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'no-reply@glogiadeedobc.com', 'name' => 'Gran Logia de Estado Baja California'],
+    'from' => ['address' => 'no-reply@glogiadeedobc.com', 'name' => 'Muy Respetable Gran Logia de Estado Baja California'],
 
     /*
     |--------------------------------------------------------------------------

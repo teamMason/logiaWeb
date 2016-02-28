@@ -89,7 +89,7 @@ class navegacion extends Controller
         if ($grado >= 1 and $grado <= 5)
         {
             $libros = \DB::table('libros')
-                ->orderBy('grado','desc')
+                ->orderBy('autor','asc')
                 ->paginate(50);
 
 
@@ -97,15 +97,15 @@ class navegacion extends Controller
         elseif($grado == 6 ) {
 
             $libros = \DB::table('libros')
-                ->where('grado', '!=', 3)
-                ->orderBy('titulo', 'desc')
+                ->where('autor', '!=', 3)
+                ->orderBy('titulo', 'asc')
                 ->paginate(50);
         }
         else
         {
             $libros = \DB::table('libros')
                 ->where('grado',1)
-                ->orderBy('grado','desc')
+                ->orderBy('autor','asc')
                 ->paginate(50);
 
 
