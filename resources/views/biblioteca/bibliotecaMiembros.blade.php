@@ -12,8 +12,28 @@
                     </div>
                 </div>
                 <div class="panel-body ">
-                    <div class="row" >
-                        <div class="container">
+                    <div class="container" id="admin">
+                        <div class="row">
+                            {!!Form::model(Request::only(['typeBusqueda']),['method' => 'GET', null, 'method' => 'GET', 'class' => 'navbar-form text-right', 'id' => 'buscador'])!!}
+                                @if(Auth::user()->isCompanero())
+                                    <div class="form-group">
+                                        {!! Form::select('typeBusqueda', ['Todos los grados','Aprendiz','Companero'], Input::old('typeBusqueda'), array('class' => 'form-control')) !!}
+                                    </div>
+                                @elseif(Auth::user()->isAprendiz())
+                                    <div class="form-group">
+                                        {!! Form::select('typeBusqueda', ['Todos los grados','Aprendiz'], Input::old('typeBusqueda'), array('class' => 'form-control')) !!}
+                                    </div>
+                                @else
+                                    <div class="form-group">
+                                        {!! Form::select('typeBusqueda', ['Todos los grados','Aprendiz','Companero', 'Maestro'], Input::old('typeBusqueda'), array('class' => 'form-control')) !!}
+                                    </div>
+                                @endif
+                            <button type="submit" class="btn btn-info">Buscar</button>
+                            {!!Form::close()!!}
+                        </div>
+
+                        <hr>
+                        <div class="row" >
                             @foreach($libros as $l)
                                 @if($l->editado == 'true' )
                                     <div class="col-xs-12 col-sm-3 ">

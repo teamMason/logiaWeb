@@ -280,13 +280,22 @@ public function verVotosMiembro($id)
         $t->nombre = \Input::get('nombre');
         $t->apellido = \Input::get('apellido');
         $t->id_taller = \Input::get('taller');
-        $t->grado = \Input::get('grado');
+        $grado = $t->grado = \Input::get('grado');
+
+        if($grado == 'PAST MASTER')
+        {
+            $t->voto = 'PERMANENTE';
+        }
+        else
+        {
+            $t->voto = 'NO MIEMBRO';
+        }
         $t->email = \Input::get('email');
         $t->telefono = \Input::get('telefono');
         $t->telefonoCel = \Input::get('telefonoCel');
-        $t->voto = 'NO MIEMBRO';
         $t->cargo = 'SIN CARGO';
         $t->mlibre = 'NO';
+        $t->estado = \Input::get('estado');
         $t->save();
         //return \Redirect::route('registrarMiembros')
         return redirect()->back()

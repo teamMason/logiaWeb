@@ -38,7 +38,12 @@
 
                                                 <input input type=tel id="telefono" name = 'telefono' placeholder = "Teléfono Fijo" class = "form-control"><br>
                                                 <input input type=tel id="telefonoCel" name = 'telefonoCel' placeholder = "Teléfono Celular" class = "form-control"><br>
-                                        
+                                                <select name="estado" class = "form-control" required>
+                                                    <option disabled selected>Estado</option>
+                                                    <option value="ACTIVO">Activo</option>
+                                                    <option value="INACTIVO">Inactivo</option>
+                                                    <option value="RADIADO">Radiado</option>
+                                                </select><br>
                                                 <p>
                                                     <input type="submit" value="Registrar" class="btn btn-block btn-success btn-lg">
                                                 </p>

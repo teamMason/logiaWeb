@@ -30,9 +30,9 @@ class CreateMiembrosTable extends Migration
                     'SEGUNDO EXPERTO',
                     'SIN CARGO'])->nullable();
            
-                $table->enum('grado', ['APRENDIZ','COMPANERO', 'MAESTRO', 'PAST MASTER'])->nullable();;
+                $table->enum('grado', ['APRENDIZ','COMPANERO', 'MAESTRO', 'PAST MASTER'])->nullable();
                 $table->string('mlibre');
-                $table->enum('voto', ['PERMANENTE','TRANSITORIO', 'VOZ NO COTO', 'PAST MASTER', 'NO MIEMBRO'])->nullable();;
+                $table->enum('voto', ['PERMANENTE','TRANSITORIO', 'VOZ NO COTO', 'PAST MASTER', 'NO MIEMBRO'])->nullable();
                 $table->string('telefono');
                 $table->string('telefonoCel');
                 $table->string('email')->nullable();

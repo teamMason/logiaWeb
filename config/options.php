@@ -62,7 +62,15 @@ return array(
         'MAESTRO' => 'Maestros',
         'COMPANERO' => 'Compañeros',
         'APRENDIZ' => 'Aprendiz'
+    ],
+
+    'grados' => [
+        'null' => 'Selecciona un grado',
+        '1' => 'Aprendiz',
+        '2' => 'Companero',
+        '3' => 'Maestro'
     ]
+
 
 );
 

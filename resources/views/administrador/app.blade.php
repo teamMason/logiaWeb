@@ -32,7 +32,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="{{route('home')}}">Home</a></li>
                         @if (!Auth::guest())
-                            @if (Auth::user()->isTesorero() or Auth::user()->isAdmin())
+                            @if (Auth::user()->isTesorero() or Auth::user()->isAdmin() )
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Tesoreria
                                         <span class="caret"></span></a>
@@ -51,10 +51,12 @@
                                             <li><a href="{{route('consultaMTaller')}}">Consultas</a></li>
                                             <li><a href="#">Estadisticas</a></li>
                                         @endif
-                                        @if (Auth::user()->isAdmin())
-                                            <li><a href="{{route('registrarMiembros')}}">Registrar</a></li>
-                                            <li><a href="{{route('consulta')}}">Consultas</a></li>
-                                            <li><a href="#">Estadisticas</a></li>
+                                        @if (Auth::user()->isAdmin() or Auth::user()->isSecretario())
+                                            @if (Auth::user()->isAdmin())
+                                                <li><a href="{{route('registrarMiembros')}}">Registrar</a></li>
+                                            @endif
+                                                <li><a href="{{route('consulta')}}">Consultas</a></li>
+                                                <li><a href="#">Estadisticas</a></li>
                                         @endif
                                     </ul>
                                 </li>

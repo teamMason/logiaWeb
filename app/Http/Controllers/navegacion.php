@@ -2,6 +2,9 @@
 
 namespace portalLogia\Http\Controllers;
 
+
+use portalLogia\Http\Requests;
+use Illuminate\Http\Request;
 use portalLogia\User;
 use portalLogia\Http\Controllers\Controller;
 use portalLogia\Http\Requests\contactoRequest;
@@ -79,40 +82,69 @@ class navegacion extends Controller
         return view('sections.gracias');
     }
 
-    public function bibliotecaMiembros()
+    public function bibliotecaMiembros(Request $request)
     {
-        $grado = \Auth::user()->id_type;
+
+        $hierachy = [
+        'administrador' => 7,
+        'secretario'    => 6,
+        'tesorero'      => 5,
+        'venerable'     => 4,
+        'maestro'       => 3,
+        'companero'     => 2,
+        'aprendiz'      => 1
+
+        ];
+
+        $busqueda = $request->get('typeBusqueda');
+        $typeRole = \Auth::user()->role;
         $libros [] = '';
+        $role = $hierachy[$typeRole];
 
+        if ($busqueda == null or $busqueda == 0) {
+            if ($role >= 3) {
+                $libros = \DB::table('libros')
+                    ->where('grado', '<=', $role)
+                    ->orderBy('autor', 'asc')
+                    ->paginate(50);
+            } elseif ($role <= 2) {
 
-
-        if ($grado >= 1 and $grado <= 5)
-        {
-            $libros = \DB::table('libros')
-                ->orderBy('autor','asc')
-                ->paginate(50);
-
-
-        }
-        elseif($grado == 6 ) {
-
-            $libros = \DB::table('libros')
-                ->where('autor', '!=', 3)
-                ->orderBy('titulo', 'asc')
-                ->paginate(50);
+                $libros = \DB::table('libros')
+                    ->where('grado', '<=', $role)
+                    ->orderBy('titulo', 'asc')
+                    ->paginate(50);
+            } elseif ($role == 1) {
+                $libros = \DB::table('libros')
+                    ->where('grado', 1)
+                    ->orderBy('autor', 'asc')
+                    ->paginate(50);
+            }
         }
         else
         {
-            $libros = \DB::table('libros')
-                ->where('grado',1)
-                ->orderBy('autor','asc')
-                ->paginate(50);
-
-
+            $libros = $this->buscadorPorGrado($role,$busqueda);
 
         }
+
+
         return view('biblioteca.bibliotecaMiembros')
             ->with('libros',$libros);
+    }
+
+    public function buscadorPorGrado($role, $busqueda)
+    {
+
+
+        return \DB::table('libros')
+            ->where("grado", $busqueda)
+            ->where(function ($query) use ($role) {
+                $query->where("grado", '<=', $role);
+
+            })
+            ->orderBy('autor', 'asc')
+            ->paginate(50);
+
+
     }
 
 

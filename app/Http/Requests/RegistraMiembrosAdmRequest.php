@@ -24,13 +24,15 @@ class RegistraMiembrosAdmRequest extends Request
     public function rules()
     {
         return [
-            'email'       => 'required|unique:solicitudes,email',
+            'email'       => 'required|unique:miembros,email',
             'nombre'      => 'required|min:2|max:150|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'apellido'    => 'required|min:2|max:150|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'grado'       => 'required',
             'taller'      => 'Integer|required',
             'telefono'    => 'regex:/^([0-9_-])+((-*)+([0-9_-]*)*)+$/',
-            'telefonoCel' => 'regex:/^([0-9_-])+((-*)+([0-9_-]*)*)+$/'
+            'telefonoCel' => 'regex:/^([0-9_-])+((-*)+([0-9_-]*)*)+$/',
+            'estado'      => 'required'
+
 
 
         ];

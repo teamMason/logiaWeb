@@ -197,7 +197,7 @@
                         </select><br>
 
                         <select name="estado" class = "form-control" required>
-                            <option disabled selected>Estatus Actual</option>
+                            <option disabled>Estatus Actual</option>
                             <option value="{{$s->estado}}" selected>{{$s->estado}}</option>
                             <option value="ACTIVO   ">Activo</option>
                             <option value="BAJA">Baja</option>
