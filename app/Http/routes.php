@@ -68,6 +68,11 @@ Route::group(['middleware' => ['auth'], 'role:maestro', 'role:companero', 'role:
         'uses' => 'navegacion@bibliotecaMiembros',
         'as' => 'bibliotecaMiembros'
     ]);
+
+    Route::post('admin/bibliotecaMiembros/busqueda', [
+        'uses' => 'navegacion@buscadorPorNombre',
+        'as' => 'l'
+    ]);
 });
 
 //Sección de ADMINISTRADOR

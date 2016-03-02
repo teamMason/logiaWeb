@@ -15,12 +15,7 @@ class Miembros extends Model
     protected $fillable = ['nombre, apellido, email'];
 
 
-    static function getSearchMiembros($search)
-    {
-        $miembros = Miembros::where('nombre', "LIKE","%$search%" )
-            ->orWhere('apellido', "LIKE","%$search%" );
 
-    }
 
 
 

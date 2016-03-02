@@ -14,26 +14,34 @@
                 <div class="panel-body ">
                     <div class="container" id="admin">
                         <div class="row">
-                            {!!Form::model(Request::only(['typeBusqueda']),['method' => 'GET', null, 'method' => 'GET', 'class' => 'navbar-form text-right', 'id' => 'buscador'])!!}
+                            {!!Form::model(Request::only(['typeBusqueda']),['method' => 'GET', null, 'method' => 'GET', 'class' => 'navbar-form text-right', 'id' => 'search-form'])!!}
                                 @if(Auth::user()->isCompanero())
                                     <div class="form-group">
-                                        {!! Form::select('typeBusqueda', ['Todos los grados','Aprendiz','Companero'], Input::old('typeBusqueda'), array('class' => 'form-control')) !!}
+                                        {!! Form::select('typeBusqueda', ['Todos los grados','Aprendiz','Companero'], Input::old('typeBusqueda'), array('class' => 'form-control', 'id' => 'buscador')) !!}
                                     </div>
                                 @elseif(Auth::user()->isAprendiz())
                                     <div class="form-group">
-                                        {!! Form::select('typeBusqueda', ['Todos los grados','Aprendiz'], Input::old('typeBusqueda'), array('class' => 'form-control')) !!}
+                                        {!! Form::select('typeBusqueda', ['Todos los grados','Aprendiz'], Input::old('typeBusqueda'), array('class' => 'form-control', 'id' => 'buscador')) !!}
                                     </div>
                                 @else
                                     <div class="form-group">
-                                        {!! Form::select('typeBusqueda', ['Todos los grados','Aprendiz','Companero', 'Maestro'], Input::old('typeBusqueda'), array('class' => 'form-control')) !!}
+                                        {!! Form::select('typeBusqueda', ['Todos los grados','Aprendiz','Companero', 'Maestro'], Input::old('typeBusqueda'), array('class' => 'form-control', 'id' => 'buscador')) !!}
                                     </div>
                                 @endif
+                                <div class="form-group">
+                                    {!! Form::text('busquedaTipeada',Input::old('busquedaTipeada'), array('class' => 'form-control', 'id' => 'buscador-tipeado')) !!}
+                                </div>
                             <button type="submit" class="btn btn-info">Buscar</button>
                             {!!Form::close()!!}
+
+
+                            <div id="resultados">
+                            </div>
+
                         </div>
 
                         <hr>
-                        <div class="row" >
+                        <div class="row" id="libritos">
                             @foreach($libros as $l)
                                 @if($l->editado == 'true' )
                                     <div class="col-xs-12 col-sm-3 ">
@@ -59,4 +67,8 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script src="{{ URL::to('assets/js/busquedaAjax.js') }}"></script>
+
 @stop

@@ -11,6 +11,7 @@ use portalLogia\Http\Requests\contactoRequest;
 use portalLogia\Posts;
 use portalLogia\Contacto;
 use portalLogia\Libro;
+
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 
@@ -96,35 +97,49 @@ class navegacion extends Controller
 
         ];
 
+
         $busqueda = $request->get('typeBusqueda');
+        $busquedaTip = $request->get('busquedaTipeada');
+
+
         $typeRole = \Auth::user()->role;
         $libros [] = '';
         $role = $hierachy[$typeRole];
 
-        if ($busqueda == null or $busqueda == 0) {
-            if ($role >= 3) {
-                $libros = \DB::table('libros')
-                    ->where('grado', '<=', $role)
-                    ->orderBy('autor', 'asc')
-                    ->paginate(50);
-            } elseif ($role <= 2) {
+        if($busquedaTip != null )
+        {
 
-                $libros = \DB::table('libros')
-                    ->where('grado', '<=', $role)
-                    ->orderBy('titulo', 'asc')
-                    ->paginate(50);
-            } elseif ($role == 1) {
-                $libros = \DB::table('libros')
-                    ->where('grado', 1)
-                    ->orderBy('autor', 'asc')
-                    ->paginate(50);
-            }
+            $libros = $this->buscadorPorNombre($busquedaTip, $busqueda);
         }
         else
         {
-            $libros = $this->buscadorPorGrado($role,$busqueda);
 
+            if ($busqueda == null or $busqueda == 0) {
+                if ($role >= 3) {
+                    $libros = \DB::table('libros')
+                        ->where('grado', '<=', $role)
+                        ->orderBy('autor', 'asc')
+                        ->paginate(50);
+                } elseif ($role <= 2) {
+
+                    $libros = \DB::table('libros')
+                        ->where('grado', '<=', $role)
+                        ->orderBy('titulo', 'asc')
+                        ->paginate(50);
+                } elseif ($role == 1) {
+                    $libros = \DB::table('libros')
+                        ->where('grado', 1)
+                        ->orderBy('autor', 'asc')
+                        ->paginate(50);
+                }
+            }
+            else
+            {
+                $libros = $this->buscadorPorGrado($role,$busqueda);
+
+            }
         }
+
 
 
         return view('biblioteca.bibliotecaMiembros')
@@ -144,6 +159,13 @@ class navegacion extends Controller
             ->orderBy('autor', 'asc')
             ->paginate(50);
 
+
+    }
+
+    public function buscadorPorNombre($busqueda, $grado)
+    {
+
+        return Libro::getSearchMiembros($busqueda,$grado);
 
     }
 
