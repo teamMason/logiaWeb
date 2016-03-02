@@ -103,33 +103,9 @@
 								</ul>
 							</li>
 							@endif
-							@if (Auth::user()->isAprendiz())
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Libros <span class="caret"></span></a>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="{{route('adminBlog')}}">Libros Aprendiz</a></li>								
-									</ul>
-								</li>
-							@endif	
-							@if (Auth::user()->isCompanero())
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Libros <span class="caret"></span></a>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="{{route('adminBlog')}}">Libros Aprendiz</a></li>	
-										<li><a href="{{route('adminBlog')}}">Libros Companero</a></li>							
-									</ul>
-								</li>
-							@endif	
-							@if (Auth::user()->isMaestro())
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Libros <span class="caret"></span></a>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="{{route('adminBlog')}}">Libros Aprendiz</a></li>	
-										<li><a href="{{route('adminBlog')}}">Libros Companero</a></li>	
-										<li><a href="{{route('adminBlog')}}">Libros Maestro</a></li>						
-									</ul>
-								</li>
-							@endif			
+							@if (Auth::user()->isMaestro() or Auth::user()->isCompanero() or Auth::user()->isAprendiz() )
+								<li><a href="{{route('bibliotecaMiembros')}}">Biblioteca Digital</a></li>
+                            @endif
 						@endif
 					</ul>
 
@@ -193,6 +169,7 @@
 
 		<script type="text/javascript" src="{!! asset('assets/js/jquery.js') !!}"></script>
 		<script src="{{ URL::to('assets/js/bootstrap.min.js') }}"></script>
+
 
 
 

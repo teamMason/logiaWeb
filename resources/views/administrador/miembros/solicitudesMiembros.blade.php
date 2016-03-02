@@ -1,20 +1,19 @@
 @extends('administrador.app')
 @section('content')
  
-<div class="container-fluid"> 
-  <div class="row-fluid">
-    <div class="panel panel-default">
+<div class="row">
+  <div class="container">
+    <div class="panel panel-default ">
         <div class="panel-heading ">               
           <div ><label >Solicitudes de registro recibidas por los diferentes talleres.</label></div>          
         </div>
         <div class="panel-body">
         @include('includes.succes')
           
-          <div class="container" id="admin">
-            <table class = "table table-striped table-hover " action="javascript:alert('Submitted')" >
+
+            <table class = "table table-striped table-hover table-responsive" action="javascript:alert('Submitted')" >
               <thead>
                 <th>Nombre</th>
-                <th>Apellido</th>
                 <th>Taller</th>
                 <th>Ciudad</th>             
                 <th class  = "foo">Acciones</th>          
@@ -22,8 +21,7 @@
               <tbody>
                 @foreach($solicitudes as $s)
                 <tr>
-                  <td>{{$s -> nombre}}</td>
-                  <td>{{$s -> apellido}}</td>
+                  <td>{{$s -> nombre}} {{$s -> apellido}}</td>
                   <td>{{$s -> nombreTaller}}</td>
                   <td>{{$s -> ciudad}}</td>                         
                                     
@@ -37,7 +35,7 @@
                 @endforeach
               </tbody>
             </table>
-          </div>
+
         
         </div>
     </div>
@@ -58,43 +56,43 @@
         <h4 class="modal-title">Información de: {{$s->nombre}} {{$s->apellido}}</h4>
       </div>
 
-        <div class="modal-body" > 
-        <table class = "table table-striped table-responsive "  >
-              <thead>
-                <th valign="top" align="center" >Muy Resp.·.Log.·. De Estado Baja California, AA.·.LL.·. y AA.·.MM.·.<br><h5>Calla 9na No. 8169 ofna 302, zona Centro</h5>Gr.·.Or.·. de Tijuena, B.C. Tel: 01-(646)-685-22-72 </th>
-                <th><img src="../assets/img/portfolio/Logo1.png" class="img-circle img-responsive" alt="" width="150" height="100"></th>                    
-              </thead>
-              <tbody>               
-                <tr>
-                  <td>
-                    
-                    <img src="../pics_solicitud/{{$s->path}}" class="img-thumbnail img-responsive" alt="" width="150" height="100"> </th>
-                    <br> Votar antes del día: {{$s->fechaLim}}
+        <div class="modal-body" >
+            <div class="row">
 
-                  </td>                    
-                  <td width="55%">
-                    <h5><b>LA solicitus fue enviada por:</b></h5>             
-                    <ul style="list-style-type:none">   
-                      <li><span><b>Taller:</b> {{$s->nombreTaller}}</span></li>
-                      <li><span><b>Ciudad:</b> {{$s->ciudad}}</span></li>
-                    </ul><br>
-                    <h5><b>Datos Personales:</b></h5>  
-                    <ul style="list-style-type:none">                
-                      <li><b>Profesión:</b> {{$s->profesion}}</li>
-                      <li><b>Estado Civil:</b> {{$s->edoCivil}}</li>
-                      <li><b>Ingreso Mensual:</b> {{$s->ingresoMen}}</li>
-                      <li><b>Teléfono:</b> {{$s->telefono}}</span></li>
-                      <li><b>Teléfono Celular:</b> {{$s->telefonoCel}}</li>                      
-                      <div >
-                      
-                        <li ><b>Comentarios Adicionales:</b>{{$s->comentarios}} </li>
-                       
-                      </div>
-                    </ul><br>
-                  </td>      
-              </tbody>
-            </table>             
-        </div>              
+                <div class="col-md-4" align="center">
+                    <th><img src="../assets/img/portfolio/Logo1.png" class="img-circle img-responsive" alt="" width="150" height="100"></th>
+                </div>
+                <div class="col-md-8 text-center">
+                    <p>Muy Resp.·.Log.·. De Estado Baja California, AA.·.LL.·. y AA.·.MM.·.</p>
+                    <p>Calla 9na No. 8169 ofna 302, zona Centro Gr.·.Or.·. de Tijuena, B.C. Tel: 01-(646)-685-22-72</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="container-fluid">
+                    <div class="col-md-8">
+                        <strong><p>La Solicitud fue enviada por:</p></strong>{{$s->nombreTaller}}
+                        <strong><p>Ciudad:</p></strong>{{$s->ciudad}}
+                        <div id="personalDates">
+                            <h5>Datos Personales:</h5>
+                            <ul style="">
+                                <li><strong class="hidden-xs">Profesión: </strong> {{$s->profesion}}</li>
+                                <li> <strong class="hidden-xs">Estado Civil: </strong> {{$s->edoCivil}}</li>
+                                <li><strong class="hidden-xs">Ingreso Mensual: </strong> {{$s->ingresoMen}}</li>
+                                <li><strong class="hidden-xs">Teléfono: </strong> {{$s->telefono}}</li>
+                                <li> <strong class="hidden-xs">Teléfono Celular: </strong> {{$s->telefonoCel}}</li>
+                                <li> <strong class="hidden-xs">Comentarios: </strong> {{$s->comentarios}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col-md-4">
+                        <img src="../fotos_solicitud/{{$s->path}}" class="img-thumbnail img-responsive" alt="" width="150" height="100">
+                        <p>Votar antes del día: {{$s->fechaLim}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal-footer ">  
         {!! Form::open(array('action' => array('adminMiembros@enviarAVotacion',$s->id))) !!}   
             <input type="submit" class="btn btn-success" value = "Enviar a Votación">    

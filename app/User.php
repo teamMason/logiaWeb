@@ -78,12 +78,12 @@ class User extends Model implements AuthenticatableContract,
 
     public function stateSolicitud($id)
     {
-        return Solicitudes::where('id', $id)->where('estadoSolicitud', 'true')->count();
+        return Solicitud::where('id', $id)->where('estadoSolicitud', 'true')->count();
 
     }
     public function stateVotacion($id)
     {
-        return Solicitudes::where('id', $id)->where('estadoVotacion', 'true')->count();
+        return Solicitud::where('id', $id)->where('estadoVotacion', 'true')->count();
         
       
 
@@ -91,7 +91,7 @@ class User extends Model implements AuthenticatableContract,
     public function stateIniciacion($id)
     {
         
-        return Solicitudes::where('id', $id)->where('estadoIniciacion', 'true')->count();       
+        return Solicitud::where('id', $id)->where('estadoIniciacion', 'true')->count();
 
     }
 
@@ -100,8 +100,5 @@ class User extends Model implements AuthenticatableContract,
 
         return User::where('id_type', 1)->first();  
     }
-    public function  scopeBusqueda($query, $name)
-    {
-        $query->where('nombre', $name);
-    }
+
 }

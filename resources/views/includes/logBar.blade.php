@@ -9,7 +9,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="{{route('adminSite')}}">Muy Respetable Gran Logia de Edo. B.C. </a>
+                <a class="navbar-brand page-scroll" href="{{route('adminSite')}}">Muy Respetable Gran Logia de Estado Baja California </a>
             </div>
 
         

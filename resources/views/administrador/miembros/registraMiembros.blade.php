@@ -9,7 +9,7 @@
             </div>
             <div class="panel-body"> 
                     @include('includes.errors')
-                     @include('includes.succes')
+                    @include('includes.succes')
                     <div class="container" id="admin">
                             <div class="row-flui">                              
                                 <div class="container">
@@ -57,6 +57,8 @@
 </div> 
 @endsection
 @section('scripts')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.min.js"></script>
 <!--desaparecer alertas -->
 
 <script type="text/javascript">

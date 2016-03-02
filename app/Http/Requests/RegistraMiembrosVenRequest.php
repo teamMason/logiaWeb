@@ -35,7 +35,7 @@ class RegistraMiembrosVenRequest extends Request
             'telefono'    => 'min:8|max:20|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'telefonoCel' => 'min:10|max:20|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'comentarios' => 'regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/|max:150',
-            'path'        => 'required'
+            'file'        => 'mimes:jpg,png,jpeg'
 
             //
         ];

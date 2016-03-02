@@ -45,7 +45,7 @@
                                             <input type="email"   name = 'email' placeholder = "Correo Electrónico" class =  "form-control" value = "{{Input::old('email')}}"><br>
                                             <input type="text" id="telefonoCel"  name = 'telefonoCel' placeholder = "Teléfono Celular" class =  "form-control" value = "{{Input::old('telefono')}}"><br>
                                             <input type="text" id="telefono" name = 'telefono' placeholder = "Teléfono Adicional" class = "form-control"  value = "{{Input::old('telefonoCel')}}"><br>
-                                            {!!Form::file('path', ['class' => 'form-control', 'required' => 'required']) !!} <br>
+                                            {!!Form::file('file', ['class' => 'form-control', 'required' => 'required']) !!} <br>
                                             <textarea name="comentarios" id="" cols="30" rows="10" class="form-control"  placeholder = "*Comentarios">{{ Input::old('comentarios') }}</textarea><br>
                                             <p>
                                                 <input type="submit" value="Enviar Solicitud" class="btn btn-block btn-success btn-lg">
@@ -66,23 +66,13 @@
 @endsection
 @section('scripts')
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.min.js"></script>
+    <script type="text/javascript">
 
-<script type="text/javascript">
-  $(document).ready(function() {
-      $("#telefonoCel").mask("999-999-99-99");
-      $("#telefono").mask("999-999-99-99-99");
-      $('#dinero').mask('000.000.000.000.000,00', {reverse: true}, {'translation': {A: {pattern: /[A-Za-z0-9]/}}});
-      setTimeout(function() {
-          $(".alert-success").fadeOut(1500);
-      },3000);
-  });
-
-
-
-  
-</script>
-
-
-                                                
-
-@stop	
+      $(document).ready(function() {
+          $("#telefonoCel").mask("999-999-99-99");
+          $("#telefono").mask("999-999-99-99-99");
+          $('#dinero').mask('000.000.000.000.000,00', {reverse: true}, {'translation': {A: {pattern: /[A-Za-z0-9]/}}});
+      });
+    </script>
+@stop
