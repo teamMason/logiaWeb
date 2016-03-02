@@ -32,12 +32,7 @@ class Kernel extends HttpKernel
         'guest' => \portalLogia\Http\Middleware\RedirectIfAuthenticated::class,
 
         //Middlewares Roles
-        'is_Admin'      => \portalLogia\Http\Middleware\isAdmin::class,
-        'is_Tesorero'   => \portalLogia\Http\Middleware\isTesorero::class,
-        'is_Secretario' => \portalLogia\Http\Middleware\isSecretario::class,
-        'is_Venerable'  => \portalLogia\Http\Middleware\isVenerable::class,
-        'is_Maestro'    => \portalLogia\Http\Middleware\isMaestro::class,
-        'is_Companero'  => \portalLogia\Http\Middleware\isCompanero::class,
-        'is_Aprendiz'   => \portalLogia\Http\Middleware\isAprendiz::class,                
+
+        'role' => \portalLogia\Http\Middleware\Role::class,
     ];
 }

@@ -1,56 +1,109 @@
 @extends('administrador.app')
 @section('content')
 
-    <div class="container-fluid">
-        <div class="row-fluid">
-            @include('includes.errors')
-            @include('includes.succes')
-            <div class="panel panel-default">
-                <div class="panel-heading ">
-                    <div class="container-fluid">
-                        <strong>Libros Sin publicar</strong>
-                        <button class="btn btn-success pull-right" data-toggle="modal" title="Ver información" data-target="#uploadArchivos"> Subir Libros</button>
-
-                    </div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        @include('includes.errors')
+        @include('includes.succes')
+        <div class="panel panel-default">
+            <div class="panel-heading ">
+                <div class="container-fluid">
+                    <strong>Libros Sin publicar</strong>
+                    <button class="btn btn-success pull-right" data-toggle="modal" title="Ver información" data-target="#uploadArchivos"> Subir Libros</button>
                 </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="container">
-                            @foreach($libros as $l)
+            </div>
+            <div class="panel-body librosSinPublicar">
+                <div class="row">
+                    <div class="container ">
+                        @foreach($libros as $l)
+                            @if($l->editado == 'false')
                                 <div class="col-xs-12 col-sm-4 ">
-                                        <div class="panel panel-info libros">
-                                            <div class="panel-heading">
-                                                <strong>{{ str_limit($l->titulo,20,' ') }}</strong>
-                                                <span class="pull-right">
-                                                    <a href="" data-toggle="modal"  title="Editar información" data-target="#infoEdit-{{$l->id}}"><i class="fa fa-edit"></i></a>
-                                                    <a  href="#my_modal"  data-toggle="modal" data-book-id="{{$l -> id}}"><i class="fa fa-trash"></i></a>
-                                                </span>
-                                            </div>
+                                    <div class="panel panel-info libros">
+                                        <div class="panel-heading">
+                                            <strong>{{ str_limit($l->autor,20,' ') }}</strong>
+                                            <span class="pull-right">
+                                                <a href="" data-toggle="modal"  title="Editar información" data-target="#infoEdit-{{$l->id}}"><i class="fa fa-edit"></i></a>
+                                                <a  href="#my_modal"  data-toggle="modal" data-book-id="{{$l -> id}}"><i class="fa fa-trash"></i></a>
+                                            </span>
+                                        </div>
 
-                                            <div class="panel-body">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <strong>Título: </strong><em>{{$l->titulo}}</em>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <strong>Grado: </strong><em>{{$l->grado}}</em>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <strong>Descripción: </strong> <em>{{$l->descripcion}}</em>
-                                                    </li>
-                                                </ul>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <strong>{{$l->titulo}}</strong>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <strong><em>{{$l->grado}}</em></strong>
+                                                </li>
+                                            </ul>
+                                            <div class="pull-right">
+                                                <a href="../../../uploads/{{$l->titulo}}" target="_blank" title="{{$l->titulo}}">Ver <i class="fa fa-eye"></i></a>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
-                            @endforeach
-                        </div>
-                        </div>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+</div>
+
+
+
+<!--Libros Publicados -->
+<div class="container-fluid">
+    <div class="row-fluid">
+        @include('includes.errors')
+        @include('includes.succes')
+        <div class="panel panel-default">
+            <div class="panel-heading ">
+                <div class="container-fluid">
+                    <strong>Libros publicados</strong>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="container ">
+                        @foreach($libros as $l)
+                            @if($l->editado ==  'true')
+                                <div class="col-xs-12 col-sm-4 ">
+                                    <div class="panel panel-info libros">
+                                        <div class="panel-heading">
+                                            <strong>{{ str_limit($l->autor,20,' ') }}</strong>
+                                                <span class="pull-right">
+                                                    <a href="" data-toggle="modal"  title="Editar información" data-target="#infoEdit-{{$l->id}}"><i class="fa fa-edit"></i></a>
+                                                    <a  href="#my_modal"  data-toggle="modal" data-book-id="{{$l -> id}}"><i class="fa fa-trash"></i></a>
+                                                </span>
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <em>{{ str_limit($l->titulo,35,' ') }}</em>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <strong><em>{{$l->grado}}</em></strong>
+                                                </li>
+                                            </ul>
+                                            <div class="pull-right">
+                                                <a href="../../../uploads/{{$l->slug}}" target="_blank" title="{{$l->titulo}}">Ver <i class="fa fa-eye"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 <!--Modal Subir Archivos -->
@@ -67,8 +120,8 @@
             <div class="modal-body" >
                 <div class="alert-info text-center">
                     <p>
-                        Puedes subir Varios archivos a la vez, una vez subidos, puedes editar su título y grado para controlar quien tiene acceso a ellos.
-                        Solo puedes subir archivos <strong>PDF</strong> de un <strong>MAX</strong> de <strong>10M</strong>
+                        Puedes subir Varios archivos a la vez, una vez subidos, puedes editar su autor, título y grado para controlar quien tiene acceso a ellos.
+                        Solo puedes subir archivos <strong>PDF</strong> de un <strong>MAX</strong> de <strong>10M</strong> por subida.
 
                     </p>
                 </div>
@@ -126,12 +179,13 @@
                 <div class="modal-body" >
                     {!! Form::model(Request::all(),array('action' => array('adminController@editBook',$l->id)),['method' => 'post'])!!}
                     <fielset>
+                        <strong><span>Autor:</span></strong>
+                        <input type="text" name = 'autor' value="{{$l->autor}}" class = "form-control"  ><br>
                         <strong><span>Título:</span></strong>
-
                         <input type="text" name = 'titulo'  value="{{$l->titulo}}"  class = "form-control "  required><br>
                        <strong><span>Grado:</span></strong>
-
                         <input type="number" min="1" max="3" name = 'grado' value="{{$l->grado}}" class = "form-control"  required><br>
+
                     </fielset>
                 </div>
                 <div class="modal-footer ">

@@ -139,7 +139,7 @@ class adminController extends Controller
 
     public function biblioteca()
     {
-        $libros = Libro::all();
+        $libros = \DB::table('libros')->orderBy('autor','asc')->get();
         return view('administrador.libros.biblioteca')
             ->with('libros', $libros);
 
@@ -156,7 +156,7 @@ class adminController extends Controller
 
         foreach ( $file as $files)
         {
-            $v = \Validator::make(['file' => $files], ['file' => 'mimes:pdf|max:5000']);
+            $v = \Validator::make(['file' => $files], ['file' => 'mimes:pdf|max:10000']);
             if ($v->fails()) {
 
                 return \Redirect::route('biblioteca')
@@ -177,8 +177,10 @@ class adminController extends Controller
                 $libro->slug = substr($slug,0,-3).$ext;
                 $libro->titulo = $fileName;
                 $libro->grado = 0;
+                $libro->autor = 'No especificado';
                 $libro->editado = 'false';
                 $files->move($dir, $fileName);
+
                 $libro->save();
 
             }
@@ -197,13 +199,22 @@ class adminController extends Controller
 
         $librito = Libro::find($id);
 
-
-        if('uploads/'.$librito->slug)
+        $dir = public_path().'/uploads'.'/';
+        if(! is_null($librito) and  $librito->editado == 'true')
         {
-            Storage::delete('uploads/'.$librito->slug);
+
+            unlink($dir.$librito->slug);
             $librito->delete();
             return \Redirect::route('biblioteca')
                 ->with('alert','El libro se ha Borrado Correctamente');
+        }
+        elseif($librito->editado == 'false')
+        {
+            unlink($dir.$librito->titulo);
+            $librito->delete();
+            return \Redirect::route('biblioteca')
+                ->with('alert','El libro se ha Borrado Correctamente');
+
         }
         return \Redirect::route('biblioteca')
             ->with('alert','Ha ocurrido un error el libro no se encuentra');
@@ -218,8 +229,9 @@ class adminController extends Controller
     public function editBook(Request $request, $id)
     {
         $this->validate($request, [
-            'titulo' => 'required',
-            'grado' => 'required|numeric|between:1,3'
+            'titulo' => 'required|max:100',
+            'grado'  => 'required|numeric|between:1,3',
+            'autor'  => 'max:100'
         ]);
 
         $librito = Libro::find($id);
@@ -240,6 +252,13 @@ class adminController extends Controller
 
         $librito->titulo = \Input::get('titulo');
         $librito->grado = \Input::get('grado');
+        $librito->autor = \Input::get('autor');
+
+
+        if(\Input::get('autor') == "")
+        {
+            $librito->autor = "No especificado";
+        }
         $librito->editado = 'true';
 
         //$slug Cambia el formato del nombre con "-"

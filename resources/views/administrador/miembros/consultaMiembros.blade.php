@@ -12,7 +12,7 @@
             @include('includes.succes')
             @include('includes.errors')
             <div class="container" id="admin">
-              <div class="row">
+                <div class="row">
                   {!!Form::model(Request::only(['typeBusqueda', 'subBusqueda']),['method' => 'GET', 'route'=>'consulta', 'method' => 'GET', 'class' => 'navbar-form navbar-left pull-right', 'id' => 'buscador'])!!}
 
                   <div class="form-group">
@@ -24,20 +24,18 @@
                   </div>
                   <button type="submit" class="btn btn-info">Buscar</button>
                   {!!Form::close()!!}
-              </div>
-
-              <hr>
-              <div class="row">
-
+                </div>
+                <hr>
+                <div class="row">
                   <table class = "table table-striped table-hover " >
                       <thead>
-                      <th>Nombre y Apellido</th>
-                      <th>Taller</th>
-                      <th class="hidden-sm hidden-xs">Grado</th>
-                      <th class="hidden-sm hidden-xs">Cargo</th>
-                      <th class="hidden-md hidden-sm hidden-xs">Miembro Libre</th>
-                      <th class="hidden-md hidden-sm hidden-xs">Voto en G.·.L.·.</th>
-                      <th class="hidden-md hidden-sm hidden-xs">Estado</th>
+                          <th>Nombre y Apellido</th>
+                          <th>Taller</th>
+                          <th class="hidden-sm hidden-xs">Grado</th>
+                          <th class="hidden-sm hidden-xs">Cargo</th>
+                          <th class="hidden-md hidden-sm hidden-xs">Miembro Libre</th>
+                          <th class="hidden-md hidden-sm hidden-xs">Voto en G.·.L.·.</th>
+                          <th class="hidden-md hidden-sm hidden-xs">Estado</th>
                       </thead>
                       <tbody>
                       @foreach($miembros as $s)
@@ -66,8 +64,8 @@
                       @endforeach
                       </tbody>
                   </table>
-              </div>
-          </div>
+                </div>
+            </div>
         <div class="container" align = "center">
             <?php
             echo $miembros ->appends(Request::only(['typeBusqueda', 'subBusqueda']))-> render()
@@ -84,47 +82,47 @@
 <!--Modal para ver información-->
 
 @foreach($miembros as $s)
-<div id="info-{{$s->id}}" class="modal fade modal " role="dialog">
-  <div class="modal-dialog">
+    <div id="info-{{$s->id}}" class="modal fade modal " role="dialog">
+      <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Información de: {{$s->nombre}} {{$s->apellido}}</h4>
-        </div>
-        <div class="modai-body" align="center">
-            <img src="../../assets/img/portfolio/Logo1.png" class="img-circle img-responsive" alt="" width="150" height="100">
-        </div>
-        <div class="container-fluid">
-            <div class="modal-body" >
-
-                <p valign="top" align="center" >Muy Resp.·.Log.·. De Estado Baja California, <br> AA.·.LL.·. y AA.·.MM.·. Calla 9na No. 8169 ofna 302, zona Centro
-                    <br> Gr.·.Or.·. de Tijuena, B.C. Tel: 01-(646)-685-22-72 </p>
-
-                <h5><b>Pertenece al Taller:</b></h5>
-                <ul style="list-style-type:none">
-                    <li><span><b>Taller:</b> {{$s->nombreTaller}}</span></li>
-                    <li><span></span></li>
-                </ul><br>
-                <h5><b>Datos Importantes:</b></h5>
-                <ul style="list-style-type:none">
-                    <li><b>Cargo:</b> {{$s->cargo}} </li>
-                    <li><b>Grado:</b> {{$s->grado}}</li>
-                    <li><b>Miembro Libre:</b> {{$s->mlibre}}</li>
-                    <li><b>Voto en G.·.L.·.:</b> {{$s->voto}}</li>
-                    <li><b>Estado Actual:</b> {{$s->estado}}</li>
-                </ul><br>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Información de: {{$s->nombre}} {{$s->apellido}}</h4>
             </div>
-        </div>
-        <div class="modal-footer ">
-        {!! Form::open(array('action' => array('adminMiembros@enviarAVotacion',$s->id))) !!}
-            <button type="button" class="btn btn-default "  data-dismiss="modal" > Cerrar</button>
-        {!! Form::close() !!}
-          </div>
-        </div>
-  </div>
-</div>
+            <div class="modai-body" align="center">
+                <img src="../../assets/img/portfolio/Logo1.png" class="img-circle img-responsive" alt="" width="150" height="100">
+            </div>
+            <div class="container-fluid">
+                <div class="modal-body" >
+
+                    <p valign="top" align="center" >Muy Resp.·.Log.·. De Estado Baja California, <br> AA.·.LL.·. y AA.·.MM.·. Calla 9na No. 8169 ofna 302, zona Centro
+                        <br> Gr.·.Or.·. de Tijuena, B.C. Tel: 01-(646)-685-22-72 </p>
+
+                    <h5><b>Pertenece al Taller:</b></h5>
+                    <ul style="list-style-type:none">
+                        <li><span><b>Taller:</b> {{$s->nombreTaller}}</span></li>
+                        <li><span></span></li>
+                    </ul><br>
+                    <h5><b>Datos Importantes:</b></h5>
+                    <ul style="list-style-type:none">
+                        <li><b>Cargo:</b> {{$s->cargo}} </li>
+                        <li><b>Grado:</b> {{$s->grado}}</li>
+                        <li><b>Miembro Libre:</b> {{$s->mlibre}}</li>
+                        <li><b>Voto en G.·.L.·.:</b> {{$s->voto}}</li>
+                        <li><b>Estado Actual:</b> {{$s->estado}}</li>
+                    </ul><br>
+                </div>
+            </div>
+            <div class="modal-footer ">
+            {!! Form::open(array('action' => array('adminMiembros@enviarAVotacion',$s->id))) !!}
+                <button type="button" class="btn btn-default "  data-dismiss="modal" > Cerrar</button>
+            {!! Form::close() !!}
+              </div>
+            </div>
+      </div>
+    </div>
 @endforeach
 
         <!--Modal editar información-->
@@ -199,7 +197,7 @@
                         </select><br>
 
                         <select name="estado" class = "form-control" required>
-                            <option disabled selected>Estatus Actual</option>
+                            <option disabled>Estatus Actual</option>
                             <option value="{{$s->estado}}" selected>{{$s->estado}}</option>
                             <option value="ACTIVO   ">Activo</option>
                             <option value="BAJA">Baja</option>
