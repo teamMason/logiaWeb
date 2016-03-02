@@ -45,57 +45,33 @@ class listaIntroducePagoController extends Controller
             ->with('id', $m->id)->with('fechas', $fechas)->with('adeudos', $adeudos);
     }
 
-    public function recibePago($id){//id del taller
-        Log::info("entro");
+    public function recibePago($id){//recibimos id del taller
         $fecha = \Input::get('fecha');//tomamos del select #fecha, el valor de la seleccion
         $pago = \Input::get('adeudo');//tomamos del select #adeudo, el valor de la seleccion
-        $l = \Input::all();
-        Log::info('l');
-        Log::info($l);
+        
         Log::info('fecha');
         Log::info($fecha);
         Log::info('pago');
         Log::info($pago);
-        //Log::info("este es el pago");
-        //Log::info($pago);
-        //$fecha = Recibos::all()->last(); //obtener la ultima fecha 
-        //$fecha = $fecha->fecha;
-        //$select = Recibos::select('adeudo', 'id')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();  
-        //$adeudo_ant = $select->adeudo;
-        //dd($select->adeudo);
-        //$id_select = $select->id;
-        //$total = $adeudo_ant - $pago;
-        
-        // Seleccionamos el adeudo del taller en la fecha exacta
-        //$r = Recibos::where('id_taller',$id)->where('fecha',$fecha)->get();
-        //Log::info($r);
-        //$r=$r[0];
-        //$rec = Recibos::find($id);//->where('id_taller',$id)->where('fecha',$fecha)->where('fecha',$fecha)->get(); 
-        $count = Recibos::where('id_taller', '=', $id, 'and', 'fecha', '=' ,$fecha)->get();
-        Log::info($count);
-        //$r->adeudo = $total - $pago;
-        //$r->pago = $pago;
-        //$r->save();
-        //return $pago;
-        
+        Log::info('ID');
+        Log::info($id);
+        $recibo = Recibos::where("id_taller", "=", $id)->where("fecha", "=", $fecha)->where("total", "=", $pago)->first();
+        Log::info($recibo->adeudo);
+        $recibo->pagado = 1;//1 es pagado
+        $recibo->adeudo = 0;//cero de adeudo porque solo se permite pagar todo
+        $recibo->save();
+        $this->enviaListaTalleres();        
     }
-    /*public function retornaRecibos($id){      
-            $fecha = Recibos::all()->last()->pluck('fecha'); //obtener la ultima fecha 
-            $recibos = Recibos::select('adeudo')->where('id_taller', '=', $id)->where('fecha','=', $fecha)->first();
-            return $recibos;   
-        }*/
-     public function retornaFechas($id){      
+    public function retornaFechas($id){      
         //1 = pagado - 0 = no pagado
-            $fechas = Recibos::select('fecha')->where('id_taller', $id)->where('pagado', 0)->get();
-            return $fechas;   
-        }
+        $fechas = Recibos::select('fecha')->where('id_taller', $id)->where('pagado', "=", 0)->get();
+        return $fechas;   
+    }
     public function retornaAdeudos($id){
-            $adeudos = Recibos::select('adeudo')->where('id_taller', $id)->where('pagado', 0)->get();
+            $adeudos = Recibos::select('adeudo')->where('id_taller', $id)->where('pagado', "=", 0)->get();
             return $adeudos;   
         }
         
-        
-
     /**
      * Store a newly created resource in storage.
      *

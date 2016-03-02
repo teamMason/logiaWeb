@@ -7,21 +7,18 @@
 	
 		{!! Form::open(array('action' => array('listaIntroducePagoController@recibePago', $id))) !!}
 		Selecciona la fecha que deceas pagar:
-		<select name="fecha" id="fecha" method="post">
-        <option class="form-control" value = "-1">-</option>
+		<select id="fecha" name = "fecha" method="post">
+        <option  class="form-control" indice = -1 value = "-1">-</option>
           @foreach($fechas as $fecha)
-            <option class="form-control" indice = {{ $cont }} value = {{ $fecha->fecha }}>{{$fecha->fecha}}</option>
+            <option class="form-control" indice = {{ $cont }}  value = {{ $fecha->fecha }}>{{$fecha->fecha}}</option>
             {{ $cont = $cont + 1 }}
           @endforeach
     	</select>
 		<br><br>
-
+		
 		El adeudo del mes seleccionado es:
 		<select name="adeudo" id="adeudo" method="post">
-        <option class="form-control" value = "-1">-</option>
-        @foreach($adeudos as $adeudo)
-            <option class="form-control" value = {{ $adeudo->adeudo }}>{{$adeudo->adeudo}}</option>
-        @endforeach
+        	<!-- <option class="form-control" value = "-1">-</option> -->
     	</select>
 		<br><br>
 
@@ -30,17 +27,22 @@
 </div>
 
 <script type="text/javascript" src="{!! asset('assets/js/jquery.js') !!}"></script>
-<script type="text/javascript">
+<script>
 	$(document).ready(function() {
 		adeudos = <?php echo json_encode($adeudos) ?>;// obtener variable de php
 		$("#fecha").change(function() {
-			$("#adeudo").find('.form-control').remove(); //buscar clase y eliminar del select
-			//var index = $(this).atrr('indice');
-			var index = jQuery("#fecha").attr("indice");
-			console.log(index);
-			var html = '<option  class="form-control" value ="'+ adeudos[index]["adeudo"]  +'">' + adeudos[index]["adeudo"] + '</option>';
-			$("#adeudo").append(html);
-			//console.log(adeudos[index]["adeudo"]);
+            /* obtener el atributo indice de la opcion selecccionada
+            en el select con el $id fecha */
+        	var index = $('option:selected',this).attr('indice')
+     		if(index < 0){
+     			alert("seleccione una fecha")
+     			$("#adeudo").find('.form-control').remove(); //buscar clase y eliminar del select
+     		}
+     		else{
+           		$("#adeudo").find('.form-control').remove(); //buscar clase y eliminar del select
+				var html = '<option  class="form-control" value ="'+ adeudos[index]["adeudo"]  +'">' + adeudos[index]["adeudo"] + '</option>';
+				$("#adeudo").append(html); // colocamos la variable dentro del select adeudo
+			}
 		});
 	});
 </script>
