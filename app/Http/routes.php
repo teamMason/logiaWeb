@@ -12,214 +12,268 @@
 */
 
 
-
-
 Route::get('/', [
-	'uses' => 'navegacion@home',
-	'as'   => 'home',
-	
+    'uses' => 'navegacion@home',
+    'as' => 'home',
+
 ]);
 
 //Secciónes PUBLICAS
 
-Route::get('news', [ 
-	'uses' 	=> 'navegacion@news',
-	'as' 	=> 'news'
+Route::get('news', [
+    'uses' => 'navegacion@news',
+    'as' => 'news'
 ]);
 Route::get('/tag', 'navegacion@news');
 
 Route::get('news/{slug}', [
-		'as' 	=> 'article',
-		'uses' 	=> 'navegacion@article'
+    'as' => 'article',
+    'uses' => 'navegacion@article'
 ]);
 
-Route::get('/tag/{tag}',[
-	'as' 	=> 'tagged',
-	'uses' 	=> 'navegacion@tags'
+Route::get('/tag/{tag}', [
+    'as' => 'tagged',
+    'uses' => 'navegacion@tags'
 
 ]);
 
-Route::group(['middleware' => 'auth'], function(){
-	Route::get('admin', [
-		'as' 	=> 'adminSite',
-		'uses'  => 'adminController@admin'
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('admin', [
+        'as' => 'adminSite',
+        'uses' => 'adminController@admin'
 
-	]);
+    ]);
 });
 
 
 //contacto
 
 Route::post('/contacto', [
-	'uses'  => 'navegacion@guardarContacto',
-	'as'	=> 'SendBuzon'
+    'uses' => 'navegacion@guardarContacto',
+    'as' => 'SendBuzon'
 ]);
 
 Route::get('contacto/gracias', [
-	'uses' => 'navegacion@redirect',
-	'as'   => 'gracias'
+    'uses' => 'navegacion@redirect',
+    'as' => 'gracias'
 ]);
 
 Route::get('/buzon/{id}', 'adminController@leido');
 Route::post('admin/buzon/', 'adminController@borrarMensaje');
 
 
-
 /*SECCION CON LOGUIN PARA BIBLIOTECA*/
-Route::get('admin/bibliotecaMiembros', [
-    'middleware' => 'auth',
-    'uses' => 'navegacion@bibliotecaMiembros',
-    'as'   => 'bibliotecaMiembros'
-]);
+Route::group(['middleware' => ['auth'], 'role:maestro', 'role:companero', 'role:aprendiz'], function () {
+    Route::get('admin/bibliotecaMiembros', [
+        'uses' => 'navegacion@bibliotecaMiembros',
+        'as' => 'bibliotecaMiembros'
+    ]);
 
-
-
-
+    Route::post('admin/bibliotecaMiembros/busqueda', [
+        'uses' => 'navegacion@buscadorPorNombre',
+        'as' => 'l'
+    ]);
+});
 
 //Sección de ADMINISTRADOR
-Route::group(['middleware' => ['auth', 'is_Admin']], function(){
+Route::group(['middleware' => ['auth', 'role:administrador']], function () {
 
-/*ADMINISTRACION DEL BLOG*/
-	Route::get('admin/admin/post/{id}/edit', 'adminController@edit');
+    /*ADMINISTRACION DEL BLOG*/
+    Route::get('admin/admin/post/{id}/edit', 'adminController@edit');
 
-	Route::get('/admin/adminBlog', [
-			'as' 	=> 'adminBlog',
-			'uses'  => 'adminController@blog'
-		]);
+    Route::get('/admin/adminBlog', [
+        'as' => 'adminBlog',
+        'uses' => 'adminController@blog'
+    ]);
 
-	Route::post('admin/admin/post/{id}/refresh', [
-		'uses' => 'adminController@refresh',
-		'as' => 'refresh'
-	]); 
-	
-	Route::get('/admin/admin/post/nuevo', [
-		'uses' => 'adminController@nuevoArticulo',
-		'as' => 'crearArticle'
-		
-	]); 
+    Route::post('admin/admin/post/{id}/refresh', [
+        'uses' => 'adminController@refresh',
+        'as' => 'refresh'
+    ]);
 
-	Route::post('/admin/admin/post/nuevo', 'adminController@crearArticulo'); 
+    Route::get('/admin/admin/post/nuevo', [
+        'uses' => 'adminController@nuevoArticulo',
+        'as' => 'crearArticle'
 
-	Route::post('/admin/adminBlog', 'adminController@borrarArticulo');
+    ]);
 
-	/*ADMINISTRACION DE MIEMBROS*/
+    Route::post('/admin/admin/post/nuevo', 'adminController@crearArticulo');
 
-	Route::get('miembros/crear',[
+    Route::post('/admin/adminBlog', 'adminController@borrarArticulo');
 
-		'uses' => 'adminMiembros@registrarMiembros',
-		'as' => 'registrarMiembros'
- 	]); 
+    /*ADMINISTRACION DE MIEMBROS*/
 
- 	Route::post('/miembros/crear', 'adminMiembros@enviarRegistro' );
+    Route::get('miembros/crear', [
+
+        'uses' => 'adminMiembros@registrarMiembros',
+        'as' => 'registrarMiembros'
+    ]);
+
+    Route::post('/miembros/crear', 'adminMiembros@enviarRegistro');
 
     /*ADMINISTRACION DE PDF'S*/
 
-    Route::get('admin/biblioteca',[
+    Route::get('admin/biblioteca', [
         'uses' => 'adminController@biblioteca',
-        'as'   => 'biblioteca'
+        'as' => 'biblioteca'
     ]);
 
     Route::post('admin/biblioteca/', 'adminController@deleteBook');
     Route::post('admin/biblioteca/editar/{id}', 'adminController@editBook');
 
     Route::post('admin/biblioteca/upload', [
-		'uses' => 'adminController@uploadBook',
-		'as'   => 'uploadBook'
-	]);
+        'uses' => 'adminController@uploadBook',
+        'as' => 'uploadBook'
+    ]);
+    /*APROBACION DE MIEMBROS */
+    Route::get('/admin/aprobaciones', [
+        'uses' => 'adminMiembros@aprobarMiembros',
+        'as' => 'aprobaciones'
+    ]);
+
+    Route::post('/admin/aprobaciones/', 'adminMiembros@borrarSolicitud');
+    Route::post('admin/verVotacion', 'adminMiembros@borrarVotacion');
 
 
+    Route::post('enviarAVotacion/{id}', 'adminMiembros@enviarAVotacion');
+
+    Route::get('admin/verVotacion', [
+        'uses' => 'adminMiembros@verVotaciones',
+        'as' => 'votaNeofitos'
+    ]);
+
+
+    Route::get('admin/buzon', [
+        'uses' => 'adminController@verBuzon',
+        'as' => 'buzon'
+
+    ]);
+
+
+    Route::get('verVotacion/{id}', 'adminMiembros@verVotosMiembro');
+    Route::get('verVotacion/aprobarIniciacion/{id}/', 'adminMiembros@aprobarIniciacion');
+    Route::get('/verVotacion/{id_taller}/{id_sol}', 'adminMiembros@miembroAceptado');
+
+    Route::get('admin/miembros/consulta', [
+        'uses' => 'adminMiembros@consultaMiembros',
+        'as' => 'consulta'
+
+    ]);
+
+    Route::post('admin/miembros/consulta/{id}', 'adminMiembros@actualizaMiembros');
+
+    /* ROUTES ADD CESAR */
+
+    Route::get('/reportes/index', 'ReportesController@getIndex');
+
+    Route::get('/administrador/mostrarpdf', 'pdfControllerTodos@mostrarFacturas');
+    //gnerar una factura individual por taller
+    Route::post('/PDF/create', 'pdfListaController@invoiceIndividual');
+    //gnerar una factura individual por taller
+    Route::get('/PDF/create', 'pdfListaController@create');
+
+    //generar las facturas del mes de todos los talleres
+    Route::get('/PDF/downloadAll', 'pdfControllerTodos@invoiceAll');
+
+    Route::post('/PDF/mostrarRecibos', 'pdfListaPagosAdeudosController@mostrarRecibos');
+
+//mostrar lista para seleccionar un taller que realizara un pago y te envia a administrador/mostrarRecibo
+    Route::get('/PDF/enviaTalleres', 'pdfListaPagosAdeudosController@enviaTalleres');
+
+//enviar el monto del taller que desea introducir y te envia a administrador/recibePago/{id}
+    Route::post('/administrador/mostrarRecibo', 'listaIntroducePagoController@mostrarRecibo');//muestra el monto a pagar y el input para el valor
+
+
+    Route::get('/administrador/enviaTaller', 'listaIntroducePagoController@enviaListaTalleres');
+
+    Route::post('/administrador/recibePago/{id}', 'listaIntroducePagoController@recibePago');
+
+
+    Route::get('/PDF/invoice', 'PdfController@invoice');
+
+    Route::resource('/index', 'ExcelController@index');
 
 
 });
-
 
 
 //Sección de TESORERO
-Route::group(['middleware' => ['auth', 'is_Tesorero'], 'prefix' => 'tes'], function(){	
-	Route::get('admin', function(){
+Route::group(['middleware' => ['auth', 'role:tesorero'], 'prefix' => 'tes'], function () {
+    /* ROUTES ADD CESAR */
+
+    Route::get('/reportes/index', 'ReportesController@getIndex');
+
+    Route::get('/administrador/mostrarpdf', 'pdfControllerTodos@mostrarFacturas');
+    //gnerar una factura individual por taller
+    Route::post('/PDF/create', 'pdfListaController@invoiceIndividual');
+    //gnerar una factura individual por taller
+    Route::get('/PDF/create', 'pdfListaController@create');
+
+    //generar las facturas del mes de todos los talleres
+    Route::get('/PDF/downloadAll', 'pdfControllerTodos@invoiceAll');
+
+    Route::post('/PDF/mostrarRecibos', 'pdfListaPagosAdeudosController@mostrarRecibos');
+
+//mostrar lista para seleccionar un taller que realizara un pago y te envia a administrador/mostrarRecibo
+    Route::get('/PDF/enviaTalleres', 'pdfListaPagosAdeudosController@enviaTalleres');
+
+//enviar el monto del taller que desea introducir y te envia a administrador/recibePago/{id}
+    Route::post('/administrador/mostrarRecibo', 'listaIntroducePagoController@mostrarRecibo');//muestra el monto a pagar y el input para el valor
 
 
-	});
+    Route::get('/administrador/enviaTaller', 'listaIntroducePagoController@enviaListaTalleres');
+
+    Route::post('/administrador/recibePago/{id}', 'listaIntroducePagoController@recibePago');
+
+
+    Route::get('/PDF/invoice', 'PdfController@invoice');
+
+    Route::resource('/index', 'ExcelController@index');
 
 
 });
-
 
 
 //Sección de SECRETARIO
 
-Route::group(['middleware' => ['auth', 'is_Secretario']], function(){	
-	
-	/*APROBACION DE MIEMBROS */
- 	Route::get('/admin/aprobaciones', [
- 		'uses'  => 'adminMiembros@aprobarMiembros',
- 		'as'    => 'aprobaciones'
- 	]);
+Route::group(['middleware' => ['auth', 'role:secretario']], function () {
 
- 	Route::post('/admin/aprobaciones/', 'adminMiembros@borrarSolicitud');
- 	Route::post('admin/verVotacion',  'adminMiembros@borrarVotacion');
+    /*APROBACION DE MIEMBROS */
+    Route::get('/admin/aprobaciones', [
+        'uses' => 'adminMiembros@aprobarMiembros',
+        'as' => 'aprobaciones'
+    ]);
 
-
- 	Route::post('enviarAVotacion/{id}', 'adminMiembros@enviarAVotacion');
-
- 	Route::get('admin/verVotacion', [
- 		'uses' => 'adminMiembros@verVotaciones',
- 		'as'   => 'votaNeofitos'
- 	]);
+    Route::post('/admin/aprobaciones/', 'adminMiembros@borrarSolicitud');
+    Route::post('admin/verVotacion', 'adminMiembros@borrarVotacion');
 
 
- 	Route::get('admin/buzon', [
- 		'uses' => 'adminController@verBuzon',
- 		'as'   => 'buzon'
+    Route::post('enviarAVotacion/{id}', 'adminMiembros@enviarAVotacion');
 
- 	]);
-
-
- 	Route::get('verVotacion/{id}', 'adminMiembros@verVotosMiembro');
- 	Route::get('verVotacion/aprobarIniciacion/{id}/', 'adminMiembros@aprobarIniciacion');
- 	Route::get('/verVotacion/{id_taller}/{id_sol}', 'adminMiembros@miembroAceptado');
-
- 	Route::get('admin/miembros/consulta', [
- 		'uses' => 'adminMiembros@consultaMiembros',
- 		'as'   => 'consulta'
-
- 	]);
-
-	Route::post('admin/miembros/consulta/{id}', 'adminMiembros@actualizaMiembros');
-
-	/* ROUTES ADD CESAR */
-
-	Route::get('/reportes/index', 'ReportesController@getIndex');
-
-	Route::get('/administrador/mostrarpdf', 'pdfControllerTodos@mostrarFacturas');
-	//gnerar una factura individual por taller
-	Route::post('/PDF/create', 'pdfListaController@invoiceIndividual');
-	//gnerar una factura individual por taller
-	Route::get('/PDF/create', 'pdfListaController@create');
-
-	//generar las facturas del mes de todos los talleres
-	Route::get('/PDF/downloadAll', 'pdfControllerTodos@invoiceAll');
-
-	Route::post('/PDF/mostrarRecibos', 'pdfListaPagosAdeudosController@mostrarRecibos');
-
-//mostrar lista para seleccionar un taller que realizara un pago y te envia a administrador/mostrarRecibo
-	Route::get('/PDF/enviaTalleres', 'pdfListaPagosAdeudosController@enviaTalleres');
-
-//enviar el monto del taller que desea introducir y te envia a administrador/recibePago/{id}
-	Route::post('/administrador/mostrarRecibo', 'listaIntroducePagoController@mostrarRecibo');//muestra el monto a pagar y el input para el valor
+    Route::get('admin/verVotacion', [
+        'uses' => 'adminMiembros@verVotaciones',
+        'as' => 'votaNeofitos'
+    ]);
 
 
+    Route::get('admin/buzon', [
+        'uses' => 'adminController@verBuzon',
+        'as' => 'buzon'
 
-	Route::get('/administrador/enviaTaller', 'listaIntroducePagoController@enviaListaTalleres');
-
-	Route::post('/administrador/recibePago/{id}', 'listaIntroducePagoController@recibePago');
+    ]);
 
 
+    Route::get('verVotacion/{id}', 'adminMiembros@verVotosMiembro');
+    Route::get('verVotacion/aprobarIniciacion/{id}/', 'adminMiembros@aprobarIniciacion');
+    Route::get('/verVotacion/{id_taller}/{id_sol}', 'adminMiembros@miembroAceptado');
 
-	Route::get('/PDF/invoice', 'PdfController@invoice');
+    Route::get('admin/miembros/consulta', [
+        'uses' => 'adminMiembros@consultaMiembros',
+        'as' => 'consulta'
 
-	Route::resource('/index','ExcelController@index');
+    ]);
 
+    Route::post('admin/miembros/consulta/{id}', 'adminMiembros@actualizaMiembros');
 
 
 });
@@ -227,84 +281,78 @@ Route::group(['middleware' => ['auth', 'is_Secretario']], function(){
 
 //Sección de VENERABLE
 
-Route::group(['middleware' => ['auth', 'is_Venerable']], function(){
+Route::group(['middleware' => ['auth', 'role:venerable']], function () {
 
-	Route::get('miembros/solicitud', [
-		'uses' => 'venerableController@registrarSolicitud',
-		'as'   => 'registrarSolicitud'
-  
-	]);	
+    Route::get('miembros/solicitud', [
+        'uses' => 'venerableController@registrarSolicitud',
+        'as' => 'registrarSolicitud'
 
-	Route::post('miembros/solicitud', 'venerableController@enviarSolicitud');
-	Route::get('admin/votacionesMiembros', [
- 		'uses' => 'venerableController@verProspectos',
- 		'as'    => 'votaciones'
- 	]);
+    ]);
 
- 	Route::post('admin/votacionesMiembros/{id}/{taller}','venerableController@enviarVotacion');
+    Route::post('miembros/solicitud', 'venerableController@enviarSolicitud');
+    Route::get('admin/votacionesMiembros', [
+        'uses' => 'venerableController@verProspectos',
+        'as' => 'votaciones'
+    ]);
 
- 	Route::get('admin/votacionesMiembros', [
- 		'uses' => 'venerableController@verProspectos',
- 		'as'    => 'votaciones'
- 	]);
+    Route::post('admin/votacionesMiembros/{id}/{taller}', 'venerableController@enviarVotacion');
 
- 	Route::get('admin/votacionesMiembros', [
- 		'uses' => 'venerableController@verProspectos',
- 		'as'    => 'votaciones'
- 	]);
+    Route::get('admin/votacionesMiembros', [
+        'uses' => 'venerableController@verProspectos',
+        'as' => 'votaciones'
+    ]);
 
- 	Route::get('admin/iniciaciones', [
- 		'uses' => 'venerableController@estatusIniciacion',
- 		'as'   => 'iniciaciones'
- 
- 	]);
+    Route::get('admin/votacionesMiembros', [
+        'uses' => 'venerableController@verProspectos',
+        'as' => 'votaciones'
+    ]);
 
- 	Route::get('admin/iniciaciones/{id}', [
- 		'uses' => 'venerableController@finDeIniciacion',
- 		'as'    => 'finInic'
- 	]);
+    Route::get('admin/iniciaciones', [
+        'uses' => 'venerableController@estatusIniciacion',
+        'as' => 'iniciaciones'
 
-	Route::get('admin/consultas/', [
-		'uses' => 'venerableController@consultaMiembrosTaller',
-		'as'    => 'consultaMTaller'
-	]);
+    ]);
 
-	Route::post('admin/update/{id}', 'venerableController@actualizaMiembros');
+    Route::get('admin/iniciaciones/{id}', [
+        'uses' => 'venerableController@finDeIniciacion',
+        'as' => 'finInic'
+    ]);
 
- 
+    Route::get('admin/consultas/', [
+        'uses' => 'venerableController@consultaMiembrosTaller',
+        'as' => 'consultaMTaller'
+    ]);
 
+    Route::post('admin/update/{id}', 'venerableController@actualizaMiembros');
 
-	
-	
-	
 
 });
 
 
 // AUTHENTICATION ROUTES
-Route::get('login',  [
-	'uses' => 'Auth\AuthController@getLogin',
-	'as'	=> 'login'
+Route::get('login', [
+    'uses' => 'Auth\AuthController@getLogin',
+    'as' => 'login'
 ]);
 Route::post('login', [
-	'uses' => 'Auth\AuthController@postLogin',
-	'as'  => 'login'
+    'uses' => 'Auth\AuthController@postLogin',
+    'as' => 'login'
 ]);
 
 // Registration routes...
 Route::get('register', [
-	'uses' => 'Auth\AuthController@getRegister',
-	'as' => 'register'
+    'uses' => 'Auth\AuthController@getRegister',
+    'as' => 'register'
 ]);
 Route::post('register', [
-	'uses' => 'Auth\AuthController@postRegister',
-	'as'	=> 'register'
- 
+    'uses' => 'Auth\AuthController@postRegister',
+    'as' => 'register'
+
 ]);
 //Logout
 Route::get('logout', [
-	'uses' => 'Auth\AuthController@getLogout',
-	'as'   => 'logout'
+    'uses' => 'Auth\AuthController@getLogout',
+    'as' => 'logout'
 ]);
 
 // Password reset link request routes...

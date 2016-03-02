@@ -40,37 +40,37 @@ class User extends Model implements AuthenticatableContract,
 
     public function isAdmin()
     {
-        return $this->id_type == '1';
+        return $this->role == 'administrador';
 
     }
     public function isTesorero()
     {
-        return $this->id_type == '2';
+        return $this->role == 'tesorero';
 
     }
     public function isSecretario()
     {
-        return $this->id_type == '3';
+        return $this->role == 'secretario';
 
     }
     public function isVenerable()
     {
-        return $this->id_type == '4';
+        return $this->role == 'venerable';
 
     }
     public function isMaestro()
     {
-        return $this->id_type == '5';
+        return $this->role == 'maestro';
 
     }
     public function isCompanero()
     {
-        return $this->id_type == '6';
+        return $this->role == 'companero';
 
     }
     public function isAprendiz()
     {
-        return $this->id_type == '7';
+        return $this->role == 'aprendiz';
 
     }
 
@@ -98,7 +98,7 @@ class User extends Model implements AuthenticatableContract,
     public function getEmailAdmin()
     {
 
-        return User::where('id_type', 1)->first();  
+        return User::where('role','administrador')->first();
     }
 
 }

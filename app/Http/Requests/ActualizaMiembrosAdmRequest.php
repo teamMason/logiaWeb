@@ -31,7 +31,7 @@ class ActualizaMiembrosAdmRequest extends Request
 
 
         return [
-            'email'       => 'required|unique:solicitudes,email,'.$this->route->getParameter('id'),
+            'email'       => 'required|unique:miembros,email,'.$this->route->getParameter('id'),
             'nombre'      => 'required|min:2|max:150|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'apellido'    => 'required|min:2|max:150|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'cargo'       => 'required_if:grado,MAESTRO',

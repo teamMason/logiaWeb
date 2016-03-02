@@ -170,11 +170,8 @@ class venerableController extends Controller
       $nombre = $sol->nombre.' '.$sol->apellido;
       $email = \Auth::user()->getEmailAdmin();
       $admEmail = array($email->email);
-        dd($admEmail);
 
-     
-
-      Mail::send('emails.sendEmailconfirmationadm',['nombre' => $nombre] , function($msj) use ($admEmail){
+        Mail::send('emails.sendEmailconfirmationadm',['nombre' => $nombre] , function($msj) use ($admEmail){
           $msj->subject('Aprobación de Iniciación');
           $msj->to($admEmail, 'para');
         }); 
@@ -247,6 +244,7 @@ class venerableController extends Controller
 
         return \Redirect::route('consultaMTaller')
         ->with('alert', 'Actualización correcta!');
+
 
     }
 
