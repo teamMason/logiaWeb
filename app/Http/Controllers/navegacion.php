@@ -64,16 +64,13 @@ class navegacion extends Controller
     public function guardarContacto(contactoRequest $request)
     {
         $c = Contacto::Create($request->all());
-        
-
-      
         $c->nombre = \Input::get('nombre');
         $c->email = \Input::get('email');
         $c->telefono = \Input::get('telefono');
         $c->mensaje = \Input::get('mensaje'); 
         $c->leido   = \Input::get('leido');      
         $c->save();
-         return \Redirect::route('home')
+         return back()
          ->with('alert', 'Gracias por contactarnos, nos pondremos en contacto lo más pronto posible.');
     }
 

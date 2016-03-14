@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateUsersTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -17,17 +18,21 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password', 60);
-            $table->enum('role', ['administrador','secretario', 'tesorero', 'venerable', 'maestro', 'companero', 'aprendiz']);
+            $table->enum('role',
+                [ 'administrador', 'secretario', 'tesorero', 'venerable', 'maestro', 'companero', 'aprendiz' ]);
+            $table->enum('estado', [ 'RECHAZADO', 'ACTIVO','BAJA']);
             $table->integer('id_taller')->unique();
-            $table->string('ciudad', 30);            
+            $table->string('token')->nullable();
+            $table->string('ciudad', 30);
             $table->rememberToken();
             $table->timestamps();
         });
     }
 
+
     /**
      * Reverse the migrations.
-     *
+     *s\
      * @return void
      */
     public function down()

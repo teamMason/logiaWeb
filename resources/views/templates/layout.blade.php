@@ -12,8 +12,8 @@
 <body class="index">
 
      @yield('content')
-     <span class="btn btn-default navButtonLeft" onClick="history.back()"><i class="fa fa-chevron-left"></i></span>
-     <span class="btn btn-default navButtonUp"><i class="fa fa-chevron-up"></i></span>
+     <a class="btn btn-default navButtonLeft" onClick="history.back()"><i class="fa fa-chevron-left"></i></a>
+     <a class="btn btn-default navButtonUp"><i class="fa fa-chevron-up"></i></a>
 
     
    
