@@ -31,18 +31,22 @@ class CreateMiembrosTable extends Migration
                     'SIN CARGO'])->nullable();
            
                 $table->enum('grado', ['APRENDIZ','COMPANERO', 'MAESTRO', 'PAST MASTER'])->nullable();
-                $table->string('mlibre');
-                $table->enum('voto', ['PERMANENTE','TRANSITORIO', 'VOZ NO COTO', 'PAST MASTER', 'NO MIEMBRO'])->nullable();
-                $table->string('telefono');
-                $table->string('telefonoCel');
+                $table->enum('mlibre',['SI','NO'])->nullable();
+                $table->enum('voto', ['PERMANENTE','TRANSITORIO', 'VOZ NO VOTO', 'NO MIEMBRO']);
+                $table->string('telefono')->nullable();
+                $table->string('telefonoCel')->nullable();
                 $table->string('email')->nullable();
-                $table->integer('id_taller')->index();
+                $table->string('profesion')->nullable();
                 $table->enum('estado', ['ACTIVO', 'BAJA', 'RADIADO'])->nullable();
-                $table->date('fecha');
-                $table->string('tipo_miembro');
+                $table->date('iniciación')->nullable();
+                $table->date('aumento')->nullable();
+                $table->date('exaltacion')->nullable();
+                $table->date('fecha_baja')->nullable();
+                $table->timestamps();
+                $table->integer('id_taller')->index();
 
 
-                
+
                 //$table->foreign('id_taller')->references('id')->on('taller');
                 
                 

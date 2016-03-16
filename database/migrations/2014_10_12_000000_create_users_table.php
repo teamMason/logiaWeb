@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->enum('role',
                 [ 'administrador', 'secretario', 'tesorero', 'venerable', 'maestro', 'companero', 'aprendiz' ]);
-            $table->enum('estado', [ 'RECHAZADO', 'ACTIVO','BAJA']);
+            $table->enum('estado', [ 'RECHAZADO', 'ACTIVO','BAJA','PENDIENTE']);
             $table->integer('id_taller')->unique();
             $table->string('token')->nullable();
             $table->string('ciudad', 30);

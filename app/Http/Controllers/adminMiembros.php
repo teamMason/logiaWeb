@@ -2,6 +2,7 @@
 
 namespace portalLogia\Http\Controllers;
 
+use Illuminate\Support\Facades\Redirect;
 use portalLogia\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection as Collection;
@@ -33,10 +34,10 @@ class adminMiembros extends Controller
 
         // $s2 = Solicitudes::all()->where('estadoSolicitud', 'ocultoVen');
         $s = \DB::table('solicitudes')->select('solicitudes.id', 'solicitudes.nombre', 'solicitudes.path',
-                'solicitudes.apellido', 'solicitudes.ciudad', 'solicitudes.profesion', 'solicitudes.edoCivil',
-                'solicitudes.fechaLim', 'solicitudes.ingresoMen', 'solicitudes.ingresoMen', 'solicitudes.telefono',
-                'solicitudes.telefonoCel', 'solicitudes.comentarios', 'taller.nombreTaller')->join('taller',
-                'taller.id', '=', 'solicitudes.id_taller')->where('solicitudes.estadoSolicitud', '=', 'false')->get();
+            'solicitudes.apellido', 'solicitudes.ciudad', 'solicitudes.profesion', 'solicitudes.edoCivil',
+            'solicitudes.fechaLim', 'solicitudes.ingresoMen', 'solicitudes.ingresoMen', 'solicitudes.telefono',
+            'solicitudes.telefonoCel', 'solicitudes.comentarios', 'taller.nombreTaller')->join('taller', 'taller.id',
+            '=', 'solicitudes.id_taller')->where('solicitudes.estadoSolicitud', '=', 'false')->get();
 
         return view('administrador.miembros.solicitudesMiembros')->with('solicitudes', $s);
 
@@ -60,28 +61,25 @@ class adminMiembros extends Controller
         $solicitud->save();
         $this->sendEmailtoVenInitVotacion($solicitud, $solicitud->id_taller);
 
-        return \Redirect::route('aprobaciones')->with('alert', 'La solicitud ha sido enviado a votación!'); ///////////////////////
+        return \Redirect::route('aprobaciones')->with('alert',
+            'La solicitud ha sido enviado a votación!'); ///////////////////////
 
     }
+
 
     public function sendEmailtoVenInitVotacion($user, $id_taller)
     {
 
+        $nvenerable = User::where('id_taller', $id_taller)->first();
+        $email      = $nvenerable->email;
 
-        $nvenerable = User::where('id_taller',$id_taller)->first();
-        $email = $nvenerable->email;
+        $taller = Taller::where('id', $id_taller)->get();
 
-
-        $taller = Taller::where('id',$id_taller)->get();
-
-        Mail::send('emails/enviadoToVotacion', compact('user','taller'), function ($m) use ($email)
-        {
-            $m->to($email)
-                ->subject('Solicitud enviada a votación!');
+        Mail::send('emails/enviadoToVotacion', compact('user', 'taller'), function ($m) use ($email) {
+            $m->to($email)->subject('Solicitud enviada a votación!');
         });
 
     }
-
 
 
     public function borrarSolicitud()
@@ -106,7 +104,7 @@ class adminMiembros extends Controller
         $voto->delete();
 
         return \Redirect::route('votaNeofitos')->with('alert',
-                'Ingreso Cancelado, se notificará al taller correspondiente!');
+            'Ingreso Cancelado, se notificará al taller correspondiente!');
     }
 
 
@@ -115,10 +113,10 @@ class adminMiembros extends Controller
         //$solicitudes = \DB::table('solicitudes')->where('estadoVotacion', 'votando')->orderBy('id','desc')->get();
 
         $s = \DB::table('solicitudes')->select('solicitudes.id', 'solicitudes.nombre', 'solicitudes.apellido',
-                'solicitudes.ciudad', 'solicitudes.id_taller', 'solicitudes.fechaLim',
-                'taller.nombreTaller')->join('taller', 'taller.id', '=',
-                'solicitudes.id_taller')->where('solicitudes.estadoAlta', 'false')->where('solicitudes.estadoSolicitud',
-                'true')->get();
+            'solicitudes.ciudad', 'solicitudes.id_taller', 'solicitudes.fechaLim',
+            'taller.nombreTaller')->join('taller', 'taller.id', '=',
+            'solicitudes.id_taller')->where('solicitudes.estadoAlta', 'false')->where('solicitudes.estadoSolicitud',
+            'true')->get();
 
         return view('administrador.miembros.votaNeofitos')->with('solicitudes', $s);
 
@@ -137,7 +135,7 @@ class adminMiembros extends Controller
         $this->sendEmailVen($id_taller, $id);
 
         return \Redirect::route('votaNeofitos')->with('alert',
-                'Listo, se ha enviado un correo de confirmacion al taller corespondiente!');
+            'Listo, se ha enviado un correo de confirmacion al taller corespondiente!');
 
     }
 
@@ -185,11 +183,10 @@ class adminMiembros extends Controller
         $m->save();
         $s->save();
 
-
         Recibos::hacerCobroIniciacion($id_taller);
 
         return \Redirect::route('votaNeofitos')->with('alert',
-                'El solicitante ha sido aceptado y registrado en el padrón de su taller!');
+            'El solicitante ha sido aceptado y registrado en el padrón de su taller!');
 
     }
 
@@ -214,8 +211,8 @@ class adminMiembros extends Controller
     {
 
         $votos = \DB::table('votaciones')->select('votaciones.comentarios', 'votaciones.estatus',
-                'taller.nombreTaller')->join('taller', 'taller.id', '=',
-                'votaciones.id_taller')->where('votaciones.id_solicitud', $id)->get();
+            'taller.nombreTaller')->join('taller', 'taller.id', '=',
+            'votaciones.id_taller')->where('votaciones.id_solicitud', $id)->get();
 
         $solicitante = Solicitud::find($id);
 
@@ -248,7 +245,6 @@ class adminMiembros extends Controller
         $id_taller   = $t->id_taller = \Input::get('taller');
         $grado       = $t->grado = \Input::get('grado');
 
-        dd($id_taller);
         if ($grado == 'PAST MASTER') {
             $t->voto = 'PERMANENTE';
         } else {
@@ -299,34 +295,33 @@ class adminMiembros extends Controller
         if ($typeBusqueda == null and $subBusqueda == 0) {
 
             $miembros = \DB::table('miembros')->select('miembros.*', 'taller.nombreTaller')->join('taller', 'taller.id',
-                    '=', 'miembros.id_taller')->orderBy('taller.id')->paginate(25);
+                '=', 'miembros.id_taller')->orderBy('taller.id')->paginate(25);
 
         } else {
             if ( ! is_null($typeBusqueda) and $subBusqueda == 0) {
                 //dd('HOLA');
                 $miembros = \DB::table('miembros')->select('miembros.*', 'taller.nombreTaller')->join('taller',
-                        'taller.id', '=', 'miembros.id_taller')->where('cargo', 'LIKE',
-                        "%$typeBusqueda%")->orWhere('grado', 'LIKE', "%$typeBusqueda%")->orWhere('mlibre', 'LIKE',
-                        "%$typeBusqueda%")->orWhere('voto', 'LIKE', "%$typeBusqueda%")->orWhere('estado', 'LIKE',
-                        "%$typeBusqueda%")->orWhere('id_taller', 'LIKE',
-                        "%$typeBusqueda%")->orderBy('taller.id')->paginate(25);
+                    'taller.id', '=', 'miembros.id_taller')->where('cargo', 'LIKE', "%$typeBusqueda%")->orWhere('grado',
+                    'LIKE', "%$typeBusqueda%")->orWhere('mlibre', 'LIKE', "%$typeBusqueda%")->orWhere('voto', 'LIKE',
+                    "%$typeBusqueda%")->orWhere('estado', 'LIKE', "%$typeBusqueda%")->orWhere('id_taller', 'LIKE',
+                    "%$typeBusqueda%")->orderBy('taller.id')->paginate(25);
 
             } else {
                 if ( ! is_null($typeBusqueda) and $subBusqueda != 0) {
 
                     $miembros = \DB::table('miembros')->select('miembros.*', 'taller.nombreTaller')->join('taller',
-                            'taller.id', '=', 'miembros.id_taller')->where(function ($query) use (
-                            $typeBusqueda,
-                            $subBusqueda
-                        ) {
-                            $query->where('taller.id', $subBusqueda);
+                        'taller.id', '=', 'miembros.id_taller')->where(function ($query) use (
+                        $typeBusqueda,
+                        $subBusqueda
+                    ) {
+                        $query->where('taller.id', $subBusqueda);
 
-                        })->where(function ($query) use ($typeBusqueda, $subBusqueda) {
-                            $query->orWhere('cargo', 'LIKE', "%$typeBusqueda%")->orWhere('grado', 'LIKE',
-                                    "%$typeBusqueda%")->orWhere('mlibre', 'LIKE', "%$typeBusqueda%")->orWhere('voto',
-                                    'LIKE', "%$typeBusqueda%")->orWhere('estado', 'LIKE',
-                                    "%$typeBusqueda%")->orWhere('id_taller', 'LIKE', "%$typeBusqueda%");
-                        })->orderBy('taller.id')->paginate(25);
+                    })->where(function ($query) use ($typeBusqueda, $subBusqueda) {
+                        $query->orWhere('cargo', 'LIKE', "%$typeBusqueda%")->orWhere('grado', 'LIKE',
+                            "%$typeBusqueda%")->orWhere('mlibre', 'LIKE', "%$typeBusqueda%")->orWhere('voto', 'LIKE',
+                            "%$typeBusqueda%")->orWhere('estado', 'LIKE', "%$typeBusqueda%")->orWhere('id_taller',
+                            'LIKE', "%$typeBusqueda%");
+                    })->orderBy('taller.id')->paginate(25);
 
                 }
             }
@@ -334,7 +329,7 @@ class adminMiembros extends Controller
         $telleres = Taller::all();
 
         return view('administrador.miembros.consultaMiembros')->with('miembros', $miembros)->with('talleres',
-                $telleres);
+            $telleres);
     }
 
 
@@ -347,18 +342,17 @@ class adminMiembros extends Controller
         if ($busqueda == null) {
 
             $venerables = \DB::table('users')->select('name', 'users.id', 'taller.nombreTaller', 'users.created_at',
-                    'users.token')->join('taller', 'taller.id', '=', 'users.id_taller')
-                ->where('users.prueba','PENDIENTE')
-                ->orWhere('users.prueba','BAJA')
-                ->orWhere('users.prueba','ACTIVO')
-                ->orderBy('taller.id')->paginate(40);
+                'users.token')->join('taller', 'taller.id', '=', 'users.id_taller')->where('users.estado',
+                    'PENDIENTE')->orWhere('users.estado',
+                    'ACTIVO')->orderBy('taller.id')->paginate(40);
 
         } else {
-            $venerables = \DB::table('users')->select('name', 'users.id', 'taller.nombreTaller', 'users.created_at','users.token')
-                ->join('taller', 'taller.id', '=', 'users.id_taller')
-                ->where(function ($query) use ($busqueda){
-                        $query->where('name', 'LIKE', "%$busqueda%");
-                })->where('token',null)->orderBy('taller.id')->paginate(40);
+            $venerables = \DB::table('users')->select('name', 'users.id', 'taller.nombreTaller', 'users.created_at',
+                'users.token')->join('taller', 'taller.id', '=', 'users.id_taller')->where(function ($query) use (
+                    $busqueda
+                ) {
+                    $query->where('name', 'LIKE', "%$busqueda%");
+                })->where('token', null)->orderBy('taller.id')->paginate(40);
 
 
         }
@@ -368,45 +362,86 @@ class adminMiembros extends Controller
     }
 
 
-
     protected function getConfirmacion($token)
     {
-        $user = User::where('token', $token)->firstOrFail();
-        $email = $user->email;
+        $user        = User::where('token', $token)->firstOrFail();
+        $email       = $user->email;
         $user->token = null;
         $user->save();
 
-        Mail::send('emails/altaVenerables', compact('user'), function ($m) use ($email)
-        {
-            $m->to($email)
-                ->subject('Su cuenta ha sido activada!');
+        Mail::send('emails/altaVenerables', compact('user'), function ($m) use ($email) {
+            $m->to($email)->subject('Su cuenta ha sido activada!');
         });
 
-        return \Redirect::route('confirmVen')
-            ->with('alert','Cuenta activada satisfactoriamente, se avisará via Email.');
+        return \Redirect::route('confirmVen')->with('alert',
+                'Cuenta activada satisfactoriamente, se avisará via Email.');
     }
+
 
     public function borrarRegistro($id)
     {
         $user = User::where('id', $id)->firstOrFail();
-        $user->delete();
+        $user->estado = 'BAJA';
 
-        return \Redirect::route('confirmVen')
-            ->with('alert','Sa ha borrado el registro exitosamente');
+        if($user->role == 'tesorero' or $user->role == 'secretario')
+        {
+            return \Redirect::route('registraAdministrativa')->with('alert', 'Sa ha borrado el registro exitosamente');
+        }
+
+        return \Redirect::route('confirmVen')->with('alert', 'Sa ha borrado el registro exitosamente');
     }
+
 
     public function rechazarRegistro($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
-        $user->token = null;
-        $user->prueba = 'RECHAZADO';
+        $user         = User::where('id', $id)->firstOrFail();
+        $user->token  = null;
+        $user->estado = 'RECHAZADO';
         $user->save();
 
-
-        return \Redirect::route('confirmVen')
-            ->with('alert','Solicitud Rechazada');
+        return \Redirect::route('confirmVen')->with('alert', 'Solicitud Rechazada');
     }
 
 
+    public function registroAdministrativos(Request $request)
+    {
+
+        $administrativos = User::where('id_taller', '<', -1)->get();
+
+        return view('administrador.altaAdministrativos.altaAdministrativos')
+            ->with('administrativos', $administrativos);
+    }
+
+
+    public function altaAdministrativos(Request $request)
+    {
+
+        $this->validate($request, [
+            'name'     => 'required|max:255',
+            'email'    => 'required|email|max:255|unique:users',
+            'password' => 'required|confirmed|min:6',
+            'ciudad'   => 'required',
+            'role'     => 'required|unique:users',
+
+        ]);
+
+        $user           = new User();
+        $user->name     = \Input::get('name');
+        $user->email    = \Input::get('email');
+        $user->role     = \Input::get('role');
+        $user->ciudad   = \Input::get('ciudad');
+        $pass           = \Input::get('password');
+        $user->password = bcrypt($pass);
+
+        if ($user->role == 'secretario') {
+            $user->id_taller = -2;
+        } else {
+            $user->id_taller = -3;
+        }
+
+        $user->save();
+        return \Redirect::route('registraAdministrativa')
+            ->with('alerts','Se ha registrado Exitosamente');
+    }
 
 }

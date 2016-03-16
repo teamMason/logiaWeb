@@ -187,6 +187,16 @@ Route::group([ 'middleware' => [ 'auth', 'role:administrador' ] ], function () {
         'as'   => 'rechazarRegistro'
     ]);
 
+    Route::get('admin/alta/administrativos',[
+        'uses' => 'adminMiembros@registroAdministrativos',
+        'as'   => 'registraAdministrativa'
+    ]);
+    Route::post('admin/alta/success',[
+        'uses' => 'adminMiembros@altaAdministrativos',
+        'as'   => 'altaAdministrativa'
+    ]);
+
+
 
 
 

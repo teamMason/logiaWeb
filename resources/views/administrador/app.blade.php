@@ -132,7 +132,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                     @if (Auth::user()->isAdmin())
                                         <li><a href="{{route('confirmVen')}}">Venerables</a></li>
-                                        <li><a href="#">Alta Padron de Gran Logia</a></li>
+                                        <li><a href="{{route('registraAdministrativa')}}">Alta Padron de Gran Logia</a></li>
                                     @endif
                                     <li><a href="{{route('logout')}}">Logout</a></li>
                                 </ul>

@@ -90,7 +90,7 @@ class AuthController extends Controller
         $role = $user->role = 'venerable';
         $user->token     = str_random(50);
         $user->ciudad    = \Input::get('ciudad');
-        $user->prueba = 'PENDIENTE';
+        $user->estado = 'PENDIENTE';
         $user->save();
 
         $taller = Taller::find($user->id_taller);
@@ -105,9 +105,11 @@ class AuthController extends Controller
         return $user;
     }
 
+
     public function sendEmailtoAdmin($url, $nombre, $taller,$ciudad)
     {
         $admin = User::getEmailAdmin();
+
         $emailAdm = $admin->email;
 
 
@@ -118,6 +120,23 @@ class AuthController extends Controller
         });
 
     }
+    public function postRegister(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $user = $this->create($request->all());
+
+        return redirect()->route('login')
+            ->with('alert', 'Gracias Por registrarte una vez hayas sido aceptado por Gran logia se te hará
+            llegar un mensaje via e-mail, esto puede tardar hasta 72hrs'.' '.$user->email);
+    }
+
 
 
 
@@ -137,22 +156,6 @@ class AuthController extends Controller
     protected function getFailedLoginMessage()
     {
         return trans('validation.Login');
-    }
-    public function postRegister(Request $request)
-    {
-        $validator = $this->validator($request->all());
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                $request, $validator
-            );
-        }
-
-        $user = $this->create($request->all());
-
-        return redirect()->route('login')
-            ->with('alert', 'Gracias Por registrarte una vez hayas sido aceptado por Gran logia se te hará
-            llegar un mensaje via e-mail, esto puede tardar hasta 72hrs'.' '.$user->email);
     }
 
     protected function getCredentials($request)
