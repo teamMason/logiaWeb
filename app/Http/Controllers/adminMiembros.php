@@ -2,7 +2,10 @@
 
 namespace portalLogia\Http\Controllers;
 
+<<<<<<< HEAD
+=======
 use Illuminate\Support\Facades\Redirect;
+>>>>>>> 9a8b8cb04948f94002a1fa5ee34663740333cd59
 use portalLogia\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection as Collection;
