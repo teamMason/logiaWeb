@@ -2,25 +2,15 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row">
+        <div class="row-fluid">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Register</div>
+                    <div class="panel-heading"><strong>Registro de Administrativos</strong></div>
                     <div class="panel-body">
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
-                        <form class="form-horizontal" role="form" method="POST" action="{{route('register')}}">
+                        @include('includes.errors')
+                        <form class="form-horizontal" role="form" method="POST"
+                              action="{{route('altaAdministrativa')}}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Name Completo</label>
                                 <div class="col-md-6">
@@ -37,20 +27,14 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Taller</label>
                                 <div class="col-md-6">
-                                    <select name="id_taller" id="" class="form-control">
-                                        <option  disabled selected>Selecciona un Taller</option>
-                                        @foreach($taller as $t)
-                                            <option value="{{$t->id}}">{{$t->nombreTaller}}</option>
-                                        @endforeach
-                                    </select>
+                                    {!! Form::select('role',[''=> 'Puesto','secretario'=>'Secretario','tesorero'=>'Tesorero'],old('role'), array('class' => 'form-control')) !!}
 
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Oriente de</label>
                                 <div class="col-md-6">
-
-                                    {!! Form::select('ciudad',['Ensenada' => 'Ensenada','Mexicali' => 'Mexicali','Tecate'=>'Tecate','Tijuana' =>'Tijuana'] , old('ciudad'), array('class' => 'form-control')) !!}
+                                    {!! Form::select('ciudad',['' => 'Seleccione un Oriente','Ensenada' => 'Ensenada','Mexicali' => 'Mexicali','Tecate'=>'Tecate','Tijuana' =>'Tijuana'] , old('ciudad'), array('class' => 'form-control')) !!}
 
                                 </div>
                             </div>
@@ -81,4 +65,39 @@
             </div>
         </div>
     </div>
+
+
+    <div class="container">
+        <div class="row">
+            @include('includes.succes')
+            <table class="table table-striped table-hover ">
+                <thead>
+                <th>Nombre y Apellido</th>
+
+                <th class="hidden-sm hidden-xs">Fecha de alta</th>
+                <th>Acciones</th>
+                </thead>
+                <tbody>
+                @foreach($administrativos as $s)
+                    <tr>
+                        <td>{{$s -> name}}</td>
+                        <td class="hidden-sm hidden-xs">{{$s -> created_at}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="../../admin/confirmacion/borrar/{{$s->id}}">Borrar</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 @endsection

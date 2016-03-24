@@ -2,14 +2,23 @@
 
 namespace portalLogia\Http\Controllers\Auth;
 
+use portalLogia\Taller;
 use portalLogia\User;
+
+use portalLogia\Http\Requests;
+use Illuminate\Http\Request;
 use Validator;
+use Mail;
 use portalLogia\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
+
+
+
 class AuthController extends Controller
 {
+
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -22,10 +31,13 @@ class AuthController extends Controller
     */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+
     protected $redirectPath = "/admin";
+
     protected $loginPatch = "/auth/login";
+
     protected $redirectAfterLogout = "/";
-   
+
 
     /**
      * Create a new authentication controller instance.
@@ -34,52 +46,128 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', [ 'except' => 'getLogout' ]);
     }
+
 
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
+            'name'      => 'required|max:255',
+            'email'     => 'required|email|max:255|unique:users',
+            'password'  => 'required|confirmed|min:6',
+            'id_taller' => 'required|unique:users',
+            'ciudad'    => 'required',
         ]);
     }
+
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return User
      */
     protected function create(array $data)
     {
-        
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+
+        $user  = new User([
+            'name'     => $data['name'],
+            'email'    => $data['email'],
             'password' => bcrypt($data['password']),
+            'ciudad'   => $data['ciudad'],
+
         ]);
+        $user->id_taller = (int) $data['id_taller'];
+        $role = $user->role = 'venerable';
+        $user->token     = str_random(50);
+        $user->ciudad    = \Input::get('ciudad');
+        $user->estado = 'PENDIENTE';
+        $user->save();
+
+        $taller = Taller::find($user->id_taller);
+        $url = route('confirmacion', ['token' => $user->token]);
+
+        if ($role == 'venerable') {
+            $this->sendEmailtoAdmin($url,$user->name,$taller,$user->ciudad);
+        } else {
+
+        }
+
+        return $user;
     }
+
+
+    public function sendEmailtoAdmin($url, $nombre, $taller,$ciudad)
+    {
+        $admin = User::getEmailAdmin();
+
+        $emailAdm = $admin->email;
+
+
+        Mail::send('emails/registro', compact('emailAdm', 'nombre','url','taller','ciudad'), function ($m) use ($emailAdm)
+        {
+            $m->to($emailAdm)
+                ->subject('Activación de cuenta para Venerable Maestro');
+        });
+
+    }
+    public function postRegister(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $user = $this->create($request->all());
+
+        return redirect()->route('login')
+            ->with('alert', 'Gracias Por registrarte una vez hayas sido aceptado por Gran logia se te hará
+            llegar un mensaje via e-mail, esto puede tardar hasta 72hrs'.' '.$user->email);
+    }
+
+
+
+
 
     public function loginPath()
     {
         return route('login');
     }
 
+
     public function redirectPath()
     {
         return route('adminSite');
     }
 
+
     protected function getFailedLoginMessage()
     {
         return trans('validation.Login');
     }
+<<<<<<< HEAD
+=======
+
+    protected function getCredentials($request)
+    {
+        return [
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+            'token' => null
+        ];
+    }
+
+>>>>>>> 9a8b8cb04948f94002a1fa5ee34663740333cd59
 }

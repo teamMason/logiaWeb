@@ -6,6 +6,7 @@
  * Time: 09:54 PM
  * opciones de búsqueda en el área de consulta de miembros admin
  */
+use portalLogia\Taller;
 
 return array(
     'types' => [
@@ -72,6 +73,9 @@ return array(
     ]
 
 
+
+
 );
+
 
 

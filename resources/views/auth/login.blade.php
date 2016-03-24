@@ -7,6 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
+                    @include('includes.succes')
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             Por favor corrige los siguientes errores:<br><br>

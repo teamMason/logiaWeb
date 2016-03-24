@@ -5,6 +5,7 @@
 
     @include('includes.head')
 
+
 </head>
 
 <body id="page-top" class="index">
@@ -13,14 +14,14 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         @include('includes.nav')
     </nav>
-
+    @include('includes.succes')
 
     <header id = "headerInit">
         @include('includes.header')
     </header>
 
 
-    @include('includes.succes')
+
     
     <section id="portfolio" class="bg-light-gray">
         @include('sections.quienesSomos')
@@ -73,6 +74,7 @@
 
 
     <section id="contact">
+
          @include('sections.contacto')
     </section>
     <footer>

@@ -4,6 +4,7 @@ namespace Illuminate\Foundation\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use portalLogia\Taller;
 
 trait RegistersUsers
 {
@@ -16,7 +17,9 @@ trait RegistersUsers
      */
     public function getRegister()
     {
-        return view('auth.register');
+        $taller = Taller::all();
+        return view('auth.register')
+            ->with('taller',$taller);
     }
 
     /**
