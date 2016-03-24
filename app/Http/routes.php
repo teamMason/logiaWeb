@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::get('/', [
     'uses' => 'navegacion@home',
     'as' => 'home',
@@ -162,13 +161,20 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
 
     Route::post('admin/miembros/consulta/{id}', 'adminMiembros@actualizaMiembros');
 
+    
     /* ROUTES ADD CESAR */
 
     Route::get('/reportes/index', 'ReportesController@getIndex');
 
-    Route::get('/administrador/mostrarpdf', 'pdfControllerTodos@mostrarFacturas');
-    //gnerar una factura individual por taller
+    //Route::get('/administrador/mostrarpdf', 'pdfControllerTodos@mostrarFacturas');
+    Route::get('/administrador/mostrarpdf', [
+        'uses' => 'pdfControllerTodos@mostrarFacturas',
+        'as' => 'listaFacturas'
+    ]);
+
+    //generar una factura individual por taller
     Route::post('/PDF/create', 'pdfListaController@invoiceIndividual');
+
     //gnerar una factura individual por taller
     Route::get('/PDF/create', 'pdfListaController@create');
 
@@ -183,10 +189,11 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
 //enviar el monto del taller que desea introducir y te envia a administrador/recibePago/{id}
     Route::post('/administrador/mostrarRecibo', 'listaIntroducePagoController@mostrarRecibo');//muestra el monto a pagar y el input para el valor
 
+    Route::post('/administrador/recibePago/{id}', 'listaIntroducePagoController@recibePago');
 
     Route::get('/administrador/enviaTaller', 'listaIntroducePagoController@enviaListaTalleres');
 
-    Route::post('/administrador/recibePago/{id}', 'listaIntroducePagoController@recibePago');
+    
 
 
     Route::get('/PDF/invoice', 'PdfController@invoice');
@@ -195,6 +202,9 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
 
 
 });
+
+Route::get('dashboard', 'DashboardController@index');//GRAFICAS
+
 
 
 //Sección de TESORERO
@@ -232,6 +242,7 @@ Route::group(['middleware' => ['auth', 'role:tesorero'], 'prefix' => 'tes'], fun
 
 
 });
+
 
 
 //Sección de SECRETARIO
@@ -283,6 +294,9 @@ Route::group(['middleware' => ['auth', 'role:secretario']], function () {
 
 Route::group(['middleware' => ['auth', 'role:venerable']], function () {
 
+    //Mostrar la factura del taller dependiendo del venerable
+    Route::get('/venerable/factura', 'facturaVenerableController@envia');
+    
     Route::get('miembros/solicitud', [
         'uses' => 'venerableController@registrarSolicitud',
         'as' => 'registrarSolicitud'

@@ -3,7 +3,6 @@
 namespace portalLogia\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use portalLogia\Http\Requests;
 use portalLogia\Http\Controllers\Controller;
 use portalLogia\Taller;
@@ -47,27 +46,36 @@ class listaIntroducePagoController extends Controller
 
     public function recibePago($id){//recibimos id del taller
         $fecha = \Input::get('fecha');//tomamos del select #fecha, el valor de la seleccion
-        $pago = \Input::get('adeudo');//tomamos del select #adeudo, el valor de la seleccion
+        $pago = \Input::get('pago');//tomamos del select #adeudo, el valor de la seleccion
         
-        Log::info('fecha');
-        Log::info($fecha);
-        Log::info('pago');
-        Log::info($pago);
-        Log::info('ID');
-        Log::info($id);
-        $recibo = Recibos::where("id_taller", "=", $id)->where("fecha", "=", $fecha)->where("total", "=", $pago)->first();
-        Log::info($recibo->adeudo);
-        $recibo->pagado = 1;//1 es pagado
-        $recibo->adeudo = 0;//cero de adeudo porque solo se permite pagar todo
-        $recibo->save();
-        $this->enviaListaTalleres();        
+        //Log::info('fecha');
+        //Log::info($fecha);
+    
+        //$recibo = Recibos::where("id_taller", "=", $id)->where("fecha", "=", $fecha)->first();
+        $recibo = \DB::table('recibos')->
+                    where(function($query) use ($fecha){
+                        $query-> where('fecha','=', $fecha);
+                    })->
+                    where(function ($query) use ($id){
+                        $query-> where('id_taller', '=' , $id);
+                    })->first();
+        
+        $rec = Recibos::find($recibo->id);
+        //dd($recibo->total - $pago);
+        $rec['adeudo'] = $recibo->total - $pago;//calculamos el adeudo con el pago y el total
+        if($rec["adeudo"] <= 0){
+            $rec["pagado"] = 1;//1 es pagado
+        }
+        Log::info('se salva');
+        $rec->save();
+        //$this->enviaListaTalleres();        
     }
-    public function retornaFechas($id){      
+    public function retornaFechas($id){  //tomamos las fechas un taller que esten pagadas     
         //1 = pagado - 0 = no pagado
         $fechas = Recibos::select('fecha')->where('id_taller', $id)->where('pagado', "=", 0)->get();
         return $fechas;   
     }
-    public function retornaAdeudos($id){
+    public function retornaAdeudos($id){//tomamos lo que debe del taller elejido
             $adeudos = Recibos::select('adeudo')->where('id_taller', $id)->where('pagado', "=", 0)->get();
             return $adeudos;   
         }

@@ -14,21 +14,7 @@ use Log;
 
 class pdfControllerTodos extends Controller
 {
-    /**
-     * Generar todos los PDF.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
      public function invoiceAll() 
     {           
         $talleres = Taller::all('id');
@@ -37,20 +23,17 @@ class pdfControllerTodos extends Controller
         $rubros = Rubros::all()->first();
         
         $ult_id = Recibos::select('id')->max('id');//obtener el ultimo id
-        $prim_reg = $ult_id - $tTalleres + 1;
-        
+        $prim_reg = $ult_id - $tTalleres +1;
         foreach($talleres as $id){
-            //Log::info($id->id);
-            
+            $extras = $this->camposExtras($id->id);
             $datos = $this->mostrarPDF($id->id); //obteniendo las cantidades de cada taller
-            $montos = $this->getMontos($datos);//Calculando los costos de cada taller
+            $montos = $this->getMontos($datos, $extras);//Calculando los costos de cada taller
             $this->insertaMontos($prim_reg, $montos);//insertando los costos de cada taller
             $fecha = date('Y-m-d');
-            
-            $view =  \View::make('pdf.invoicePDFindividual', compact('datos', 'fecha', 'montos', 'rubros'))->render();
+            $view =  \View::make('pdf.invoicePDFindividual', compact('datos', 'fecha', 'montos', 'rubros', 'extras'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view);
-            $nombre = str_replace(' ', '_', $datos['nombre_taller']->nombreTaller);
+            $nombre = str_replace(' ', '_', $extras['nombre_taller']);
            
             file_put_contents($file_to_save.$nombre.".pdf", $pdf->output());
             $prim_reg = $prim_reg + 1;
@@ -58,16 +41,39 @@ class pdfControllerTodos extends Controller
         
         $this->insertarNuevosCampos();//insertar campos en cero para el nuevo mes
         $this->mostrarFacturas();
+
+        return \Redirect::route('listaFacturas')
+      ->with('alert', 'Las facturas se han realizado exitosamente');   
     }
-    
+    public function camposExtras($id){
+        $extras=[];
+        $nombre_taller = Taller::select('nombreTaller')->where('id', '=', $id)->first();
+        $datos['nombre_taller'] = $nombre_taller['nombreTaller'];
+            $m_totales = Miembros::where('id_taller','=', $id)->count();
+            //$libres = Miembros::where('mlibre', 'si')->where('id_taller','=', $id)->count();//encontrar los miembros libres
+            $libres = \DB::table('miembros')->
+                    where(function($query){
+                        $query-> where('mlibre','=', 'si');
+                    })->
+                    where(function ($query) use ($id){
+                        $query-> where('id_taller', '=' , $id);
+                    })->count();
+            
+            $capitas_pagar = $m_totales - $libres;
+            $datos['capitas_pagar'] = $capitas_pagar;
+            $datos['m_totales'] = $m_totales;
+
+            return $datos;
+    }
     public function insertaMontos($id, $montos){//inserta las cantidades de los cobros
+        $extras = $this->camposExtras($id);
         $recibo = Recibos::find($id);
-        //Log::info("id dentro de inserta montos");
-        //Log::info($id);
+        
         $m_totales = Miembros::where('id_taller','=', $id)->count(); //contar todos los miembros del taller
-        $libres = Miembros::where('tipo_miembro', 'si')->where('id_taller','=', $id)->count();//encontrar los miembros libres
-        $recibo->cant_capitas = $m_totales;
-        $recibo->capitas_pagar = $m_totales - $libres;
+        //$libres = Miembros::where('mlibre', '=' 'SI')->where('id_taller','=', $id)->count();//encontrar los miembros libres
+        //Log::info($extras);
+        $recibo->cant_capitas = $extras['m_totales'];
+        $recibo->capitas_pagar = $extras['capitas_pagar'];
         $recibo->monto_capitas = $montos['capitas'];
         $recibo->monto_iniciaciones = $montos['iniciaciones'];
         $recibo->monto_regularizaciones = $montos['regularizaciones'];
@@ -87,7 +93,7 @@ class pdfControllerTodos extends Controller
         $recibo->monto_aumento_sal = $montos['aumento_sal'];
         $recibo->otros_conceptos = $montos['otros'];
         $recibo->cuota_extra = $montos['cuota_ext'];
-        $recibo->adeudo = $montos['adeudo'] + $montos['total'];
+        $recibo->adeudo = $montos['total'];
         $recibo->total = $montos['total'];
 
         $recibo->save();
@@ -97,19 +103,18 @@ class pdfControllerTodos extends Controller
         $tRecibos = Recibos::all()->count();
         $tRecibos = $tRecibos - $tTalleres + 1;
         $fecha = date('Y-m-d');
-        $fecha_ult = Recibos::all()->last()->pluck('fecha'); //obtener la ultima fecha
+
+        $endRegister = Recibos::all()->last();
+        $fecha_ult = $endRegister->fecha;
+        //$fecha_ult = Recibos::all()->last()->pluck('fecha'); //obtener la ultima fecha
         
         for($i = 0; $i < $tTalleres; $i++){
-            //LOG::info($idTaller);
             //busca el recibo del taller en la ultima fecha de la tabla recibos
-            $adeudo_ant = Recibos::select('adeudo')->where('id_taller','=', $i+1)->where('fecha', '=' , $fecha_ult)->first();  
+            //$adeudo_ant = Recibos::select('adeudo')->where('id_taller','=', $i+1)->where('fecha', '=' , $fecha_ult)->first();  
             $recibo = new Recibos;
             $recibo->fecha = $fecha;
             $recibo->id_taller = $i + 1;
-            //El nuevo recibo debe tener el adeudo anterior
-            //$recibo->adeudo = $adeudo_ant;
             $recibo->save();
-            //$idTaller += 1;
         }  
           
     }
@@ -134,104 +139,67 @@ class pdfControllerTodos extends Controller
         return view('PDF.seleccionaTaller',['talleres' => $talleres]);
     }
 
-  
-
-    public function mostrarPDF($id)
+    public function mostrarPDF($id) //regresa las cantidades de las operaciones de cada taller
         {   
             $datos = [];
             $m = new Miembros;
-            $recibo = new Recibos;
-            $fecha = Recibos::all()->last()->pluck('fecha'); //obtener la ultima fecha            
-
-            $nombre_taller = Taller::select('nombreTaller')->where('id', '=', $id)->first();
-            $iniciaciones = Recibos::select('cant_iniciaciones')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-
-            $reg = Recibos::select('cant_regularizaciones')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $afil_com = Recibos::select('cant_afiliaciones_com')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $afil_priv = Recibos::select('cant_afiliaciones_priv')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $disp_tram = Recibos::select('cant_dispensa_tramite')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $derechos_exalt = Recibos::select('cant_derechos_exalt')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $credencial = Recibos::select('cant_credencial')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $diplomas = Recibos::select('cant_diplomas')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $liturgia_a = Recibos::select('cant_liturgia_a')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $liturgia_c = Recibos::select('cant_liturgia_c')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $liturgia_m = Recibos::select('cant_liturgia_m')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $estatutos = Recibos::select('cant_status')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $constitucion = Recibos::select('cant_constitucion')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $codigos_penales = Recibos::select('cant_codigos_penales')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $aumento_sal = Recibos::select('cant_aumento_sal')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $act_logias = Recibos::select('cant_activacion_logias')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $otros = Recibos::select('otros_conceptos')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $extra = Recibos::select('cuota_extra')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            $adeudo = Recibos::select('adeudo')->where('id_taller','=', $id)->where('fecha', '=' , $fecha)->first();
-            //Log::info($reg);           
-            $m_totales = Miembros::where('id_taller','=', $id)->count();
-            //$m_totales = Miembros::select()->where('id_taller','=', $m->id)->count();
-            $libres = Miembros::where('tipo_miembro', 'si')->where('id_taller','=', $id)->count();//encontrar los miembros libres
-            //$libres = Miembros::select("tipo_miembro = 'si' WHERE id_taller = 1")->count();
-
-           
-            $capitas_pagar = $m_totales - $libres;
+            $endRegister = Recibos::all()->last();
+            $fecha = $endRegister->fecha;
+            //$fecha = Recibos::all()->last()->pluck('fecha'); //obtener la ultima fecha            
             
-            $datos['nombre_taller'] = $nombre_taller;
-            $datos['cantidad'] = $m_totales;
-            $datos['capitas_pagar'] = $capitas_pagar;
-            $datos['regular'] = $reg;
-            $datos['iniciaciones'] = $iniciaciones;
-            $datos['afil_com'] = $afil_com;
-            $datos['afil_priv'] = $afil_priv;
-            $datos['disp_tram'] = $disp_tram;
-            $datos['derechos_exalt'] = $derechos_exalt;
-            $datos['credencial'] = $credencial;
-            $datos['diplomas'] = $diplomas;
-            $datos['liturgia_a'] = $liturgia_a;
-            $datos['liturgia_c'] = $liturgia_c;
-            $datos['liturgia_m'] = $liturgia_m;
-            $datos['estatutos'] = $estatutos;
-            $datos['constitucion'] = $constitucion;
-            $datos['codigos'] = $codigos_penales;
-            $datos['act_logias'] = $act_logias;
-            $datos['aumento_sal'] = $aumento_sal;
-            $datos['otros'] = $otros;
-            $datos['extra'] = $extra;
-            $datos['adeudo'] = $adeudo;
-
+            $datos = \DB::table('recibos')->
+                    where(function($query) use ($id){
+                        $query-> where('id_taller','=', $id);
+                    })->
+                    where(function ($query) use ($fecha){
+                        $query-> where('fecha', '=' , $fecha);
+                    })->get();
+            //dd($datos);
             return $datos;
         }
-        public function getMontos($datos)
+
+        public function getMontos($datos,$extras)
         { 
+            $montos = [];
             $rubros = [];
             $rubros = Rubros::all()->first();
             //$datos = $this->MostrarPDF($id);
+            //dd($rubros->iniciaciones);
+           //dd($datos[0]->adeudo);
+            //Log::info($datos);
+            $montos['capitas'] = $extras['capitas_pagar'] * $rubros->capitas;
+            $montos['iniciaciones'] = $datos[0]->cant_iniciaciones * $rubros->iniciaciones;
+            $montos['regularizaciones'] = $datos[0]->cant_regularizaciones * $rubros->regularizaciones;
+            $montos['afiliaciones_com'] = $datos[0]->cant_afiliaciones_com * $rubros->afiliaciones_com;
+            $montos['afiliaciones_priv'] = $datos[0]->cant_afiliaciones_priv * $rubros->afiliaciones_priv;
+            $montos['dispensa_tramite'] = $datos[0]->cant_dispensa_tramite * $rubros->dispensa_tramite;
+            $montos['derechos_exalt'] = $datos[0]->cant_derechos_exalt * $rubros->derechos_exalt;
+            $montos['credencial'] = $datos[0]->cant_credencial * $rubros->credencial;
+            $montos['diplomas'] = $datos[0]->cant_diplomas * $rubros->diplomas;
+            $montos['liturgia_a'] = $datos[0]->cant_liturgia_a * $rubros->liturgia_a;
+            $montos['liturgia_c'] = $datos[0]->cant_liturgia_c * $rubros->liturgia_c;
+            $montos['liturgia_m'] = $datos[0]->cant_liturgia_m * $rubros->liturgia_m;
+            $montos['status'] = $datos[0]->cant_status * $rubros->status;
+            $montos['constitucion'] = $datos[0]->cant_constitucion * $rubros->constitucion;
+            $montos['codigos_penales'] = $datos[0]->cant_codigos_penales * $rubros->codigos_penales;
+            //$montos['act_logias'] = $datos[0]->cant_activacion_logias * $rubros->derechos_logia;
+            $montos['act_logias'] = $datos[0]->cant_activacion_logias * $rubros->activacion_logias;
+            $montos['aumento_sal'] = $datos[0]->cant_aumento_sal * $rubros->aumento_sal;
+            $montos['otros'] = $datos[0]->otros_conceptos;
+            $montos['cuota_ext'] = $datos[0]->cuota_extra * $rubros->cuota_ext;
+            //$montos['adeudo'] = $datos[0]->adeudo;
 
-            $montos['capitas'] = $datos['capitas_pagar'] * $rubros->capitas;
-            $montos['iniciaciones'] = $datos['iniciaciones']->cant_iniciaciones * $rubros->iniciaciones;
-            $montos['regularizaciones'] = $datos['regular']->cant_regularizaciones * $rubros->regularizaciones;
-            $montos['afiliaciones_com'] = $datos['afil_com']->cant_afiliaciones_com * $rubros->afiliaciones_com;
-            $montos['afiliaciones_priv'] = $datos['afil_priv']->cant_afiliaciones_priv * $rubros->afiliaciones_priv;
-            $montos['dispensa_tramite'] = $datos['disp_tram']->cant_dispensa_tramite * $rubros->dispensa_tramite;
-            $montos['derechos_exalt'] = $datos['derechos_exalt']->cant_derechos_exalt * $rubros->derechos_exalt;
-            $montos['credencial'] = $datos['credencial']->cant_credencial * $rubros->credencial;
-            $montos['diplomas'] = $datos['diplomas']->cant_diplomas * $rubros->diplomas;
-            $montos['liturgia_a'] = $datos['liturgia_a']->cant_liturgia_a * $rubros->liturgia_a;
-            $montos['liturgia_c'] = $datos['liturgia_c']->cant_liturgia_c * $rubros->liturgia_c;
-            $montos['liturgia_m'] = $datos['liturgia_m']->cant_liturgia_m * $rubros->liturgia_m;
-            $montos['status'] = $datos['estatutos']->cant_status * $rubros->status;
-            $montos['constitucion'] = $datos['constitucion']->cant_constitucion * $rubros->constitucion;
-            $montos['codigos_penales'] = $datos['codigos']->cant_codigos_penales * $rubros->codigos_penales;
-            $montos['act_logias'] = $datos['act_logias']->cant_activacion_logias * $rubros->derechos_logia;//Nota aqui hay anomalia  
-            $montos['act_logias'] = $datos['act_logias']->cant_activacion_logias * $rubros->activacion_logias;
-            $montos['aumento_sal'] = $datos['aumento_sal']->cant_aumento_sal * $rubros->aumento_sal;
-            $montos['otros'] = $datos['otros']->otros_conceptos;
-            $montos['cuota_ext'] = $datos['cantidad'] * $rubros->cuota_ext;
-
-            $montos['adeudo'] = $datos['adeudo']->adeudo;
-
-            $total = $montos['total'] = 0;
+            if ($datos[0]->pagado == 1){ //revisar si el campo pagado tiene un 1 entonces ya fue pagada esa factura
+                $montos['adeudo'] = 0;
+            }
+            $total = 0;
+            $montos['total'] = 0;
+            //dd($montos);
             foreach ($montos as $monto=>$i ){
                 $total = $total + $i;
             }
             $montos['total'] = $total;
+            
             return $montos;
         }
 

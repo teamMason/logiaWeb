@@ -6,10 +6,6 @@ use Illuminate\Http\Request;
 use portalLogia\Http\Requests;
 use Storage;
 
-
-
-
-
 use portalLogia\Posts;
 use portalLogia\Contacto;
 use portalLogia\Libro;

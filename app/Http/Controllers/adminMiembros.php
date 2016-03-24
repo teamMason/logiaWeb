@@ -2,10 +2,6 @@
 
 namespace portalLogia\Http\Controllers;
 
-
-
-
-
 use portalLogia\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection as Collection;

@@ -82,7 +82,4 @@ class AuthController extends Controller
     {
         return trans('validation.Login');
     }
-
-
-
 }
