@@ -27,7 +27,9 @@
                             <button type="submit" class="btn btn-info">Buscar</button>
                             {!!Form::close()!!}
                         </div>
-                        <hr>
+                    </div>
+                    <hr>
+                    <div class="container">
                         <div class="row">
                             <table class="table table-striped table-hover ">
                                 <thead>
@@ -70,6 +72,7 @@
                             </table>
                         </div>
                     </div>
+
                     <div class="container" align="center">
                         <?php
                         echo $miembros->appends(Request::only([ 'typeBusqueda', 'subBusqueda' ]))->render()
@@ -101,26 +104,32 @@
                     </div>
                     <div class="container-fluid">
                         <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <p valign="top" align="center">Muy Resp.·.Log.·. De Estado Baja California, <br>
+                                        AA.·.LL.·.
+                                        y AA.·.MM.·. Calla 9na No. 8169 ofna 302, zona Centro
+                                        <br> Gr.·.Or.·. de Tijuena, B.C. Tel: 01-(646)-685-22-72 </p>
 
-                            <p valign="top" align="center">Muy Resp.·.Log.·. De Estado Baja California, <br> AA.·.LL.·.
-                                y AA.·.MM.·. Calla 9na No. 8169 ofna 302, zona Centro
-                                <br> Gr.·.Or.·. de Tijuena, B.C. Tel: 01-(646)-685-22-72 </p>
+                                    <h5><b>Pertenece al Taller:</b></h5>
+                                    <ul style="list-style-type:none">
+                                        <li><span><b>Taller:</b> {{$s->nombreTaller}}</span></li>
+                                        <li><span></span></li>
+                                    </ul>
+                                    <br>
+                                    <h5><b>Datos Importantes:</b></h5>
+                                    <ul style="list-style-type:none">
+                                        <li><b>Cargo:</b> {{$s->cargo}} </li>
+                                        <li><b>Grado:</b> {{$s->grado}}</li>
+                                        <li><b>Miembro Libre:</b> {{$s->mlibre}}</li>
+                                        <li><b>Voto en G.·.L.·.:</b> {{$s->voto}}</li>
+                                        <li><b>Estado Actual:</b> {{$s->estado}}</li>
+                                    </ul>
+                                    <br>
+                                </div>
+                            </div>
 
-                            <h5><b>Pertenece al Taller:</b></h5>
-                            <ul style="list-style-type:none">
-                                <li><span><b>Taller:</b> {{$s->nombreTaller}}</span></li>
-                                <li><span></span></li>
-                            </ul>
-                            <br>
-                            <h5><b>Datos Importantes:</b></h5>
-                            <ul style="list-style-type:none">
-                                <li><b>Cargo:</b> {{$s->cargo}} </li>
-                                <li><b>Grado:</b> {{$s->grado}}</li>
-                                <li><b>Miembro Libre:</b> {{$s->mlibre}}</li>
-                                <li><b>Voto en G.·.L.·.:</b> {{$s->voto}}</li>
-                                <li><b>Estado Actual:</b> {{$s->estado}}</li>
-                            </ul>
-                            <br>
+
                         </div>
                     </div>
                     <div class="modal-footer ">

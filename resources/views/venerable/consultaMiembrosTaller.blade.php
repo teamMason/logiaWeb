@@ -145,24 +145,29 @@
                             <!--Body Modal -->
                             <div class="tabbable">
                                 <ul class="nav nav-tabs" style="margin-bottom: 15px;">
-                                    <li class="active"><a href="#datos-{{$s->id}}" data-toggle="tab">DatosPersonales</a></li>
-                                    <li><a href="#aumentos-{{$s->id}}" data-toggle="tab">Aumentos y Exaltaciones</a></li>
+                                    <li class="active"><a href="#datos-{{$s->id}}" data-toggle="tab">DatosPersonales</a>
+                                    </li>
                                     <li><a href="#bajas-{{$s->id}}" data-toggle="tab">Bajas y Altas</a></li>
-
+                                    @if($s->estado == 'ACTIVO')
+                                        <li><a href="#aumentos-{{$s->id}}" data-toggle="tab">Aumentos y Exaltaciones</a></li>
+                                    @endif
                                 </ul>
                                 <!-- Tabs Navegacion-->
                                 <div class="tab-content">
                                     <div id="bajas-{{$s->id}}" class="tab-pane text-center">
                                         <div class="alert-warning">
-                                            <p>Te Recordamos que después de dar de baja a un H.·. del taller, su reincorporación
+                                            <p>Te Recordamos que después de dar de baja a un H.·. del taller, su
+                                                reincorporación
                                                 generará un costo en tu factura mensual.
                                             </p>
                                         </div>
                                         <div class=" modal-footer " align="center">
                                             @if($s->estado == 'ACTIVO')
-                                                <a href="../admin/estatus/{{$s->id}}" class="btn btn-info">Dar de Baja</a>
+                                                <a href="../admin/estatus/{{$s->id}}" class="btn btn-info">Dar de
+                                                    Baja</a>
                                             @elseif($s->estado == 'BAJA')
-                                                <a href="../admin/estatus/alta/{{$s->id}}" class="btn btn-info">Dar de alta</a>
+                                                <a href="../admin/estatus/alta/{{$s->id}}" class="btn btn-info">Dar de
+                                                    alta</a>
                                             @endif
                                         </div>
                                     </div>
@@ -176,9 +181,11 @@
                                         </div>
                                         <div class=" modal-footer " align="center">
                                             @if($s->grado == 'APRENDIZ')
-                                                <a href="../admin/aumentos/{{Auth::user()->id_taller}}/{{$s->id}}" class="btn btn-info">Aumento de Salario</a>
+                                                <a href="../admin/aumentos/{{Auth::user()->id_taller}}/{{$s->id}}"
+                                                   class="btn btn-info">Aumento de Salario</a>
                                             @elseif($s->grado == 'COMPANERO')
-                                                <a href="../admin/aumentos/{{Auth::user()->id_taller}}/{{$s->id}}" class="btn btn-info">Exaltación</a>
+                                                <a href="../admin/aumentos/{{Auth::user()->id_taller}}/{{$s->id}}"
+                                                   class="btn btn-info">Exaltación</a>
                                             @endif
                                         </div>
                                     </div>

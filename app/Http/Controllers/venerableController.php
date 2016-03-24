@@ -258,7 +258,7 @@ class venerableController extends Controller
     {
        $this->validate($request, [
             'email' => 'email',
-            'estado' => 'required'
+
         ]);
 
         $miembro = Miembros::find($id);
@@ -290,6 +290,8 @@ class venerableController extends Controller
             Recibos::hacerCobroAunmentoMM($id_taller);
         }
         $miembro->save();
+        return \Redirect::route('consultaMTaller')
+            ->with('alert', 'Completado exitosamente ');
 
 
     }

@@ -1,36 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-     @include('includes.head') 
-    <title>Selecciona taller</title>
-    
-   <!-- <link rel="stylesheet" type="text/css" href="assets/css/pdf.css"> -->
-  </head>
-  <body>
+@extends('administrador.app')
+@section('content')
 
-    <main>
-      <div style="text-align:center">
-       
-          <h1> </h1>
-          
-      </div>
-      <div style="text-align:center"> Gran logia de Baja California </div>
-      <div style="text-align:center">
-          {!! Form::open(array('url' => '/administrador/mostrarRecibo')) !!}
-            Taller:   
-            <select name="talleres" id="idtaller" method="post">
-            <option class="form-control" value = "-1">-</option>
-              @foreach($talleres as $taller)
-                <option class="form-control" value = "{{$taller->id}}">{{$taller->nombreTaller}}</option>
-              @endforeach
-            </select>
-            
-            <br><br>
-          <input type="submit"  class="btn btn-default" value="Ir a pagar" style="text-align:center"></input>
-          {!! Form::close() !!}          
+    <div class="container-fluid">
+        <div class="row-fluid">
+            @include('includes.errors')
+            @include('includes.succes')
+            <div class="panel panel-default">
+                <div class="panel-heading ">
+                    <div class="container-fluid">
+                        <strong>Hacer Pagos</strong>
 
-      </div>
-      
-  </body>
-</html>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="container ">
+                            {!! Form::open(array('url' => '/administrador/mostrarRecibo')) !!}
+                            <div class="form-group">
+                                <label for="talleres">Taller:</label>
+                                <select name="talleres" id="idtaller" class="form-control">
+                                    <option selected disabled>Seleccionar Taller</option>
+                                    @foreach($talleres as $taller)
+                                        <option class="form-control" value = "{{$taller->id}}">{{$taller->nombreTaller}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit"  class="btn btn-info pull-right"><i class="fa fa-money"></i>  Hacer Pagos</button>
+
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+@stop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

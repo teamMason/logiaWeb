@@ -14,7 +14,7 @@
     </div>
     <div width="100%" style=" overflow: hidden; margin:0;min-height:300px;border:1px solid #e0e0e0;">
 
-        <div width="100%" style=" overflow: hidden; margin:0;min-height:300px;border:1px solid #e0e0e0;">
+        <div width="100%" style="overflow: hidden; margin:0;min-height:300px;border:1px solid #e0e0e0; padding: 20px; font-size: 18px;">
 
             <p>
                 La Muy Respetable Gran Logia de Estado Baja California, queremos comunicarte que la solicitus para
@@ -22,7 +22,7 @@
 
                 Una vez hayan realizado la iniciación, por favor ingreza a tu cuenta en granlogiadeedobc.com, dirigete
                 a la sección de iniciaciones y preciona el boton llamado "iniciación conlcuida". <br><br>
-                NOTA; Se te avisará, cuando el solicitante se haya dado de alta en tú padrón. <br><br>
+                NOTA: Se te avisará, cuando el solicitante se haya dado de alta en tú padrón. <br><br>
 
             <p>
                 Nos despedimos, no sin antes felicitarte por

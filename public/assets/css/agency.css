@@ -337,10 +337,16 @@ header .intro-text .intro-heading {
     line-height: 50px;
     /* text-shadow: -2px -2px 1px #000, 2px 2px 1px #000, -2px 2px 0.5px #000, 2px -2px 0.5px #000;*/
 }
+#news-section{
+    padding-top: 100px;
+    padding-right: 50px;
+
+
+}
 
 @media (min-width: 768px) {
     header .intro-text {
-        padding-top: 15px;
+        padding-top: 150px;
         padding-bottom: 200px;
     }
 

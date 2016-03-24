@@ -174,8 +174,9 @@ class adminMiembros extends Controller
         $m->voto        = 'no miembro';
         $m->telefono    = $s->telefono;
         $m->telefonoCel = $s->telefonoCel;
-        $m->telefonoCel = $s->email;
+        $m->email = $s->email;
         $m->id_taller   = $s->id_taller;
+        $m->estado   = "ACTIVO";
 
         $nombreCompleto = $s->nombre . ' ' . $s->apellido;
         $this->sendEmailVenAlta($s->id_taller, $nombreCompleto);
@@ -342,9 +343,13 @@ class adminMiembros extends Controller
         if ($busqueda == null) {
 
             $venerables = \DB::table('users')->select('name', 'users.id', 'taller.nombreTaller', 'users.created_at',
-                'users.token')->join('taller', 'taller.id', '=', 'users.id_taller')->where('users.estado',
-                    'PENDIENTE')->orWhere('users.estado',
-                    'ACTIVO')->orderBy('taller.id')->paginate(40);
+                'users.token')->join('taller', 'taller.id', '=', 'users.id_taller')->where(function ($query) use (
+                $busqueda
+            ) {
+                $query->where('estado', 'PENDIENTE');
+                $query->orWhere('estado','ACTIVO');
+            })->where('role', 'venerable')->orderBy('taller.id')->paginate(40);
+
 
         } else {
             $venerables = \DB::table('users')->select('name', 'users.id', 'taller.nombreTaller', 'users.created_at',
@@ -352,7 +357,10 @@ class adminMiembros extends Controller
                     $busqueda
                 ) {
                     $query->where('name', 'LIKE', "%$busqueda%");
-                })->where('token', null)->orderBy('taller.id')->paginate(40);
+                    $query->where('role','venerable');
+                })->where('estado', 'PENDIENTE')
+                ->orWhere('estado','ACTIVO')
+                ->orderBy('taller.id')->paginate(40);
 
 
         }
@@ -382,7 +390,7 @@ class adminMiembros extends Controller
     {
         $user = User::where('id', $id)->firstOrFail();
         $user->estado = 'BAJA';
-
+        $user->save();
         if($user->role == 'tesorero' or $user->role == 'secretario')
         {
             return \Redirect::route('registraAdministrativa')->with('alert', 'Sa ha borrado el registro exitosamente');
@@ -406,7 +414,7 @@ class adminMiembros extends Controller
     public function registroAdministrativos(Request $request)
     {
 
-        $administrativos = User::where('id_taller', '<', -1)->get();
+        $administrativos = User::where('id_taller', '<', -6)->get();
 
         return view('administrador.altaAdministrativos.altaAdministrativos')
             ->with('administrativos', $administrativos);
@@ -438,6 +446,7 @@ class adminMiembros extends Controller
         } else {
             $user->id_taller = -3;
         }
+        $user->estado = 'ACTIVO';
 
         $user->save();
         return \Redirect::route('registraAdministrativa')
