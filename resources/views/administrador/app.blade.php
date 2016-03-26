@@ -37,7 +37,9 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Tesoreria
                                         <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Consultas</a></li>
+                                        <li><a href="{{route('listaFacturas')}}"> Consultar Facturas</a></li>
+                                        <li><a href="{{route('buscarFacturas')}}"> BuscarFacturas</a></li>
+                                        <li><a href="{{route('hacerPago')}}"> Hacer Pago</a></li>
                                         <li><a href="#">Recibos</a></li>
                                     </ul>
                                 </li>
@@ -54,9 +56,9 @@
                                         @if (Auth::user()->isAdmin() or Auth::user()->isSecretario())
                                             @if (Auth::user()->isAdmin())
                                                 <li><a href="{{route('registrarMiembros')}}">Registrar</a></li>
+                                                <li><a href="{{route('graficas')}}">Estadisticas</a></li>
                                             @endif
                                             <li><a href="{{route('consulta')}}">Consultas</a></li>
-                                            <li><a href="#">Estadisticas</a></li>
                                         @endif
                                     </ul>
                                 </li>
@@ -113,8 +115,10 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="{{route('iniciaciones')}}">Tus iniciaciones</a></li>
                                     </ul>
+                                    <li><a href="{{route('miFactura')}}">Mi Factura</a></li>
                                 </li>
                             @endif
+
                             @if (Auth::user()->isMaestro() or Auth::user()->isCompanero() or Auth::user()->isAprendiz() or Auth::user()->isVenerable()  )
                                 <li><a href="{{route('bibliotecaMiembros')}}">Biblioteca Digital</a></li>
                             @endif
@@ -132,7 +136,8 @@
                                 <ul class="dropdown-menu" role="menu">
                                     @if (Auth::user()->isAdmin())
                                         <li><a href="{{route('confirmVen')}}">Venerables</a></li>
-                                        <li><a href="{{route('registraAdministrativa')}}">Alta Padron de Gran Logia</a></li>
+                                        <li><a href="{{route('registraAdministrativa')}}">Alta Padron de Gran Logia</a>
+                                        </li>
                                     @endif
                                     <li><a href="{{route('logout')}}">Logout</a></li>
                                 </ul>
