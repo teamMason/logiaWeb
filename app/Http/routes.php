@@ -162,22 +162,67 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
 
     Route::post('admin/miembros/consulta/{id}', 'adminMiembros@actualizaMiembros');
 
+<<<<<<< HEAD
     
-    /* ROUTES ADD CESAR */
+=======
 
-    Route::get('/reportes/index', 'ReportesController@getIndex');
 
-    //Route::get('/administrador/mostrarpdf', 'pdfControllerTodos@mostrarFacturas');
-    Route::get('/administrador/mostrarpdf', [
-        'uses' => 'pdfControllerTodos@mostrarFacturas',
-        'as' => 'listaFacturas'
+    /*APROBACIÓN DE VENERABLES MAESTROS*/
+
+    Route::get('admin/aprobaciones/venerables',[
+        'uses' => 'adminMiembros@aprobarVen',
+        'as'   => 'confirmVen'
     ]);
 
-    //generar una factura individual por taller
-    Route::post('/PDF/create', 'pdfListaController@invoiceIndividual');
 
+    Route::get('admin/confirmacion/{token}',[
+        'uses' => 'adminMiembros@getConfirmacion',
+        'as'   => 'confirmacion'
+    ]);
+
+    Route::get('admin/confirmacion/borrar/{id}',[
+        'uses' => 'adminMiembros@borrarRegistro',
+        'as'   => 'rechazarRegistro'
+    ]);
+
+
+    Route::get('admin/confirmacion/rechazar/{id}',[
+        'uses' => 'adminMiembros@rechazarRegistro',
+        'as'   => 'rechazarRegistro'
+    ]);
+
+    Route::get('admin/alta/administrativos',[
+        'uses' => 'adminMiembros@registroAdministrativos',
+        'as'   => 'registraAdministrativa'
+    ]);
+    Route::post('admin/alta/success',[
+        'uses' => 'adminMiembros@altaAdministrativos',
+        'as'   => 'altaAdministrativa'
+    ]);
+
+
+
+
+
+
+
+
+>>>>>>> 4cccfc604679387be0d05a2f35925fe3670d2957
+    /* ROUTES ADD CESAR */
+
+
+
+    Route::get('/administrador/mostrarpdf',[
+        'uses' => 'pdfControllerTodos@mostrarFacturas',
+        'as'   => 'listaFacturas'
+    ]);
     //gnerar una factura individual por taller
-    Route::get('/PDF/create', 'pdfListaController@create');
+    Route::post('/PDF/create', 'pdfListaController@invoiceIndividual');
+    //gnerar una factura individual por taller
+    Route::get('/PDF/create', [
+        'uses' => 'pdfListaController@create',
+        'as'   => 'buscarFacturas'
+    ]);
 
     //generar las facturas del mes de todos los talleres
     Route::get('/PDF/downloadAll', 'pdfControllerTodos@invoiceAll');
@@ -188,28 +233,47 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
     Route::get('/PDF/enviaTalleres', 'pdfListaPagosAdeudosController@enviaTalleres');
 
 //enviar el monto del taller que desea introducir y te envia a administrador/recibePago/{id}
+<<<<<<< HEAD
     Route::post('/administrador/mostrarRecibo', 'listaIntroducePagoController@mostrarRecibo');//muestra el monto a pagar y el input para el valor
 
     Route::post('/administrador/recibePago/{id}', 'listaIntroducePagoController@recibePago');
+=======
+    Route::post('/administrador/mostrarRecibo',
+        'listaIntroducePagoController@mostrarRecibo');//muestra el monto a pagar y el input para el valor
+>>>>>>> 4cccfc604679387be0d05a2f35925fe3670d2957
 
-    Route::get('/administrador/enviaTaller', 'listaIntroducePagoController@enviaListaTalleres');
+    Route::get('/administrador/enviaTaller', [
+        'uses' => 'listaIntroducePagoController@enviaListaTalleres',
+        'as'   => 'hacerPago'
+    ]);
 
-    
+    Route::post('/administrador/recibePago/{id}', 'listaIntroducePagoController@recibePago');
 
 
     Route::get('/PDF/invoice', 'PdfController@invoice');
 
     Route::resource('/index', 'ExcelController@index');
+    Route::get('dashboard', [
+        'uses' => 'DashboardController@index',
+        'as'   => 'graficas'
+    ]);//GRAFICAS
 
     Route::get('dashboard', 'DashboardController@index');//GRAFICAS
 
 
+<<<<<<< HEAD
 });
 
 
+=======
+>>>>>>> 4cccfc604679387be0d05a2f35925fe3670d2957
 
+});
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4cccfc604679387be0d05a2f35925fe3670d2957
 //Sección de TESORERO
 Route::group(['middleware' => ['auth', 'role:tesorero'], 'prefix' => 'tes'], function () {
     /* ROUTES ADD CESAR */
@@ -246,8 +310,11 @@ Route::group(['middleware' => ['auth', 'role:tesorero'], 'prefix' => 'tes'], fun
 
 });
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 4cccfc604679387be0d05a2f35925fe3670d2957
 //Sección de SECRETARIO
 
 Route::group(['middleware' => ['auth', 'role:secretario']], function () {
@@ -299,9 +366,11 @@ Route::group(['middleware' => ['auth', 'role:secretario']], function () {
 
 Route::group(['middleware' => ['auth', 'role:venerable']], function () {
 
-    //Mostrar la factura del taller dependiendo del venerable
-    Route::get('/venerable/factura', 'facturaVenerableController@envia');
-    
+    Route::get('venerable/factura', [
+       'uses' => 'facturaVenerableController@envia',
+        'as'  => 'miFactura'
+    ]);
+
     Route::get('miembros/solicitud', [
         'uses' => 'venerableController@registrarSolicitud',
         'as' => 'registrarSolicitud'

@@ -79,7 +79,7 @@ class AuthController extends Controller
     protected function create(array $data)
     {
 
-        $user  = new User([
+        $user            = new User([
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => bcrypt($data['password']),
@@ -87,17 +87,17 @@ class AuthController extends Controller
 
         ]);
         $user->id_taller = (int) $data['id_taller'];
-        $role = $user->role = 'venerable';
+        $role            = $user->role = 'venerable';
         $user->token     = str_random(50);
         $user->ciudad    = \Input::get('ciudad');
-        $user->estado = 'PENDIENTE';
+        $user->estado    = 'PENDIENTE';
         $user->save();
 
         $taller = Taller::find($user->id_taller);
-        $url = route('confirmacion', ['token' => $user->token]);
+        $url    = route('confirmacion', [ 'token' => $user->token ]);
 
         if ($role == 'venerable') {
-            $this->sendEmailtoAdmin($url,$user->name,$taller,$user->ciudad);
+            $this->sendEmailtoAdmin($url, $user->name, $taller, $user->ciudad);
         } else {
 
         }
@@ -106,39 +106,33 @@ class AuthController extends Controller
     }
 
 
-    public function sendEmailtoAdmin($url, $nombre, $taller,$ciudad)
+    public function sendEmailtoAdmin($url, $nombre, $taller, $ciudad)
     {
         $admin = User::getEmailAdmin();
 
         $emailAdm = $admin->email;
 
-
-        Mail::send('emails/registro', compact('emailAdm', 'nombre','url','taller','ciudad'), function ($m) use ($emailAdm)
-        {
-            $m->to($emailAdm)
-                ->subject('Activación de cuenta para Venerable Maestro');
-        });
+        Mail::send('emails/registro', compact('emailAdm', 'nombre', 'url', 'taller', 'ciudad'),
+            function ($m) use ($emailAdm) {
+                $m->to($emailAdm)->subject('Activación de cuenta para Venerable Maestro');
+            });
 
     }
+
+
     public function postRegister(Request $request)
     {
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
-            $this->throwValidationException(
-                $request, $validator
-            );
+            $this->throwValidationException($request, $validator);
         }
 
         $user = $this->create($request->all());
 
-        return redirect()->route('login')
-            ->with('alert', 'Gracias Por registrarte una vez hayas sido aceptado por Gran logia se te hará
-            llegar un mensaje via e-mail, esto puede tardar hasta 72hrs'.' '.$user->email);
+        return redirect()->route('login')->with('alert', 'Gracias Por registrarte una vez hayas sido aceptado por Gran logia se te hará
+            llegar un mensaje via e-mail, esto puede tardar hasta 72hrs' . ' ' . $user->email);
     }
-
-
-
 
 
     public function loginPath()
@@ -162,11 +156,15 @@ class AuthController extends Controller
     protected function getCredentials($request)
     {
         return [
-            'email' => $request->get('email'),
+            'email'    => $request->get('email'),
             'password' => $request->get('password'),
-            'token' => null
+            'token'    => null
         ];
     }
+<<<<<<< HEAD
 
 
 }
+=======
+}
+>>>>>>> 4cccfc604679387be0d05a2f35925fe3670d2957

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class= "col-sm-6 text-center" style = "margin-bottom: 20px;">
+        <div class= "col-sm-6 text-center">
             <h2 class="section-heading">Blog Masónico</h2>
             <span><i class="fa  fa fa-newspaper-o fa-5x"></i></span>
 

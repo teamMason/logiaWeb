@@ -29,7 +29,7 @@
                           <a href="../admin/iniciaciones/{{$s->id}}" class="btn btn-success">Iniciación Concluida</a>            
                                                                   
                         @else
-                          <button class="btn btn-success disabled">En Votación...</button>
+                          <button class="btn btn-success disabled">En Proceso...</button>
                         
                         @endif
                     </div>

@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="intro-text text-center">
+        <div class="intro-text text-center" style="padding-bottom: 200px; padding-top: 50px;">
             <div class="intro-lead-in">Bienvenido seas a nuestro portal</div>
             <div class="intro-lead-in"><h2>Masoneria Universal</h2></div>
 
