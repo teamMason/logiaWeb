@@ -12,19 +12,7 @@ use portalLogia\Recibos;
 use Log; 
 
 class listaIntroducePagoController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    
+{    
     public function enviaListaTalleres()//retorna los talleres
     {   //crear la consulta para mostrar los talleres
         $talleres = Taller::all();

@@ -52,11 +52,12 @@
         	var adeudo = $("#adeudo").val()
      		if(pago > adeudo){
      			$("#pago").val(0); //remover el pago
-     			alert("No debe pagar mas de lo que debe")
+     			confirm("No debe pagar mas de lo que debe")
+
      		}
      		if(pago < 0){
      			$("#pago").val(0); //remover el pago
-     			alert("se puede pagar cantidades negativas")
+     			confirm("No se puede pagar cantidades negativas")
      		}
 		});
 	});

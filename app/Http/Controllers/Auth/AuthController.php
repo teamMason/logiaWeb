@@ -157,8 +157,7 @@ class AuthController extends Controller
     {
         return trans('validation.Login');
     }
-<<<<<<< HEAD
-=======
+
 
     protected function getCredentials($request)
     {
@@ -169,5 +168,5 @@ class AuthController extends Controller
         ];
     }
 
->>>>>>> 9a8b8cb04948f94002a1fa5ee34663740333cd59
+
 }
