@@ -33,8 +33,8 @@
 
                                             <div class="panel-body">
                                                 <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <strong>{{$l->titulo}}</strong>
+                                                    <li class="list-group-item" title="{{$l->titulo}}">
+                                                        <strong>{{ str_limit($l->titulo,20,' ') }}</strong>
                                                     </li>
                                                     <li class="list-group-item">
                                                         <strong><em>{{$l->grado}}</em></strong>
@@ -88,8 +88,8 @@
 
                                             <div class="panel-body">
                                                 <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <em>{{ str_limit($l->titulo,35,' ') }}</em>
+                                                    <li class="list-group-item" title="{{$l->titulo}}">
+                                                        <em  >{{ str_limit($l->titulo,35,' ') }}</em>
                                                     </li>
                                                     <li class="list-group-item">
                                                         <strong><em>{{$l->grado}}</em></strong>

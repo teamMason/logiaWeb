@@ -8,8 +8,8 @@ class Role
 {
     protected $hierachy = [
         'administrador' => 7,
-        'secretario'    => 6,
-        'tesorero'      => 5,
+        'tesorero'    => 6,
+        'secretario'      => 5,
         'venerable'     => 4,
         'maestro'       => 3,
         'companero'     => 2,

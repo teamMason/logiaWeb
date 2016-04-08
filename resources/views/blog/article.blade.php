@@ -7,8 +7,7 @@
 
     <!--<img src="{{$posts->photo}}" title = "{{$posts -> title}}">-->
 
-    <div class="row-fluid"
-         style="background-image: url('{{$posts->photo}}'); min-height: 50vh; background-size: cover; background-position: center; background-attachment: fixed ">
+    <div class="row-fluid" style="background-image: url('{{$posts->photo}}'); min-height: 50vh; background-size: cover; background-position: center; background-attachment: fixed ">
         <div id="artitle">
             {{$posts-> title}}
         </div>
@@ -21,7 +20,8 @@
             <div class="col-md-8" align="left">
                 <span><i class="fa fa-user"></i> {{$posts->autor}} </span><span> | <i
                             class="fa fa-calendar"></i> {{substr($posts->created_at, 0, 10 )}} </span><br>
-                <p class="text-justify">
+
+                <p class="text-right" >
                     {!! $posts->content !!}
                 </p>
                 <br>

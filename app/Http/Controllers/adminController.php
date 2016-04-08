@@ -188,16 +188,13 @@ class adminController extends Controller
                 $fileName = $files->getClientOriginalName();
 
                 $ext = $this->getExtension($fileName);
-
                 $slug = str_slug($fileName, "-");
-
                 $libro->slug    = substr($slug, 0, -3) . $ext;
                 $libro->titulo  = $fileName;
                 $libro->grado   = 0;
                 $libro->autor   = 'No especificado';
                 $libro->editado = 'false';
                 $files->move($dir, $fileName);
-
                 $libro->save();
 
             }

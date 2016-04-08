@@ -25,12 +25,13 @@ class pdfControllerTodos extends Controller
         $ult_id = Recibos::select('id')->max('id');//obtener el ultimo id
         $prim_reg = $ult_id - $tTalleres +1;
         foreach($talleres as $id){
-            $extras = $this->camposExtras($id->id);
+            $extras = $this->camposExtras($id->id); 
             $datos = $this->mostrarPDF($id->id); //obteniendo las cantidades de cada taller
+            //dd($datos[0]->id);
             $montos = $this->getMontos($datos, $extras);//Calculando los costos de cada taller
             $this->insertaMontos($prim_reg, $montos);//insertando los costos de cada taller
             $fecha = date('Y-m-d');
-            $view =  \View::make('pdf.invoicePDFindividual', compact('datos', 'fecha', 'montos', 'rubros', 'extras'))->render();
+            $view =  \View::make('pdf.invoicePDF', compact('datos', 'fecha', 'montos', 'rubros', 'extras'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view);
             $nombre = str_replace(' ', '_', $extras['nombre_taller']);

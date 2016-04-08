@@ -9,56 +9,60 @@
                 </div>
                 <div class="panel-body">
                     @include('includes.succes')
-                    <div class="row" id="admin">
-                        <div class="container">
-                            @foreach($solicitudes as $s)
-                                <div class="divSolicitudes">
-                                    <ul>
-                                        <li>
+                    <div class="container" id="admin">
+                        @foreach($solicitudes as $s)
+                            <div class="row">
+                                <div class="panel panel-default divSolicitudes">
+                                    <div class="panel-body">
+                                        <div class="col-sm-3 col-md-3">
                                             <strong> {{$s -> nombre}} {{$s -> apellido}} </strong><br>
                                             {{$s -> nombreTaller}}
                                             {{$s -> ciudad}}
-                                        </li>
+                                        </div>
                                         @if(Auth::user()->stateSolicitud($s->id))
-                                            <li class="aprobado"><p><strong> Solicitud aprobada <i
-                                                                class="fa fa-check"></i> </strong></p></li>
+                                            <div class="col-sm-2 col-md-2 ">
+                                                <span><i class="fa fa-check" style="color: green;"></i> Solicitus aprobada </span>
+                                            </div>
                                         @endif
                                         @if(Auth::user()->stateVotacion($s->id))
-                                            <li class="aprobado"><p><strong> Votacion Finalizada <i
-                                                                class="fa fa-check"></i></strong></p></li>
+                                            <li class="aprobado"><p><strong> Votacion Finalizada <i class="fa fa-check"></i></strong></p></li>
                                         @else
-                                            <li>
-                                                <a href="/verVotacion/{{$s->id}}" class="btn btn-default">Ver Votación
-                                                    <i class="fa fa-eye"></i></a>
-                                            </li>
+                                            <div class="col-sm-2 col-md-2">
+                                                <a href="/verVotacion/{{$s->id}}" class="btn btn-default">VerVotación<i class="fa fa-eye"></i></a>
+                                            </div>
                                         @endif
-                                        @if(Auth::user()->stateIniciacion($s->id))
-                                            <li class="aprobado"><p><strong> Iniciación Concluida <i
-                                                                class="fa fa-check"></i></strong></p></li>
-                                            <li>
+                                        @if(Auth::user()->stateVotacion($s->id))
+                                            <div class=" col-sm-2 col-md-2">
+                                                <span class="aprobado"><p><strong> Iniciación Concluida <i
+                                                                    class="fa fa-check"></i></strong></p></span>
+                                            </div>
+                                            <div class="col-sm-2 col-md-2">
                                                 <a href="/verVotacion/{{$s->id}}/{{$s->id_taller}}"
-                                                   class="btn btn-success"> <strong> Aceptar Miembro</strong></a>
-                                            </li>
+                                                   class="btn btn-success"><strong> Aceptar Miembro</strong></a>
+                                            </div>
                                         @else
-                                            <li><p><strong> En espera de iniciación</strong></p></li>
-                                            <li>
+                                            <div class="col-sm-2 col-md-2">
+                                                <span><p><strong> Esperando  iniciación</strong></p></span>
+                                            </div>
+                                            <div class="col-sm-3 col-md-3">
                                                 <a class="btn btn-success disabled"> <strong> Aceptar
                                                         Miembro</strong></a>
-                                            </li>
+                                            </div>
                                         @endif
-                                    </ul>
-                                    <span class="trash">
-                                      <a href="#my_modal" data-toggle="modal" data-book-id="{{$s -> id}}" class="btn btn-default"
-                                         title="Borrar Solicitud"><i class="fa fa-trash fa-2x"></i></a>
-
-                                    </span>
+                                        <span class="trash">
+                                            <a href="#my_modal" data-toggle="modal" data-book-id="{{$s -> id}}"
+                                               class="btn btn-default" title="Borrar Solicitud"><i
+                                                        class="fa fa-trash fa-2x"></i></a>
+                                        </span>
+                                    </div>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

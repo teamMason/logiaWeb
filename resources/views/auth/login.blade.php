@@ -40,7 +40,7 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember"> Remember Me
+                                        <input type="checkbox" name="remember"> Recuerdame
                                     </label>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                     Login
                                 </button>
 
-                                <a href="/password/email">Forgot Your Password?</a>
+                                <a href="/password/email">Has olvidado tu contraseña?</a>
                             </div>
                         </div>
                     </form>

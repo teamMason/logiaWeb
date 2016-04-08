@@ -43,7 +43,7 @@ class CreateMiembrosTable extends Migration
                 $table->date('exaltacion')->nullable();
                 $table->date('fecha_baja')->nullable();
                 $table->timestamps();
-                $table->integer('id_taller')->index();
+                $table->integer('id_taller');
 
 
 

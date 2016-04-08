@@ -32,7 +32,13 @@ class listaIntroducePagoController extends Controller
             ->with('id', $m->id)->with('fechas', $fechas)->with('adeudos', $adeudos);
     }
 
-    public function recibePago($id){//recibimos id del taller
+    public function recibePago(Request $request,$id){//recibimos id del taller
+
+
+        $this->validate($request, [
+            'pago'  => 'required|min:1|max:5'
+
+        ]);
         $fecha = \Input::get('fecha');//tomamos del select #fecha, el valor de la seleccion
         $pago = \Input::get('pago');//tomamos del select #adeudo, el valor de la seleccion
         
@@ -49,13 +55,16 @@ class listaIntroducePagoController extends Controller
                     })->first();
         
         $rec = Recibos::find($recibo->id);
+
+
+
         //dd($recibo->total - $pago);
         $rec['adeudo'] = $recibo->total - $pago;//calculamos el adeudo con el pago y el total
         if($rec["adeudo"] <= 0){
             $rec["pagado"] = 1;//1 es pagado
         }
-        Log::info('se salva');
         $rec->save();
+        return \Redirect::route('hacerPago')->with('alert', 'El pago de ha echo exitosamente!');
         //$this->enviaListaTalleres();        
     }
     public function retornaFechas($id){  //tomamos las fechas un taller que esten pagadas     

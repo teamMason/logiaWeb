@@ -63,7 +63,6 @@ h6 {
 
 .img-centered {
     margin: 0 auto;
-    padding-top: 100px;
 }
 
 .bg-light-gray {
@@ -1042,14 +1041,14 @@ label {
 
 .divSolicitudes a {
     color: black;
-    margin-top: 25%;
+
 }
 
 .divSolicitudes:hover .trash {
 
     position: absolute;
     left: 99.99%;
-    bottom: 65%;
+    bottom: 50%;
     display: block;
     margin-top: 0px;
 
@@ -1169,4 +1168,6 @@ label {
     overflow: scroll;
 }
 
-/*probando
+#padding-aling {
+    padding-top: 65px;
+}/*probando

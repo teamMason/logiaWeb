@@ -161,10 +161,10 @@ class AuthController extends Controller
             'token'    => null
         ];
     }
-<<<<<<< HEAD
+
 
 
 }
-=======
-}
->>>>>>> 4cccfc604679387be0d05a2f35925fe3670d2957
+
+
+
